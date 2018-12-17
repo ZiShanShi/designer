@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sql PUBLIC "sql" "../config/sql.dtd" >
+
+<sqls>
+
+	<dataSpace name="publisher">
+		<sql name="writePublisherActive" > 
+			<![CDATA[
+				update publisher set active = '@{value}' where id = '@{id}';
+			]]>
+		</sql>	
+			
+	</dataSpace>
+	
+</sqls>

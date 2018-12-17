@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sql PUBLIC "sql" "../config/sql.dtd" >
+
+<sqls>
+
+	<dataSpace name="user">
+		<sql name="getClientUserByPhoneOrName">
+			<![CDATA[
+				select * from usr where email = '@{email}' or name = '@{username}' and  usr.active = 'T'
+			]]>
+		</sql>
+
+		<sql name="getUser">
+			select usr.id, usr.name, usr.type, usr.caption, usr.phone, usr.rolecode, usr.title, usr.password,
+				org.code as orgcode, org.name as orgname, org.name as orgenname, org.id as orgid,
+				'' as emp_id, usr.caption as emp_name, '' as emp_enname,
+				'' as emp_title, '' as emp_entitle, 
+				'' as emp_department, '' as emp_endepartment,
+				'' as emp_position
+				from usr 
+				left join usrorg on usr.id = usrorg.userid
+				left join org on usrorg.orgid = org.id
+			where usr.active = 'T'
+				and @{userfilter} @{orgfilter}
+		</sql>
+	</dataSpace>	
+	
+	<dataSpace name="menu">
+		<sql name="getRootMenu" > 
+			select * from menu where menu.id in (select menuid from roleauthority where rolecode = '@{rolecode}') and parentId is null order by orderno
+		</sql>
+
+		<sql name="getMenuTreeByRoot" > 
+			select * from menu 
+			where menu.id in (select menuid from roleauthority where rolecode = '@{rolecode}') and rootId = '@{rootid}' 
+			order by grade, parentId, orderno
+		</sql>
+	</dataSpace>
+	
+	<dataSpace name="treeitory">
+		<sql name="getemployeeid" > 
+			select id , parentid
+			from employee 
+		</sql>	
+		
+		<sql name="getparentidfromemployee" > 
+			select parentid
+			from employee  where id = '@{id}'
+		</sql>
+			
+		<sql name="getgrandparentidfromemployee" > 
+			select grandpaid
+			from employee  where id = '@{id}'
+		</sql>	
+		
+	</dataSpace>
+	
+</sqls>

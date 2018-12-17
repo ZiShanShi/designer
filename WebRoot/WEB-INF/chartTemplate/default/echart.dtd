@@ -1,0 +1,341 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+    <!ELEMENT option (title,legend,grid,xAxis,yAxis,polar?,radiusAxis?,angleAxis?,radar?,dataZoom?,visualMap?,tooltip,axisPointer,toolbox,brush?,geo?,parallel?,parallelAxis?,singleAxis?,timeline?,graphic?,calendar?,dataset,aria?,series,color,backgroundColor,testStyle,animation,animationThreshold?,animationDuration,animationEasing,animationDelay,animationDurationUpdate,animationEasingUpdate,animationDelayUpdate,blendMode,hoverLayerThreshold,useUTC)>
+        <!ELEMENT title  (id,show,text,link,target,textStyle,subtext,sublink,subtarget,subtextStyle,triggerEvent,padding,itemGap,zlevel,z,left,top,right,bottom,backgroundColor,borderColor,borderWidth,borderRadius,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY)>
+            <!ELEMENT id (#PCDATA)>
+            <!ELEMENT show (#PCDATA)>
+            <!ATTLIST show type CDATA "true|false" >
+            <!ELEMENT text (#PCDATA)>
+            <!ELEMENT link (#PCDATA)>
+            <!ELEMENT target (#PCDATA)>
+            <!ELEMENT textStyle (color,fontStyle,fontWeight,fontFamily,fontSize,align,verticalAlign,lineHeight,width,height,textBorderColor,textBorderWidth,textShadowColor,textShadowBlur,textShadowOffsetX,textShadowOffsetY,rich)>
+                <!ELEMENT color (#PCDATA)>
+                <!ELEMENT fontStyle (#PCDATA)>
+                <!ELEMENT fontWeight (#PCDATA)>
+                <!ELEMENT fontFamily (#PCDATA)>
+                <!ELEMENT fontSize (#PCDATA)>
+                <!ELEMENT align (#PCDATA)>
+                <!ELEMENT verticalAlign (#PCDATA)>
+                <!ELEMENT lineHeight (#PCDATA)>
+                <!ELEMENT width (#PCDATA)>
+                <!ELEMENT height (#PCDATA)>
+                <!ELEMENT textBorderColor (#PCDATA)>
+                <!ELEMENT textBorderWidth (#PCDATA)>
+                <!ELEMENT textShadowColor (#PCDATA)>
+                <!ELEMENT textShadowBlur (#PCDATA)>
+                <!ELEMENT textShadowOffsetX (#PCDATA)>
+                <!ELEMENT textShadowOffsetY (#PCDATA)>
+                <!ELEMENT rich (richElement*)>
+                    <!ELEMENT richElement (color,fontStyle,fontWeight,fontFamily,fontSize,align,verticalAlign,lineHeight,width,height,textBorderColor,textBorderWidth,textShadowColor,textShadowBlur,textShadowOffsetX,textShadowOffsetY)>
+            <!ELEMENT subtext (#PCDATA)>
+            <!ELEMENT sublink (#PCDATA)>
+            <!ELEMENT subtarget (#PCDATA)>
+            <!ELEMENT subtextStyle (color,fontStyle,fontWeight,fontFamily,fontSize,align,verticalAlign,lineHeight,width,height,textBorderColor,textBorderWidth,textShadowColor,textShadowBlur,textShadowOffsetX,textShadowOffsetY,rich)>
+            <!ELEMENT triggerEvent (#PCDATA)>
+            <!ELEMENT padding (#PCDATA)>
+            <!ELEMENT itemGap (#PCDATA)>
+            <!ELEMENT zlevel (#PCDATA)>
+            <!ELEMENT z (#PCDATA)>
+            <!ELEMENT left (#PCDATA)>
+            <!ELEMENT top (#PCDATA)>
+            <!ELEMENT right (#PCDATA)>
+            <!ELEMENT bottom (#PCDATA)>
+            <!ELEMENT backgroundColor (#PCDATA)>
+            <!ELEMENT borderColor (#PCDATA)>
+            <!ELEMENT borderRadius (#PCDATA)>
+            <!ELEMENT borderWidth (#PCDATA)>
+            <!ELEMENT shadowColor (#PCDATA)>
+            <!ELEMENT shadowBlur (#PCDATA)>
+            <!ELEMENT shadowOffsetX (#PCDATA)>
+            <!ELEMENT shadowOffsetY (#PCDATA)>
+
+        <!ELEMENT legend  (#PCDATA)>
+            <!ELEMENT type (#PCDATA)>
+            <!ELEMENT orient (#PCDATA)>
+            <!ELEMENT itemWidth (#PCDATA)>
+            <!ELEMENT itemHeight (#PCDATA)>
+            <!ELEMENT symbolKeepAspect (#PCDATA)>
+            <!ELEMENT formatter (#PCDATA)>
+            <!ELEMENT selectedMode (#PCDATA)>
+            <!ELEMENT inactiveColor (#PCDATA)>
+            <!ELEMENT selected (#PCDATA)>
+            <!ELEMENT legendData (oneLegendData*)>
+            <!ELEMENT oneLegendData (name,icon,textStyle)>
+                <!ELEMENT name (#PCDATA)>
+                <!ELEMENT icon (#PCDATA)>
+
+            <!ELEMENT scrollDataIndex (#PCDATA)>
+            <!ELEMENT pageButtonItemGap (#PCDATA)>
+            <!ELEMENT pageButtonGap (#PCDATA)>
+            <!ELEMENT pageButtonPosition (#PCDATA)>
+            <!ELEMENT pageFormatter (#PCDATA)>
+            <!ELEMENT pageIcons (horizontal,vertical)>
+                <!ELEMENT horizontal (#PCDATA)>
+                <!ELEMENT vertical (#PCDATA)>
+
+            <!ELEMENT pageIconColor (#PCDATA)>
+            <!ELEMENT pageIconInactiveColor (#PCDATA)>
+            <!ELEMENT pageIconSize (#PCDATA)>
+            <!ELEMENT pageTextStyle (color,fontStyle,fontWeight,fontFamily,fontSize,lineHeight,width,height,textBorderColor,textBorderWidth,textShadowColor,textShadowBlur,textShadowOffsetX,textShadowOffsetY)>
+            <!ELEMENT animation (#PCDATA)>
+            <!ELEMENT animationDurationUpdate (#PCDATA)>
+
+        <!ELEMENT grid  (id,show,zlevel,z,left,top,right,bottom,width,height,containLabel,backgroundColor,borderColor,borderWidth,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY,gridtooltip)>
+            <!ELEMENT containLabel  (#PCDATA)>
+            <!ELEMENT gridtooltip (show,trigger,gridTooltipAxisPointer,position,formatter,backgroundColor,borderColor,borderWidth,padding,textStyle,extraCssText)>
+                <!ELEMENT trigger (#PCDATA)>
+                <!ELEMENT gridTooltipAxisPointer (type,axis,snap,z,label,lineStyle,shadowStyle,crossStyle)>
+                    <!ELEMENT axis (#PCDATA)>
+                    <!ELEMENT position (#PCDATA)>
+                    <!ELEMENT snap (#PCDATA)>
+                    <!ELEMENT label (show,precision,formatter,margin,color,fontStyle,fontWeight,fontFamily,fontSize,lineHeight,width,height,textBorderColor,textBorderWidth,textShadowColor,textShadowBlur,textShadowOffsetX,textShadowOffsetY,backgroundColor,borderColor,borderWidth,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY)>
+                        <!ELEMENT precision (#PCDATA)>
+                        <!ELEMENT margin (#PCDATA)>
+                    <!ELEMENT lineStyle (color,width,type,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY,opacity)>
+                    <!ELEMENT shadowStyle (color,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY,opacity)>
+                    <!ELEMENT crossStyle (color,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY,opacity)>
+                        <!ELEMENT opacity (#PCDATA)>
+                <!ELEMENT extraCssText  (#PCDATA)>
+
+
+        <!ELEMENT xAxis (id,show,gridIndex,position,offset,type,name,nameLocation,nameTextStyle,nameGap,nameRotate,inverse,boundaryGap,min,max,scale,splitNumber,minInterval,maxInterval,interval,logBase,silent,triggerEvent,axisLine,axisTick,axisLabel,splitLine,splitArea,axisData,axisPointer,zlevel,z)>
+            <!ELEMENT gridIndex (#PCDATA)>
+            <!ELEMENT offset (#PCDATA)>
+            <!ELEMENT nameLocation (#PCDATA)>
+            <!ELEMENT nameTextStyle (color,fontStyle,fontWeight,fontFamily,fontSize,align,verticalAlign,lineHeight,backgroundColor,borderColor,borderWidth,borderRadius,padding,shadowColor,shadowBlur,shadowOffsetX,shadowOffsetY,width,height,textBorderColor,textBorderWidth,textShadowOffsetX,textShadowOffsetY,rich)>
+            <!ELEMENT nameGap (#PCDATA)>
+            <!ELEMENT nameRotate (#PCDATA)>
+            <!ELEMENT inverse (#PCDATA)>
+            <!ELEMENT boundaryGap (#PCDATA)>
+            <!ELEMENT min (#PCDATA)>
+            <!ELEMENT max (#PCDATA)>
+            <!ELEMENT scale (#PCDATA)>
+            <!ELEMENT splitNumber (#PCDATA)>
+            <!ELEMENT minInterval (#PCDATA)>
+            <!ELEMENT maxInterval (#PCDATA)>
+            <!ELEMENT logBase (#PCDATA)>
+            <!ELEMENT silent (#PCDATA)>
+
+            <!ELEMENT axisLine (show,onZero,onZeroAxisIndex,symbol,symbolSize,symbolOffset,lineStyle)>
+                <!ELEMENT onZero (#PCDATA)>
+                <!ELEMENT onZeroAxisIndex (#PCDATA)>
+                <!ELEMENT symbol (#PCDATA)>
+                <!ELEMENT symbolSize (#PCDATA)>
+                <!ELEMENT symbolOffset (#PCDATA)>
+
+            <!ELEMENT axisTick (show,alignWithLabel,interval,inside,length,lineStyle)>
+                <!ELEMENT alignWithLabel (#PCDATA)>
+                <!ELEMENT interval (#PCDATA)>
+                <!ELEMENT inside (#PCDATA)>
+                <!ELEMENT length (#PCDATA)>
+
+            <!ELEMENT axisLabel (show,interval,inside,rotate,margin,formatter,showMinLabel,showMaxLabel,color,fontStyle,fontStyle,fontWeight,fontFamily,fontSize,align,verticalAlign,lineHeight,backgroundColor,borderColor,borderWidth,borderRadius,padding,shadowColor,shadowBlur,shadowOffsetX,shadowOffsetY,width,height,textBorderColor,textBorderWidth,textShadowColor,textShadowBlur,textShadowOffsetX,textShadowOffsetY,rich)>
+                <!ELEMENT rotate (#PCDATA)>
+                <!ELEMENT showMinLabel (#PCDATA)>
+                <!ELEMENT showMaxLabel (#PCDATA)>
+
+            <!ELEMENT splitLine (show,interval,lineStyle)>
+            <!ELEMENT splitArea (show,interval,areaStyle)>
+                <!ELEMENT areaStyle (color,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY,opacity)>
+            <!ELEMENT axisData (oneAxisData*)>
+                <!ELEMENT  oneAxisData (value, textStyle)>
+                    <!ELEMENT  value (#PCDATA)>
+
+            <!ELEMENT axisPointer (show,type,snap,z,label,lineStyle,shadowStyle,triggerTooltip,value,status,handle,zlevel,z)>
+                <!ELEMENT triggerTooltip (#PCDATA)>
+                <!ELEMENT status (#PCDATA)>
+                <!ELEMENT handle (show,icon,size,margin,color,throttle,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY)>
+                    <!ELEMENT size (#PCDATA)>
+                    <!ELEMENT throttle (#PCDATA)>
+        <!ELEMENT yAxis (id,show,gridIndex,position,offset,type,name,nameLocation,nameTextStyle,nameGap,nameRotate,inverse,boundaryGap,min,max,scale,splitNumber,minInterval,maxInterval,interval,logBase,silent,triggerEvent,axisLine,axisTick,axisLabel,splitLine,splitArea,axisData,axisPointer,zlevel,z)>
+
+        <!ELEMENT polar (id,zlevel,z,center,radius,polarTooltip)>
+            <!ELEMENT  center (#PCDATA)>
+            <!ELEMENT  radius (#PCDATA)>
+            <!ELEMENT  polarTooltip (show,trigger, axisPointer,position,formatter,backgroundColor,borderColor,borderWidth,padding,textStyle,extraCssText)>
+
+        <!ELEMENT radiusAxis (id,polarIndex,type,name,nameLocation,nameTextStyle,nameGap,nameRotate,inverse,boundaryGap,min,max,scale,splitNumber,minInterval,maxInterval,interval,logBase,silent,triggerEvent,axisLine,axisTick,axisLabel,splitLine,splitArea,axisData,axisPointer,zlevel,z)>
+            <!ELEMENT  polarIndex (#PCDATA)>
+
+        <!ELEMENT angleAxis (id,polarIndex,startAngle,clockwise,type,boundaryGap,min,max,scale,splitNumber,minInterval,maxInterval,interval,logBase,silent,triggerEvent,axisLine,axisTick,axisLabel,splitLine,splitArea,axisData,axisPointer,zlevel,z)>
+            <!ELEMENT  startAngle (#PCDATA)>
+            <!ELEMENT  clockwise (#PCDATA)>
+
+        <!ELEMENT radar (id,zlevel,z,center,radius,startAngle,radarName,nameGap,splitNumber,shape,scale,silent,triggerEvent,axisLine,splitLine,splitArea,indicator)>
+            <!ELEMENT  radarName (show,formatter,color,fontStyle,fontWeight,fontFamily,fontSize,lineHeight,backgroundColor,borderColor,borderWidth,borderRadius,padding,shadowColor,shadowBlur,shadowOffsetX,shadowOffsetY,width,height,textShadowColor,textShadowBlur,textShadowOffsetX,textShadowOffsetY,rich)>
+            <!ELEMENT shape (#PCDATA)>
+            <!ELEMENT indicator (name,max,min,color)>
+
+        <!ELEMENT  dataZoom (oneDataZoom*)>
+            <!ELEMENT  oneDataZoom (type,id,show,backgroundColor,dataBackground,filterColor,borderColor,handleIcon,handleSize,handleStyle,labelPrecision,labelFormatter,showDetail,showDataShadow,realTime,textStyle,disabled,xAxisIndex,yAxisIndex,radiusAxisIndex,angleAxisIndex,filterMode,start,end,startValue,endValue,minSpan,maxSpan,minValueSpan,maxValueSpan,orient,zoomLock,throttle,rangeMode,zoomOnMouseWheel,moveOnMouseMove,moveOnMouseWheel,preventDefaultMouseMove,zlevel,z,left,top,right,bottom)>
+                <!ELEMENT disabled (#PCDATA)>
+                <!ELEMENT xAxisIndex (#PCDATA)>
+                <!ELEMENT yAxisIndex (#PCDATA)>
+                <!ELEMENT radiusAxisIndex (#PCDATA)>
+                <!ELEMENT angleAxisIndex (#PCDATA)>
+                <!ELEMENT filterMode (#PCDATA)>
+                <!ELEMENT start (#PCDATA)>
+                <!ELEMENT end (#PCDATA)>
+                <!ELEMENT startValue (#PCDATA)>
+                <!ELEMENT endValue (#PCDATA)>
+                <!ELEMENT minSpan (#PCDATA)>
+                <!ELEMENT maxSpan (#PCDATA)>
+                <!ELEMENT minValueSpan (#PCDATA)>
+                <!ELEMENT maxValueSpan (#PCDATA)>
+                <!ELEMENT zoomLock (#PCDATA)>
+                <!ELEMENT rangeMode (#PCDATA)>
+                <!ELEMENT zoomOnMouseWheel (#PCDATA)>
+                <!ELEMENT moveOnMouseMove (#PCDATA)>
+                <!ELEMENT moveOnMouseWheel (#PCDATA)>
+                <!ELEMENT preventDefaultMouseMove (#PCDATA)>
+                <!ELEMENT dataBackground (lineStyle,areaStyle)>
+                <!ELEMENT filterColor (#PCDATA)>
+                <!ELEMENT handleIcon (#PCDATA)>
+                <!ELEMENT handleSize (#PCDATA)>
+                <!ELEMENT handleStyle (color,borderColor,borderWidth,borderType,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY,opacity)>
+                    <!ELEMENT borderType (#PCDATA)>
+                <!ELEMENT labelPrecision (#PCDATA)>
+                <!ELEMENT labelFormatter (#PCDATA)>
+                <!ELEMENT showDetail (#PCDATA)>
+                <!ELEMENT showDataShadow (#PCDATA)>
+                <!ELEMENT realTime (#PCDATA)>
+
+        <!ELEMENT visualMap (oneVisualMap*)>
+            <!ELEMENT oneVisualMap (type,id,splitNumber,pieces,categories,minOpen,maxOpen,selectedMode,min,max,range,calculable,realTime,inverse,precision,itemWidth,itemHeight,align,text,textGap,show,dimension,seriesIndex,hoverLink,inRange,outOfRange,controller,zlevel,z,left,top,right,bottom,orient,padding,backgroundColor,borderColor,borderWidth,color,textStyle,formatter)>
+                <!ELEMENT range (#PCDATA)>
+                <!ELEMENT calculable (#PCDATA)>
+                <!ELEMENT textGap (#PCDATA)>
+                <!ELEMENT dimension (#PCDATA)>
+                <!ELEMENT seriesIndex (#PCDATA)>
+                <!ELEMENT hoverLink (#PCDATA)>
+                <!ELEMENT pieces (#PCDATA)>
+                <!ELEMENT categories (#PCDATA)>
+                <!ELEMENT minOpen (#PCDATA)>
+                <!ELEMENT maxOpen (#PCDATA)>
+                <!ELEMENT inRange (symbol,symbolSize,color,colorAlpha,opacity,colorLightness,colorSaturation,colorHue)>
+                    <!ELEMENT colorAlpha (#PCDATA)>
+                    <!ELEMENT colorLightness (#PCDATA)>
+                    <!ELEMENT colorSaturation (#PCDATA)>
+                    <!ELEMENT colorHue (#PCDATA)>
+                <!ELEMENT outOfRange (symbol,symbolSize,color,colorAlpha,opacity,colorLightness,colorSaturation,colorHue)>
+
+            <!ELEMENT controller (inRange,outOfRange)>
+
+        <!ELEMENT tooltip (show,trigger,axisPointer,showContent,alwaysShowContent,triggerOn,showDelay,enterable,rendMode,confine,transitionDuration,position,formatter,backgroundColor,borderColor,borderWidth,padding,textStyle,extraCssText)>
+            <!ELEMENT showContent (#PCDATA)>
+            <!ELEMENT alwaysShowContent (#PCDATA)>
+            <!ELEMENT triggerOn (#PCDATA)>
+            <!ELEMENT showDelay (#PCDATA)>
+            <!ELEMENT enterable (#PCDATA)>
+            <!ELEMENT rendMode (#PCDATA)>
+            <!ELEMENT confine (#PCDATA)>
+            <!ELEMENT transitionDuration (#PCDATA)>
+
+        <!ELEMENT toolbox (id,show,orient,itemSize,itemGap,showTitle,feature,iconStyle,emphasis,zlevel,z,left,top,right,bottom,width,height)>
+            <!ELEMENT itemSize (#PCDATA)>
+            <!ELEMENT showTitle (#PCDATA)>
+            <!ELEMENT feature (saveAsImage,restore,dataView,toolboxDataZoom,magicType,toolboxBrush)>
+                <!ELEMENT saveAsImage (type,name,backgroundColor,excludeComponents,show,title,icon,iconStyle,emphasis,pixelRatio)>
+                    <!ELEMENT excludeComponents (#PCDATA)>
+                    <!ELEMENT pixelRatio (#PCDATA)>
+                <!ELEMENT restore (show,title,icon,iconStyle,emphasis)>
+                <!ELEMENT dataView (show,title,icon,iconStyle,emphasis,readOnly,optionToContent,contentToOption,lang,backgroundColor,textareaColor,textareaBorderColor,textColor,buttonColor,buttonTextColor)>
+                    <!ELEMENT readOnly (#PCDATA)>
+                    <!ELEMENT optionToContent (#PCDATA)>
+                    <!ELEMENT contentToOption (#PCDATA)>
+                    <!ELEMENT lang (#PCDATA) >
+                    <!ELEMENT textareaColor (#PCDATA) >
+                    <!ELEMENT textareaBorderColor (#PCDATA) >
+                    <!ELEMENT textColor (#PCDATA) >
+                    <!ELEMENT buttonColor (#PCDATA) >
+                    <!ELEMENT buttonTextColor (#PCDATA) >
+                <!ELEMENT toolboxDataZoom (show,dataZoomTitle,dataZoomIcon,iconStyle,emphasis,xAxisIndex,yAxisIndex)>
+                    <!ELEMENT dataZoomTitle (zoom,back)>
+                        <!ELEMENT zoom (#PCDATA)>
+                        <!ELEMENT back (#PCDATA)>
+                    <!ELEMENT dataZoomIcon (zoom,back)>
+                <!ELEMENT magicType (show,type,magicTypeTitle, magicTypeIcon,iconStyle,emphasis,magicTypeOption,magicTypeSeriesIndex)>
+                    <!ELEMENT magicTypeTitle (line,bar,stack,tiled)>
+                        <!ELEMENT line (#PCDATA)>
+                        <!ELEMENT bar (#PCDATA)>
+                        <!ELEMENT stack (#PCDATA)>
+                        <!ELEMENT tiled (#PCDATA)>
+                    <!ELEMENT magicTypeIcon (line,bar,stack,tiled)>
+                    <!ELEMENT magicTypeOption (line,bar,stack,tiled)>
+                    <!ELEMENT magicTypeSeriesIndex (line,bar,stack,tiled)>
+                <!ELEMENT toolboxBrush (type,brushIcon,brushTitle)>
+                    <!ELEMENT brushIcon (rect,polygon,lineX,lineY,keep,clear)>
+                        <!ELEMENT rect (#PCDATA)>
+                        <!ELEMENT polygon (#PCDATA)>
+                        <!ELEMENT lineX (#PCDATA)>
+                        <!ELEMENT lineY (#PCDATA)>
+                        <!ELEMENT keep (#PCDATA)>
+                        <!ELEMENT clear (#PCDATA)>
+                <!ELEMENT brushTitle (rect,polygon,lineX,lineY,keep,clear)>
+
+            <!ELEMENT iconStyle (color,borderColor,borderWidth,borderType,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY,opacity,textPosition,textAlign)>
+                <!ELEMENT textPosition (#PCDATA)>
+                <!ELEMENT textAlign (#PCDATA)>
+            <!ELEMENT emphasis (iconStyle)>
+
+        <!ELEMENT brush (id,brushToolbox,brushLink,seriesIndex,geoIndex,xAxisIndex,yAxisIndex,brushType,brushMode,transformable,brushStyle,throttleType,throttleDelay,removeOnClick,inBrush,OutOfBrush,z)>
+            <!ELEMENT brushToolbox (#PCDATA)>
+            <!ELEMENT brushLink (#PCDATA)>
+            <!ELEMENT geoIndex (#PCDATA)>
+            <!ELEMENT brushType (#PCDATA)>
+            <!ELEMENT brushMode (#PCDATA)>
+            <!ELEMENT transformable (#PCDATA)>
+            <!ELEMENT brushStyle (borderColor,color,borderWidth)>
+            <!ELEMENT throttleType (#PCDATA)>
+            <!ELEMENT throttleDelay (#PCDATA)>
+            <!ELEMENT removeOnClick (#PCDATA)>
+            <!ELEMENT inBrush (#PCDATA)>
+            <!ELEMENT OutOfBrush (#PCDATA)>
+        <!ELEMENT geo (id,show,map,roam,center,aspectScale,boundingCoords,zoom,scaleLimit,nameMap,selectedMode,label,itemStyle,geoEmphasis,zlevel,z,left,top,right,bottom,layoutCenter,layoutSize,regions,silent)>
+            <!ELEMENT map (#PCDATA)>
+            <!ELEMENT roam (#PCDATA)>
+            <!ELEMENT aspectScale (#PCDATA)>
+            <!ELEMENT boundingCoords (#PCDATA)>
+            <!ELEMENT scaleLimit (min,max)>
+            <!ELEMENT nameMap (en,cn)>
+                <!ELEMENT en (#PCDATA)>
+                <!ELEMENT cn (#PCDATA)>
+
+            <!ELEMENT itemStyle (areaColor,color,borderColor,borderWidth,borderType,shadowBlur,shadowColor,shadowOffsetX,shadowOffsetY,opacity)>
+                <!ELEMENT areaColor (#PCDATA)>
+
+            <!ELEMENT geoEmphasis (label,itemStyle)>
+            <!ELEMENT layoutCenter (#PCDATA)>
+            <!ELEMENT layoutSize (#PCDATA)>
+            <!ELEMENT regions (oneRegions*)>
+                <!ELEMENT oneRegions (name,selected,itemStyle,label,geoEmphasis)>
+
+    <!ELEMENT parallel (id,zlevel,z,left,top,right,bottom,width,height,layout,axisExpandable,axisExpandCenter,axisExpandCount,axisExpandWidth,axisExpandTriggerOn,parallelAxisDefault)>
+        <!ELEMENT layout (#PCDATA)>
+        <!ELEMENT axisExpandable (#PCDATA)>
+        <!ELEMENT axisExpandCenter (#PCDATA)>
+        <!ELEMENT axisExpandCount (#PCDATA)>
+        <!ELEMENT axisExpandWidth (#PCDATA)>
+        <!ELEMENT axisExpandTriggerOn (#PCDATA)>
+        <!ELEMENT parallelAxisDefault (type,name,nameLocation,nameTextStyle,nameGap,nameRotate,inverse,boundaryGap,min,max,scale,splitNumber,minInterval,maxInterval,interval,logBase,silent,triggerEvent,axisLine,axisTick,axisLabel,axisData)>
+
+    <!ELEMENT parallelAxis (id,dim,parallelIndex,realTime,areaSelectStyle,type,name,nameLocation,nameTextStyle,nameGap,nameRotate,inverse,boundaryGap,min,max,scale,splitNumber,minInterval,maxInterval,inverse,logBase,silent,triggerEvent,axisLine,axisTick,axisLabel,axisData)>
+        <!ELEMENT dim (#PCDATA)>
+        <!ELEMENT parallelIndex (#PCDATA)>
+        <!ELEMENT areaSelectStyle (width,borderWidth,borderColor,color,opacity)>
+
+    <!ELEMENT singleAxis (id,zlevel,z,left,top,right,bottom,width,height,orient,type,name,nameLocation,nameTextStyle,nameGap,nameRotate,inverse,boundaryGap,min,max,scale,splitNumber,minInterval,maxInterval,inverse,logBase,silent,triggerEvent,axisLine,axisTick,axisLabel,splitLine,splitArea,axisData,axisPointer,polarTooltip)>
+
+    <!ELEMENT timeline (show,type,axisType,currentIndex,autoPlay,rewind,loop,playInterval,realTime,controlPosition,zlevel,z,left,top,right,bottom,parallel,orient,inverse,symbol,symbolSize,symbolRotate,symbolKeepAspect,symbolOffset,lineStyle,label,itemStyle,checkpointStyle,controlStyle,timeLineEmphasis, timelineData)>
+        <!ELEMENT axisType (#PCDATA)>
+        <!ELEMENT currentIndex (#PCDATA)>
+        <!ELEMENT autoPlay (#PCDATA)>
+        <!ELEMENT rewind (#PCDATA)>
+        <!ELEMENT loop (#PCDATA)>
+        <!ELEMENT playInterval (#PCDATA)>
+        <!ELEMENT controlPosition (#PCDATA)>
+        <!ELEMENT symbolRotate (#PCDATA)>
+        ,controlStyle,timeLineEmphasis, timelineData
+        <!ELEMENT checkpointStyle (symbol,symbolSize,symbolRotate,symbolKeepAspect,symbolOffset,color,borderWidth,borderColor,animation,animationDurationUpdate,animationEsating)>
+            <!ELEMENT animationEsating (#PCDATA)>
+        <!ELEMENT controlStyle ()>

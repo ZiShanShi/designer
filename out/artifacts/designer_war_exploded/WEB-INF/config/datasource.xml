@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE datasource PUBLIC "datasource" "datasource.dtd">
+<!-- url="jdbc:mysql://localhost:3306/cbi?useUnicode=true&amp;characterEncoding=UTF8&amp;rewriteBatched                                                                                                                                                                                                                                                                       Statements=true"
+         username="root"
+        password="Sinoit123"
+        
+        url="jdbc:sqlserver://localhost;DatabaseName=honghuagg"
+        username="sa"
+        password="123456"
+        
+        url="jdbc:sqlserver://192.168.1.242;DatabaseName=pro-jeecg"
+        username="sa"
+        password="wucheng@123"
+      
+         -->
+<datasource>
+	<defination
+    	driverName="com.mysql.jdbc.Driver"
+        url="jdbc:mysql://localhost:3306/bd?useUnicode=true&amp;characterEncoding=UTF8&amp;rewriteBatched                                                                                                                                                                                                                                                                       Statements=true"
+        username="root"
+        password="123456"
+        characterEncoding="utf-8"
+        maxActive="20" 
+        initialSize="1" 
+        maxWait="90000" 
+        minIdle="1" 
+        timeBetweenEvictionRunsMillis="3000" 
+        minEvictableIdleTimeMillis="300000" 
+        validationQuery="SELECT 'x'"
+        testWhileIdle="true" 
+        testOnBorrow="false" 
+        testOnReturn="false" 
+	/>
+
+</datasource>

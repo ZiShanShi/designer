@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sql PUBLIC "sql" "../config/sql.dtd" >
+
+<sqls>
+
+	<dataSpace name="dictionary">
+		<sql name="getDictionary" > 
+			select * from dictionary order by groupcode, value
+		</sql>
+
+		<sql name="getOneDictionary" > 
+			select * from dictionary where groupcode = '@{groupcode}' order by code
+		</sql>
+		
+	</dataSpace>
+	
+	<dataSpace name="other">
+		<sql name="getGeneralRebateBook" > 
+			select * from v_generalrebatebook where typecode = @{typecode} and @{filter} 
+		</sql>
+		
+		<sql name="getPlatform" > 
+			select customer.* from customer where typecode = 'platform' and @{filter} order by name
+		</sql>
+		
+		<sql name="getBusinessList" > 
+			select customer.* from customer where typecode = 'business' and @{filter}
+		</sql>
+		
+		<sql name="getAgentList" > 
+			select id as agentId, name as agentName, customer.* from customer where typecode = 'agent' and @{filter}
+		</sql>
+		
+		<sql name="getCustomerList" > 
+			select customer.* from customer where typecode = 'hospital' and @{filter}
+		</sql>
+			
+		<sql name="getProvinceList" > 
+			select cnname as code, cnname as name from province order by name
+		</sql>	
+		
+		<sql name="getProductList" > 
+			select product.*, product.price as price_sale  from product where @{filter}
+		</sql>	
+		
+		<sql name="getPaymentorgList" > 
+			select cspname as code, cspname as name from csolist order by name
+		</sql>	
+		
+		<sql name="getMyRebateslit" > 
+			select rebateslit.id, rebateslit.docyear, rebateslit.docmonth, rebateslit.statuscode, rebateslit.no, rebateslit.typecode, rebateslit.createtime,rebateslit.workflowid, 
+			customer.code as agentcode, customer.name as agentname, customer.id as agentid, rebateslit.operator,
+			(select sum(rebatedetail.qty) from rebatedetail where rebatedetail.parentid = rebateslit.id) as qty_sum,
+			(select sum(rebatedetail.price_rebate) from rebatedetail where rebatedetail.parentid = rebateslit.id) as sumprice_rebate 
+			from rebateslit 
+			left join customer on agentid = customer.id 
+			where operatorid in (SELECT id from v_hierarchy where id = '@{userid}' or parentid = '@{userid}') and @{filter} 
+		</sql>	
+		
+		<sql name="getApprovalRebateslit" > 
+			select rebateslit.id, rebateslit.statuscode, rebateslit.no, rebateslit.typecode, rebateslit.createtime,
+			customer.code as agentcode, customer.name as agentname, customer.id as agentid,
+			(select sum(rebatedetail.qty) from rebatedetail where rebatedetail.parentid = rebateslit.id) as qty_sum,
+			(select sum(rebatedetail.price_rebate) from rebatedetail where rebatedetail.parentid = rebateslit.id) as sumprice_rebate,
+			v_hierarchy.name as operator 
+			from rebateslit 
+			left join customer on agentid = customer.id 
+			left join v_hierarchy on operatorid = v_hierarchy.id 
+			where @{filter} 
+		</sql>	
+		
+		<sql name="getMyRebateDetail" > 
+			select rebatedetail.id, rebatedetail.flowid, rebatedetail.price_rebate, rebatedetail.flowyear, rebatedetail.flowmonth, rebatedetail.qty_original, rebatedetail.qty,
+			customer.code as customercode, customer.name as customername, product.name as productname, product.spec, generalrebatebook.qty_available
+			from rebatedetail
+			left join customer on customerid = customer.id 
+			left join generalrebatebook on flowid = generalrebatebook.id 
+			left join product on rebatedetail.productid = product.id 
+			where rebatedetail.parentid = '@{parentid}' 
+		</sql>	
+		
+		<sql name="getRebateRecord" > 
+			select RebateRecord.*, csolist.agentname, csolist.customername, csolist.cspname, csolist.bankname, csolist.accountno
+			from rebaterecord
+			left join rebateslit on rebateslitid = rebateslit.id 
+			left join csolist on csolistid = csolist.id 
+			where rebateslitid = '@{rebateslitid}' 
+		</sql>	
+		
+	</dataSpace>
+	
+</sqls>

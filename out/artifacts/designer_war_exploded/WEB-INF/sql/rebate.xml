@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE sql PUBLIC "sql" "../config/sql.dtd" >
+
+<sqls>
+
+	<dataSpace name="mainelement">
+		<sql name="getFormulaMainElement">
+			<![CDATA[
+				SELECT
+				ele.element, famap.agreement_type as agreementtype, elemap.type, famap.agreement_table as tablename,elemap.agreement_field as fieldname, elemap.sql_name as sqlname
+				FROM rebate_element_map  elemap
+				LEFT JOIN rebate_formula_element  ele  ON ele.id = elemap.formula_elementid
+				LEFT JOIN rebate_formula_agreement_map famap on famap.id = elemap.formula_map_id				
+			]]>
+		</sql>
+		
+		<sql name="getFormulaByResult">
+			<![CDATA[
+				SELECT * from rebate_formula WHERE result = '@{result}';
+			]]>
+		</sql>
+		
+		<sql name="getFormulaAgreementMap">
+			<![CDATA[
+				SELECT * FROM `rebate_formula_agreement_map` fam
+				LEFT JOIN rebate_formula f on f.id = fam.formula_id where active = 'T';
+			]]>
+		</sql>
+		
+		<sql name="getAgreementByTableNameAndType">
+			<![CDATA[
+				select *  from @{tablename} where typecode = '@{type}'
+			]]>
+		</sql>
+		
+		<sql name="getAgreementByTableName">
+			<![CDATA[
+				select * from @{tablename}
+			]]>
+		</sql>
+	</dataSpace>	
+	
+	<dataSpace name="caluclate">
+		<sql name="insertMonthFlowAgreementMap">
+			<![CDATA[
+				insert into rebate_process (id, flowid, agreementid)
+			]]>
+		</sql>
+		
+		<sql name="getReceivableMoney">
+			<![CDATA[
+				select 60 from agreement where id = '@{id}';
+			]]>
+		</sql>
+		
+		<sql name="getInventory">
+			<![CDATA[
+				select 80 from agreement where id = '@{id}';
+			]]>
+		</sql>
+		
+		<sql name="getKPISum">
+			<![CDATA[
+				SELECT count(1) from agreement a
+				LEFT JOIN salesflow on salesflow.dealercode = a.businesscode
+				WHERE a.id = '@{id}'
+				and year(a.begindate) <= salesflow.`year` and  year(a.enddate) >= salesflow.`year`
+				and month(a.begindate) <= salesflow.`month`
+				and month(a.enddate) >= salesflow.`month`
+			]]>
+		</sql>
+		
+	</dataSpace>	
+	
+	
+</sqls>

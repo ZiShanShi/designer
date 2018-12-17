@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE sql PUBLIC "sql" "../config/sql.dtd" >
+	
+<sqls>
+	<dataSpace name="system_default">
+		<sql name="insert">
+			insert into @{tablename} (@{fieldNames}) values(@{fieldValues})
+		</sql>
+	  
+		<sql name="deleteById">
+			delete from @{tablename} where id = '@{id}'
+		</sql>
+	  
+		<sql name="deleteByCriteria">
+			delete from @{tablename} where @{filter} 
+		</sql>
+		
+		<sql name="truncateTable">
+			TRUNCATE table  @{tableName};
+		</sql>
+
+		<sql name="updateById">
+			update @{tablename} set @{fieldNameValues} where @{fieldNameId} = @{id}
+		</sql>
+		
+		<sql name="updateByCriteria">
+			update @{tablename} set @{entity} where @{filter}
+		</sql>
+		
+		<sql name="getLineById">
+			select * from @{tablename} where @{fieldNameId} = @{id}
+		</sql>
+	
+		<sql name="getDataSet">
+			select * from @{tablename} where @{filter}
+		</sql>
+		
+		<sql name="getFieldsDataSet">
+			select @{fieldNames} from @{tablename} where @{filter}
+		</sql>
+		
+		<sql name="getDataByPage_MySQL">
+			<![CDATA[
+				select * from (@{sql})temp_table limit @{beginno}, @{pagesize}
+			]]>
+		</sql>
+		
+		<sql name="getDataByPage_SqlServer">
+			<![CDATA[
+			select * from (
+				select 
+					row_number() OVER(ORDER BY @{orderby}) as rowno,
+					temp_table.*
+					from (@{sql})temp_table
+				) temp_table2
+			where rowno > @{beginno} and rowno <= @{endno}
+			]]>
+		</sql>
+		
+		<sql name="getDataGroupby">
+			SELECT @{fields} FROM @{tablename} GROUP BY @{groupby};
+		</sql>	
+		
+		<sql name="getCount2">
+			select count(1) from (@{sql})temp_table
+		</sql>	
+		
+		<sql name="getCount">
+			select count(1) from @{tablename} where @{filter}
+		</sql>		
+		
+		<sql name="getTree">
+			select * from @{tablename} where @{filter} order by parentId
+		</sql>
+		
+		<sql name="getCountOfId">
+			select count(1) from @{tablename} where id = @{id}
+		</sql>
+		
+		<sql name="batchInsert">
+			insert into @{tablename} (@{fieldNames}) values(@{placeHolders})
+		</sql>	
+		
+		<sql name="updatetableactive">
+			update @{table} set @{field} = '@{active}' where @{filter}
+		</sql>
+	</dataSpace>
+
+</sqls>

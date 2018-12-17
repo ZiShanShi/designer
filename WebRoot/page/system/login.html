@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>PRM备案管理系统</title>
+	<link href="../../css/common.css" rel="stylesheet">
+	<link href="../../css/login.css" rel="stylesheet">
+    <script src="../../js/common/jquery-1.7.2.min.js"></script>
+	<script src="../../js/common/foundation-2.0.js"></script>
+	
+	<script type="text/javascript">
+		var edt_username, edt_password, lbl_msg, lbl_message;
+		
+		function login() {
+			var username = edt_username.val();
+			var password = edt_password.val();
+			//password = encodeURIComponent(password);
+			var vcode = "";
+			//var param = "username=" + username + "&phone=" + username + "&password=" + password + "&vcode=" + vcode + "&logcode=dealer";
+			var param = {
+				username: username,
+				phone: username,
+				password: password,
+				vcode: vcode,
+				logcode: "dealer"
+			};
+			
+			lbl_msg.html("");
+			Server.postData("root/user/login", param, function(result) {
+				if (result.success) {
+					window.top.location.href = "main.html?" + new Date().getTime();
+				}
+				else {
+					var errorcode = result.errorcode;
+					if ("USER_EmptyOrgCode" == errorcode) {
+						lbl_msg.html("您隶属于多家公司，请输入公司简称或代码");
+					}
+					else if ("USER_InvalidUser" == errorcode) {
+						lbl_msg.html("该公司下无此用户");
+					}
+					else if ("USER_NotExist" == errorcode) {
+						lbl_msg.html("用户未授权，请联系管理员");
+					}
+					else if ("orgcheck" == errorcode) {
+						lbl_msg.html("请输入公司码");
+					}						
+					else if ("USER_EmptyVCodeOrPass" == errorcode) {
+						lbl_msg.html("请填写验证码");
+					}
+					else if ("USER_InvalidVCode" == errorcode) {
+						lbl_msg.html("验证码不正确");
+					}
+					else if ("needGetVcode" == errorcode) {
+						lbl_msg.html("您需要先获取验证码");
+					}
+					else if ("USER_ADNotExist" == errorcode) {
+						lbl_msg.html("用户不存在");
+					}
+				}
+			});	 
+		}
+		
+		function clearmessage() {
+			lbl_message.html("");
+		}
+		
+		$(document).ready(function() {
+			lbl_msg = $("#lbl_msg");
+			lbl_message = $("#lbl_message");
+			edt_username = $("#edt_username");
+			edt_password = $("#edt_password");
+		});
+		
+		$(document).keypress(function(e) {
+	       var eCode = e.keyCode ? e.keyCode : e.which ? e.which : e.charCode;
+	        if (eCode == 13){
+	           login();
+	        }
+		});
+	
+	</script>
+</head>
+	
+<body style="background-color: #ffffff;">
+    <div class="login-box">
+        <div class="login-logo">
+        	<img src="../../image/system/logo.png" alt="" height="86px">
+        </div>
+		<div class="login-box-body">
+			<div id="lbl_msg" class="login-box-msg"></div>
+		    
+			<div class="login-line">
+	            <input id="edt_username" class="login-edit" placeholder="用户名或手机号" type="text" onchange="clearmessage()">
+	            <span class="glyphicon glyphicon-envelope form-control-feedback"></span>
+	            <span class="field-validation-valid text-danger" data-valmsg-for="Identity" data-valmsg-replace="true"></span>
+	        </div>
+	        
+	        <div class="login-line">
+	            <input id="edt_password" class="login-edit" placeholder="密码" type="password" onchange="clearmessage()">
+	            <span class="glyphicon glyphicon-lock form-control-feedback"></span>
+	            <span class="field-validation-valid text-danger" data-valmsg-for="Password" data-valmsg-replace="true"></span>
+	        </div>
+	        
+	        <div class="row">
+	            <div class="col-xs-8" style="float: left">
+	                <div class="checkbox icheck">
+                       	<div class="icheckbox_square-blue" style="position: relative;">
+                         	<input id="RememberMe" name="RememberMe" type="checkbox" value="true" style="position: absolute; top: 0px; left: 0px; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 1;">
+                         	<ins class="iCheck-helper" style="position: absolute; top: 0px; left: 0px; display: block; width: 100%; height: 100%; margin: 0px; padding: 0px; background: rgb(255, 255, 255); border: 0px; opacity: 0;"></ins>
+                       	</div>
+                       	<input name="RememberMe" type="hidden" value="false">
+	                </div>
+	            </div>
+	           
+	            <div class="col-xs-3" style="float: right">
+	                <button onclick="login()" class="login-button">请登录</button>
+	            </div>
+	        </div>
+	        <div style="clear: both;"></div>
+	        <div style="width: 100px; height: 15px;">
+				<label id="lbl_message"></label>
+			</div>
+		</div>
+		
+		<div class="login-footer" align="center">
+		</div>
+    </div>
+</body>
+</html>

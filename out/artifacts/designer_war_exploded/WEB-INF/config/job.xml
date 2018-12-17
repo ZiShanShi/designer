@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE schedule PUBLIC "schedule" "job.dtd">
+
+<schedule>
+	<!--  0 1/2 * * * ? * -->
+	<job  
+		id="01"  
+		name="handling"  
+		runtime="0 0 3 * * ? *" 
+		 
+		classname="foundation.schedule.HandlingJob"/>
+		
+	<job  
+		id="02"  
+		name="daytimeAgg"  
+		runtime="0 30 1 * * ? *"
+		 
+		classname="foundation.schedule.AggJob"/>
+	<job  
+		id="03"  
+		name="refreshsealplate"  
+		runtime="0 1 1 1 * ? *"
+		
+		classname="foundation.schedule.RefreshSealpPateJob"/>
+</schedule>

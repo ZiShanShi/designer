@@ -1,0 +1,82 @@
+.login-box {
+    width: 560px;
+    margin: 7% auto;
+}
+
+.login-logo {
+    font-size: 35px;
+    text-align: center;
+    margin-bottom: 25px;
+    font-weight: 300;
+}
+
+.login-box-body {
+	position: relative;
+    border-radius: 10px 10px 0 0;
+    background: #eee;
+    padding: 20px;
+    border-top: 0;
+    color: #666;
+    width: 360px;
+    margin-left: 100px;
+}
+
+.login-box-msg {
+    margin: 0;
+    text-align: center;
+    height: 20px;
+    line-height: 20px;
+    margin-bottom: 5px;
+}
+
+.login-line {
+	position: relative;
+	background-color: #fdfdb8;
+	font-size: 14px;
+	margin-bottom: 15px;
+}
+
+.login-edit {
+    height: 32px;
+    padding: 4px 12px;
+    width: 100%;
+    border: none;
+    background-color: #fdfdb8;
+}
+
+.login-footer {
+    border-radius: 0 0 10px 10px;
+    padding: 20px;
+    background: #005a34;
+    color: #c3cedd;
+    width: 360px;
+    margin-left: 100px;
+}
+
+.login-footer a {
+	color: #c3cedd;
+	text-decoration: none
+}
+
+.login-button {
+	display: inline-block;
+    padding: 6px 12px;
+    margin-bottom: 0;
+    font-size: 14px;
+    font-weight: normal;
+    line-height: 1.42857143;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -ms-touch-action: manipulation;
+    touch-action: manipulation;
+    cursor: pointer;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-image: none;
+    border: 1px solid transparent;
+    border-radius: 4px;
+    background-color: #8fb74c;
+}

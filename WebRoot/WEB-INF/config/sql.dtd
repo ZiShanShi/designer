@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!ELEMENT sqls (dataSpace*)+>
+<!ATTLIST sqls
+	xmlns:fo CDATA #IMPLIED
+	namespace CDATA #IMPLIED
+	active (true|false) #IMPLIED
+>
+
+<!ELEMENT dataSpace (sql*)+>
+<!ATTLIST dataSpace
+	name CDATA #IMPLIED
+>
+
+<!ELEMENT sql (#PCDATA|condition)*>
+<!ATTLIST sql
+	name CDATA #REQUIRED
+	timeout CDATA #IMPLIED
+>
+
+<!ELEMENT condition (#PCDATA)>
+<!ATTLIST condition
+	value CDATA #REQUIRED
+>

@@ -1,0 +1,4 @@
+#Thu Dec 13 09:39:11 CST 2018
+eclipse.preferences.version=1
+validator.Checked=WebRoot/js/common/jquery-1.7.2.min.js,WebRoot/js/third.js,WebRoot/js/base.js
+validator.Unchecked=

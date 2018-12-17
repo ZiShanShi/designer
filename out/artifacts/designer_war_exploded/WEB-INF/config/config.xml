@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE config PUBLIC "config" "config.dtd" >
+
+<config>
+	<!--系统参数-->
+	<param name="EnvironmentName" value="图表生成引擎" client="T" remark="测试环境、生产环境" />
+	<param name="AuthorizeActive" value="F" remark="权限验证是否启用" />
+	<param name="AppName" value="图表生成引擎" client="T" remark="应用名称" />
+	<param name="DataBaseType" value="MySql" remark="Oracle,SqlServer,MySql" />
+	<param name="TimeOutPage" client="T" value="page/system/login.html" remark="超时页面" />
+	<param name="SuperVCode" value="0023" remark="超级验证码" />
+	
+	<param name="WebserviceBaseURI" value="publish/" remark="WebserviceBaseURI" />
+	<param name="port" value="8080" remark="port" />
+	<param name="baseURI" value="localhost" remark="baseuri" />
+	<param name="projectName" value="betarebate/" remark="tomcat项目名" />
+	<param name="doWebServiceHeader" value="T" remark="webservice请求校验header" />
+
+	<param name="export" value="d:/export" remark="" />
+
+	<!-- 2.不受权限控制的资源 -->
+	<freeVisit>
+		<!-- 2.1不受权限控制的资源类型 -->
+		<type>.js</type>
+		<type>.json</type>
+		<type>.css</type>
+		<type>.jpg</type>
+		<type>.png</type>
+		<type>.gif</type>
+		<type>.bmp</type>
+		<type>.jpeg</type>
+		<type>.zip</type>
+		<type>.map</type>
+		<type>.ttf</type>
+		
+		<!-- 2.2不受权限控制的页面 -->
+		<resource>*/timeout.html</resource>
+		<resource>*/login.html</resource>
+		<resource>*/index.html</resource>
+		
+		<!-- 2.3不受权限控制的函数调用 -->
+		<call>user/login</call>
+		<call>user/logout</call>
+		<call>user/getvcade</call>
+		
+	</freeVisit>
+
+	<!-- 3.角色页面关系 -->
+	<limitedVisit>
+
+	</limitedVisit>	
+
+	<!-- 4.虚路径配置 -->
+	<virtualPaths>
+		<virtualPath path="/" target="page/system/login.html" />
+		<virtualPath path="root" target="/betarebate/" />
+		<virtualPath path="data" classname="foundation.persist.DataObject" />
+		<virtualPath path="user" classname="foundation.user.User" />
+		<virtualPath path="dictionary" classname="foundation.dictionary.DictionaryService" />
+		<virtualPath path="file" classname="foundation.file.FileCenter" />
+
+	</virtualPaths>
+	
+	<!-- 6.配置信息加载器列表 -->
+	<configLoader>
+		<loader name="datasource" classname="foundation.persist.DatasuorceLoader" active="T"/>
+		<loader name="task" classname="foundation.schedule.ScheduleJobLoader" active="T"/>
+		<loader name="namedSQL" classname="foundation.persist.sql.NamedSQLLoader" active="T"/>
+		
+	</configLoader>
+	
+	<!-- 7.数据过滤权限 -->
+	<dataFilter>
+	</dataFilter>
+</config>
