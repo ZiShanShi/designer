@@ -9,14 +9,21 @@
 	<param name="DataBaseType" value="MySql" remark="Oracle,SqlServer,MySql" />
 	<param name="TimeOutPage" client="T" value="page/system/login.html" remark="超时页面" />
 	<param name="SuperVCode" value="0023" remark="超级验证码" />
-	
+	<!--webservice-->
 	<param name="WebserviceBaseURI" value="publish/" remark="WebserviceBaseURI" />
 	<param name="port" value="8080" remark="port" />
 	<param name="baseURI" value="localhost" remark="baseuri" />
-	<param name="projectName" value="betarebate/" remark="tomcat项目名" />
+	<param name="projectName" value="smart/" remark="tomcat项目名" />
 	<param name="doWebServiceHeader" value="T" remark="webservice请求校验header" />
-
+	<!--导出-->
 	<param name="export" value="d:/export" remark="" />
+
+	<!--bi数据路径-->
+	<param name="chartRootPath" value="root/chartTemplate"/>
+	<param name="defaultChartEnigne" value="echart"/>
+	<param name="defaultChartSuffix" value="xml"/>
+	<!--缓存-->
+	<param name="cacheSize" value="10" remark="默认缓存10M"/>
 
 	<!-- 2.不受权限控制的资源 -->
 	<freeVisit>
