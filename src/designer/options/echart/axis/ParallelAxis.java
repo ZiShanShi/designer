@@ -4,8 +4,7 @@ import designer.options.echart.code.AxisType;
 import designer.options.echart.code.NameLocation;
 import designer.options.echart.style.AreaSelectStyle;
 import designer.options.echart.style.NameTextStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 平行坐标系

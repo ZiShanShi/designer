@@ -3,8 +3,7 @@
 package designer.options.echart.axis;
 
 import designer.options.echart.style.LineStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

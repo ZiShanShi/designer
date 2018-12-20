@@ -6,8 +6,7 @@ import designer.options.echart.code.SeriesType;
 import designer.options.echart.code.Sort;
 import designer.options.echart.code.X;
 import designer.options.echart.style.ItemStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 漏斗图

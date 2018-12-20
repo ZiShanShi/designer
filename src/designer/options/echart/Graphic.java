@@ -4,8 +4,7 @@ package designer.options.echart;
 
 import designer.options.echart.code.GraphicType;
 import designer.options.echart.style.GraphicStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 图形元素组件

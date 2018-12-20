@@ -5,8 +5,7 @@ package designer.options.echart.series;
 import designer.options.echart.code.Orient;
 import designer.options.echart.code.SeriesType;
 import designer.options.echart.style.ItemStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 『箱形图』、『盒须图』、『盒式图』、『盒状图』、『箱线图』

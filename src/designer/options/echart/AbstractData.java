@@ -5,7 +5,6 @@ package designer.options.echart;
 import designer.options.echart.code.Easing;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Data接口 - 添加数据
@@ -20,7 +19,7 @@ public abstract class AbstractData<T> implements Data<T>, java.io.Serializable {
      *
      * @see designer.options.echart.data.PointData
      */
-    protected List data;
+    protected ArrayList data;
     /**
      * 是否可点击，默认开启
      */
@@ -111,7 +110,7 @@ public abstract class AbstractData<T> implements Data<T>, java.io.Serializable {
     /**
      * 获取data值
      */
-    public List data() {
+    public ArrayList data() {
         if (this.data == null) {
             this.data = new ArrayList();
         }

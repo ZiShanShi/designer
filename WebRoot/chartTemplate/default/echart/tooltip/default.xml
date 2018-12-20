@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<tooltip remark="提示框组件。">
+
+    <show>true</show>
+    <trigger>item</trigger>
+    <axisPointer></axisPointer>
+    <showContent>true</showContent>
+    <alwaysShowContent>false</alwaysShowContent>
+    <triggerOn remark="mousemove,click,mousemove|click,none">mousemove|click</triggerOn>
+    <showDelay>0</showDelay>
+    <hideDelay>0</hideDelay>
+    <enterable remark="鼠标是否可进入提示框浮层中">false</enterable>
+    <renderMode remark="html ,richText">html</renderMode>
+    <confine remark="是否将 tooltip 框限制在图表的区域内">false</confine>
+    <transitionDuration>0.4</transitionDuration>
+    <position remark="string, Array, Function"></position>
+    <formatter>$formatter</formatter>
+    <backgroundColor>rgba(50,50,50,0.7)</backgroundColor>
+    <borderColor>#333</borderColor>
+    <borderWidth>0</borderWidth>
+    <padding>5</padding>
+    <textStyle>
+        <color>#fff</color>
+        <fontStyle>normal</fontStyle>
+        <fontWeight>normal</fontWeight>
+        <fontFamliy>Courier New</fontFamliy>
+        <fontSize>14</fontSize>
+        <lineHeight></lineHeight>
+        <width></width>
+        <height></height>
+        <textBorderColor>transparent</textBorderColor>
+        <textBorderWidth>0</textBorderWidth>
+        <textShadowColor>transparent</textShadowColor>
+        <textShadowBlur></textShadowBlur>
+        <textShadowOffsetX>0</textShadowOffsetX>
+        <textShadowOffsetY>0</textShadowOffsetY>
+    </textStyle>
+    <extraCssText remark="额外附加到浮层的 css 样式">$extraCssText</extraCssText>
+</tooltip>
+    

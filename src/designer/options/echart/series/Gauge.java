@@ -10,8 +10,7 @@ import designer.options.echart.axis.SplitLine;
 import designer.options.echart.code.SeriesType;
 import designer.options.echart.series.gauge.Detail;
 import designer.options.echart.series.gauge.Pointer;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 仪表盘

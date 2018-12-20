@@ -8,12 +8,9 @@ import designer.options.echart.axis.SplitArea;
 import designer.options.echart.axis.SplitLine;
 import designer.options.echart.code.PolarType;
 import designer.options.echart.style.TextStyle;
-import lombok.Getter;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 极坐标
@@ -22,6 +19,8 @@ import java.util.List;
  */
 
 public class Polar extends AbstractData<Polar> implements Component {
+
+    private  String id;
     /**
      * 圆心坐标，支持绝对值（px）和百分比，百分比计算min(width, height) * 50%
      */
@@ -90,7 +89,7 @@ public class Polar extends AbstractData<Polar> implements Component {
     /**
      * 雷达指标列表，同时也是label内容
      */
-    private List<Object> indicator;
+    private ArrayList<Object> indicator;
     /**
      * 一级层叠控制
      */
@@ -242,7 +241,7 @@ public class Polar extends AbstractData<Polar> implements Component {
      *
      * @param indicator
      */
-    public Polar indicator(List<Object> indicator) {
+    public Polar indicator(ArrayList<Object> indicator) {
         this.indicator = indicator;
         return this;
     }
@@ -455,7 +454,7 @@ public class Polar extends AbstractData<Polar> implements Component {
     /**
      * 雷达指标列表，同时也是label内容
      */
-    public List<Object> indicator() {
+    public ArrayList<Object> indicator() {
         if (this.indicator == null) {
             this.indicator = new ArrayList<Object>();
         }
@@ -512,5 +511,14 @@ public class Polar extends AbstractData<Polar> implements Component {
             this.textStyle = textStyle;
             return this;
         }
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public Polar id(String id) {
+        this.id = id;
+        return this;
     }
 }

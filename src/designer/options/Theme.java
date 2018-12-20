@@ -8,5 +8,14 @@ package designer.options;
 
 
 public class Theme {
+    private String name;
 
+    public String getName() {
+        return name;
+    }
+
+    public Theme setName(String name) {
+        this.name = name;
+        return this;
+    }
 }

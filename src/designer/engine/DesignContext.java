@@ -1,9 +1,8 @@
 package designer.engine;
 
-import designer.IDesiginerConstant;
+import designer.DesignerConstant;
 import designer.options.EChangeType;
 import designer.options.EChartType;
-import designer.options.EDesignerChartTheme;
 import foundation.util.Util;
 import foundation.variant.Segment;
 
@@ -29,7 +28,7 @@ public class DesignContext {
     private EChartType chartType;
     private List<String> dimensionList;
     private List<String> measurmentList;
-    private EDesignerChartTheme theme;
+    private String theme;
 
     private List<Segment> filterSegmentList;
 
@@ -41,30 +40,30 @@ public class DesignContext {
         Enumeration<String> parameterNames = request.getParameterNames();
         if (parameterNames.hasMoreElements()) {
             String name = parameterNames.nextElement();
-            if (IDesiginerConstant.ID.equalsIgnoreCase(name)) {
+            if (DesignerConstant.ID.equalsIgnoreCase(name)) {
                 topicId = request.getParameter(name);
             }
-            else if (IDesiginerConstant.CHANGE_TYPE.equalsIgnoreCase(name)) {
+            else if (DesignerConstant.CHANGE_TYPE.equalsIgnoreCase(name)) {
                 changeType = EChangeType.parse(request.getParameter(name));
-            }else if (IDesiginerConstant.CHANGED.equalsIgnoreCase(name)) {
+            }else if (DesignerConstant.CHANGED.equalsIgnoreCase(name)) {
                 changed = Util.stringToBoolean(request.getParameter(name));
             }
-            else if (IDesiginerConstant.HAS_GRID.equalsIgnoreCase(name)) {
+            else if (DesignerConstant.HAS_GRID.equalsIgnoreCase(name)) {
                 hasGrid = Util.stringToBoolean(request.getParameter(name));
             }
-            else if (IDesiginerConstant.CHART_TYPE.equalsIgnoreCase(name)) {
+            else if (DesignerConstant.CHART_TYPE.equalsIgnoreCase(name)) {
                 chartType = EChartType.parse(request.getParameter(name));
             }
-            else if (IDesiginerConstant.DIMENSION.equalsIgnoreCase(name)) {
+            else if (DesignerConstant.DIMENSIONS.equalsIgnoreCase(name)) {
                 dimensionList = Util.StringToList(request.getParameter(name));
             }
-            else if (IDesiginerConstant.MEASURMENT.equalsIgnoreCase(name)) {
+            else if (DesignerConstant.MEASURMENTS.equalsIgnoreCase(name)) {
                 measurmentList = Util.StringToList(request.getParameter(name));
             }
-            else if (IDesiginerConstant.FILTERS.equalsIgnoreCase(name)) {
+            else if (DesignerConstant.FILTERS.equalsIgnoreCase(name)) {
                 filterSegmentList = parse2FilterSegments(request.getParameter(name));
-            } else if (IDesiginerConstant.THEME.equalsIgnoreCase(name)) {
-                theme = EDesignerChartTheme.parse(request.getParameter(name));
+            } else if (DesignerConstant.THEME.equalsIgnoreCase(name)) {
+                theme = request.getParameter(name);
             }
 
 
@@ -109,7 +108,7 @@ public class DesignContext {
         return measurmentList;
     }
 
-    public EDesignerChartTheme getTheme() {
+    public String getTheme() {
         return theme;
     }
 

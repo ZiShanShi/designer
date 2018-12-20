@@ -4,8 +4,7 @@ package designer.options.echart.data;
 
 import designer.options.echart.Tooltip;
 import designer.options.echart.style.ItemStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

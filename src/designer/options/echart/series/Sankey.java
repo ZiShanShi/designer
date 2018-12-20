@@ -5,8 +5,7 @@ package designer.options.echart.series;
 import designer.options.echart.code.SeriesType;
 import designer.options.echart.series.force.Link;
 import designer.options.echart.series.force.Node;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -37,15 +36,15 @@ public class Sankey extends Series<Sankey> {
     /**
      * 力导向图的顶点数据
      */
-    private List nodes;
+    private ArrayList nodes;
     /**
      * 力导向图的边数据
      */
-    private List<Link> links;
+    private ArrayList<Link> links;
     /**
      * 力导向图的边数据
      */
-    private List<Link> edges;
+    private ArrayList<Link> edges;
 
     /**
      * 构造函数
@@ -96,7 +95,7 @@ public class Sankey extends Series<Sankey> {
      *
      * @param nodes
      */
-    public Sankey nodes(List nodes) {
+    public Sankey nodes(ArrayList nodes) {
         this.nodes = nodes;
         return this;
     }
@@ -106,7 +105,7 @@ public class Sankey extends Series<Sankey> {
      *
      * @param links
      */
-    public Sankey links(List<Link> links) {
+    public Sankey links(ArrayList<Link> links) {
         this.links = links;
         return this;
     }
@@ -116,7 +115,7 @@ public class Sankey extends Series<Sankey> {
      *
      * @param edges
      */
-    public Sankey edges(List<Link> edges) {
+    public Sankey edges(ArrayList<Link> edges) {
         this.edges = edges;
         return this;
     }

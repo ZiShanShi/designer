@@ -4,8 +4,7 @@ package designer.options.echart.series;
 
 import designer.options.echart.code.X;
 import designer.options.echart.code.Y;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

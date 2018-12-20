@@ -3,7 +3,6 @@
 package designer.options.echart.feature;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author kimi
@@ -20,7 +19,7 @@ public class DataZoom extends Feature {
      */
     public DataZoom() {
         this.show(true);
-        Map title = new HashMap<String, String>();
+        HashMap title = new HashMap<String, String>();
         title.put("dataZoom", "区域缩放");
         title.put("dataZoomReset", "区域缩放后退");
         this.title(title);

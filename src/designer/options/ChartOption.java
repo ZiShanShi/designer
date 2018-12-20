@@ -1,6 +1,7 @@
 package designer.options;
 
 import designer.engine.DesignContext;
+import designer.options.echart.Option;
 import foundation.variant.Segment;
 
 import java.util.List;
@@ -12,12 +13,20 @@ import java.util.List;
  */
 
 
-public class BaseOption implements IOption{
+public class ChartOption implements IOption{
 
-    private Topic topic;
+    private Option realChartOption;
+    private Theme theme;
 
+    public ChartOption() {
+        this.realChartOption = DesignerComponentFactory.getInstance().getDefautOption();
+    }
 
-    public void BaseOption(EChangeType type, DesignContext context) {
+    public ChartOption(Option realChartOption) {
+        this.realChartOption = realChartOption;
+    }
+
+    public void operator(EChangeType type, DesignContext context) {
 
         if (EChangeType.all.equals(type)) {
             reCreateOption(context);
@@ -41,14 +50,16 @@ public class BaseOption implements IOption{
             List<Segment> filterSegmentList = context.getFilterSegmentList();
             reloadChartFilter(filterSegmentList);
         } else if (EChangeType.theme.equals(type)) {
-            EDesignerChartTheme theme = context.getTheme();
+            String theme = context.getTheme();
             changeOptionTheme(theme);
         }
 
     }
 
-    private void changeOptionTheme(EDesignerChartTheme theme) {
-
+    private void changeOptionTheme(String theme) {
+        Theme changedTheme = DesignerComponentFactory.getInstance().getThemeByName(theme);
+        this.theme = changedTheme;
+        //重组options
     }
 
     private void reloadChartFilter(List<Segment> filterSegmentList) {
@@ -76,13 +87,26 @@ public class BaseOption implements IOption{
 
     }
 
-    public void BaseOption(DesignContext context) {
+    public void operator(DesignContext context) {
         EChangeType type = EChangeType.all;
-        BaseOption(type, context);
+        operator(type, context);
     }
 
-    @Override
-    public String getTopic() {
-        return null;
+    public Option getRealChartOption() {
+        return realChartOption;
+    }
+
+    public ChartOption setRealChartOption(Option realChartOption) {
+        this.realChartOption = realChartOption;
+        return this;
+    }
+
+    public Theme getTheme() {
+        return theme;
+    }
+
+    public ChartOption setTheme(Theme theme) {
+        this.theme = theme;
+        return this;
     }
 }

@@ -4,8 +4,7 @@ package designer.options.echart.series;
 
 import designer.options.echart.AbstractData;
 import designer.options.echart.style.ItemStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * Description: MarkLine
@@ -268,8 +267,6 @@ public class MarkLine extends AbstractData<MarkLine> {
      *
      * @since 2.2.0
      */
-    @Getter
-    @Setter
     public static class Bundling {
         private Boolean enable;
         private Integer maxTurningAngle;

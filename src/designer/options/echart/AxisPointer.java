@@ -7,8 +7,7 @@ import designer.options.echart.style.CrossStyle;
 import designer.options.echart.style.LineStyle;
 import designer.options.echart.style.ShadowStyle;
 import designer.options.echart.style.TextStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

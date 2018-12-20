@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--未完成  geo parallel parallelAxis singleAxis timeline graphic calendar aria-->
+<option pathDefault="true">
+
+    <title type="link" essential="true">
+    </title>
+
+    <legend type="link" essential="false" default="true">
+    </legend>
+
+    <grid type="link" essential="false">
+    </grid>
+
+    <xAxis type="link" parent="grid" essential="false" >
+    </xAxis>
+
+
+    <yAxis type="link" parent="grid" essential="false" >
+    </yAxis>
+
+    <polar type="link" essential="false" remark="极坐标系" >
+    </polar>
+
+    <radiusAxis type="link" parent="polar" essential="false"  remark="极坐标系的径向轴">
+    </radiusAxis>
+
+    <angleAxis type="link" parent="polar" essential="false" remark="极坐标系的角度轴">
+    </angleAxis>
+
+    <radar type="link" essential="false" remark="雷达图">
+    </radar>
+
+    <dataZoom essential="false"  type="link" remark="组件 用于区域缩放，从而能自由关注细节的数据信息">
+    </dataZoom>
+
+    <visualMap  type="link" essential="false"  remark="视觉映射组件">
+    </visualMap>
+
+    <tooltip type="link" essential="false" default="true" remark="提示框组件。" >
+    </tooltip>
+
+    <axisPointer type="link" essential="false" parent="xAxis|yAxis|radiusAxis|angleAxis" default="true" remark="坐标轴指示器">
+    </axisPointer>
+
+    <toolbox type="link" essential="false" default="true" remark="工具栏">
+    </toolbox>
+
+    <brush essential="false" type="link" remark="区域选择组件">
+    </brush>
+
+    <dataset essential="false" type="link" remark="ECharts 4 开始支持了 数据集（dataset）">
+    </dataset>
+
+    <series type="link" essential="true" default="true" remark="系列列表。每个系列通过 type 决定自己的图表类型" >
+    </series>
+
+    <textStyle essential="false" default="true" type="link">
+    </textStyle>
+
+
+    <animation default="true">true</animation>
+    <animationThreshold default="true">2000</animationThreshold>
+    <animationDuration default="true">1000</animationDuration>
+    <animationEasing default="true">linear</animationEasing>
+    <animationDelay default="true">0</animationDelay>
+    <animationDurationUpdate default="true">300</animationDurationUpdate>
+    <animationDelayUpdate default="true">0</animationDelayUpdate>
+    <animationEasingUpdate default="true">cubicOut</animationEasingUpdate >
+    <hoverLayerThreshold default="true">3000</hoverLayerThreshold>
+    <blendMode default="true" remark="图形的混合模式">source-over</blendMode>
+    <useUTC remark="是否使用 UTC 时间。">false</useUTC>
+
+</option>

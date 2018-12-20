@@ -4,8 +4,7 @@ package designer.options.echart.series;
 
 import designer.options.echart.code.Orient;
 import designer.options.echart.code.SeriesType;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * Description: K

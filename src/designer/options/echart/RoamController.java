@@ -3,7 +3,6 @@
 package designer.options.echart;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * 缩放漫游组件，仅对地图有效
@@ -15,7 +14,7 @@ public class RoamController extends Basic<RoamController> implements Component {
     private String fillerColor;
     private String handleColor;
     private Integer step;
-    private Map<String, Boolean> mapTypeControl;
+    private HashMap<String, Boolean> mapTypeControl;
 
     /**
      * 获取fillerColor值
@@ -71,7 +70,7 @@ public class RoamController extends Basic<RoamController> implements Component {
     /**
      * 获取mapTypeControl值
      */
-    public Map<String, Boolean> mapTypeControl() {
+    public HashMap<String, Boolean> mapTypeControl() {
         return this.mapTypeControl;
     }
 

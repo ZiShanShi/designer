@@ -3,8 +3,7 @@
 package designer.options.echart.axis;
 
 import designer.options.echart.code.AxisType;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 时间型坐标轴用法同数值型，只是目标处理和格式化显示时会自动转变为时间，并且随着时间跨度的不同自动切换需要显示的时间粒度

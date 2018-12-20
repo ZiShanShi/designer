@@ -8,8 +8,7 @@ import designer.options.echart.code.Roam;
 import designer.options.echart.code.SeriesType;
 import designer.options.echart.series.other.Level;
 import designer.options.echart.style.Breadcrumb;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 矩形树图

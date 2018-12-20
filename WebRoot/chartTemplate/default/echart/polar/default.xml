@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<polar remark="极坐标系">
+    <id></id>
+    <zlevel>0</zlevel>
+    <z>2</z>
+    <center>['50%', '50%']</center>
+    <radius remark="number, string, Array: (number|string)"></radius>
+    <tooltip remark="本坐标系特定的 tooltip 设定。">
+        <show>true</show>
+        <trigger remark="item,axis,none">item</trigger>
+        <axisPointer remark="同axispointer"></axisPointer>
+        <position remark="Array,Function,"></position>
+        <formatter>$formatter</formatter>
+        <backgroundColor>rgba(50,50,50,0.7)</backgroundColor>
+        <borderColor>#333</borderColor>
+        <borderWidth>0</borderWidth>
+        <padding>5</padding>
+        <textStyle>
+            <color>#fff</color>
+            <fontStyle>normal</fontStyle>
+            <fontWeight>normal</fontWeight>
+            <fontFamliy>Courier New</fontFamliy>
+            <fontSize>14</fontSize>
+            <lineHeight></lineHeight>
+            <width></width>
+            <height></height>
+            <textBorderColor>transparent</textBorderColor>
+            <textBorderWidth>0</textBorderWidth>
+            <textShadowColor>transparent</textShadowColor>
+            <textShadowBlur></textShadowBlur>
+            <textShadowOffsetX>0</textShadowOffsetX>
+            <textShadowOffsetY>0</textShadowOffsetY>
+        </textStyle>
+        <extraCssText remark="额外附加到浮层的 css 样式">$extraCssText</extraCssText>
+    </tooltip>
+</polar>
+    

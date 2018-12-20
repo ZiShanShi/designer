@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dataZoom remark="组件 用于区域缩放，从而能自由关注细节的数据信息 " type="array">
+    <object remark="inside">
+        <type>inside</type>
+        <id></id>
+        <disabled remark="是否停止组件的功能。">false</disabled>
+        <xAxisIndex></xAxisIndex>
+        <yAxisIndex></yAxisIndex>
+        <radiusAxisIndex></radiusAxisIndex>
+        <angleAxisIndex></angleAxisIndex>
+        <filterMode remark="filter,weakFilter,,empty,none">filter</filterMode>
+        <start>0</start>
+        <end>100</end>
+        <startValue remark="数据窗口范围的起始数值"></startValue>
+        <endValue></endValue>
+        <minSpan remark="用于限制窗口大小的最小值（百分比值），"></minSpan>
+        <maxSpan></maxSpan>
+        <minValueSpan remark="用于限制窗口大小的最小值（实际数值）"></minValueSpan>
+        <maxValueSpan></maxValueSpan>
+        <orient></orient>
+        <zoomLock>false</zoomLock>
+        <throttle remark="设置触发视图刷新的频率。单位为毫秒（ms）。">100</throttle>
+        <rangeMode remark="start 值取绝对数值，end 取百分比"></rangeMode>
+        <zoomOnMouseWheel remark="true,false,shift,ctrl,alt">true</zoomOnMouseWheel>
+        <moveOnMouseMove>true</moveOnMouseMove>
+        <moveOnMouseMove>true</moveOnMouseMove>
+        <preventDefaultMouseMove remark="是否阻止 mousemove 事件的默认行为">true</preventDefaultMouseMove>
+    </object>
+    <object remark="slider">
+        <type>slider</type>
+        <id></id>
+        <show>true</show>
+        <backgroundColor>rgba(47,69,84,0)</backgroundColor>
+        <fillerColor>rgba(167,183,204,0.4)</fillerColor>
+        <borderColor>#ddd</borderColor>
+        <handleIcon>'M8.2,13.6V3.9H6.3v9.7H3.1v14.9h3.3v9.7h1.8v-9.7h3.3V13.6H8.2z M9.7,24.4H4.8v-1.4h4.9V24.4z M9.7,19.1H4.8v-1.4h4.9V19.1z'</handleIcon>
+        <handleSize>100%</handleSize>
+        <labelPrecision></labelPrecision>
+        <labelFormatte>$formatter</labelFormatte>
+        <showDetail remark="拖拽时候显示详细数值信息。">true</showDetail>
+        <showDataShadow>auto</showDataShadow>
+        <realtime remark="实时更新系列的视图">true</realtime>
+        <xAxisIndex></xAxisIndex>
+        <yAxisIndex></yAxisIndex>
+        <radiusAxisIndex></radiusAxisIndex>
+        <angleAxisIndex></angleAxisIndex>
+        <filterMode remark="filter,weakFilter,,empty,none">filter</filterMode>
+        <start>0</start>
+        <end>100</end>
+        <startValue remark="数据窗口范围的起始数值"></startValue>
+        <endValue></endValue>
+        <minSpan remark="用于限制窗口大小的最小值（百分比值），"></minSpan>
+        <maxSpan></maxSpan>
+        <minValueSpan remark="用于限制窗口大小的最小值（实际数值）"></minValueSpan>
+        <maxValueSpan></maxValueSpan>
+        <orient></orient>
+        <zoomLock>false</zoomLock>
+        <throttle remark="设置触发视图刷新的频率。单位为毫秒（ms）。">100</throttle>
+        <rangeMode remark="start 值取绝对数值，end 取百分比"></rangeMode>
+        <zlevel>0</zlevel>
+        <z>2</z>
+        <left>auto</left>
+        <top>auto</top>
+        <right>auto</right>
+        <bottom>auto</bottom>
+
+        <handleStyle>
+            <color>#a7b7cc</color>
+            <borderWidth>0</borderWidth>
+            <borderColor>#000</borderColor>
+            <type remark="solid,dashed,dotted">solid</type>
+            <shadowColor></shadowColor>
+            <shadowBlur></shadowBlur>
+            <shadowOffsetX>0</shadowOffsetX>
+            <shadowOffsetY>0</shadowOffsetY>
+            <opacity></opacity>
+        </handleStyle>
+        <dataBackground>
+            <lineStyle>
+                <color>rgba(47,69,84,0.3)</color>
+                <width>0.5</width>
+                <type remark="solid,dashed,dotted">solid</type>
+                <shadowColor></shadowColor>
+                <shadowBlur></shadowBlur>
+                <shadowOffsetX></shadowOffsetX>
+                <shadowOffsetY></shadowOffsetY>
+                <opacity type="图形透明度 0 时不绘制该图形。">0.3</opacity>
+            </lineStyle>
+            <areaStyle>
+                <color>rgba(47,69,84,0.3)</color>
+                <width>0.5</width>
+                <type remark="solid,dashed,dotted">solid</type>
+                <shadowColor></shadowColor>
+                <shadowBlur></shadowBlur>
+                <shadowOffsetX></shadowOffsetX>
+                <shadowOffsetY></shadowOffsetY>
+                <opacity type="图形透明度 0 时不绘制该图形。">0.3</opacity>
+            </areaStyle>
+        </dataBackground>
+    </object>
+
+
+    <textStyle>
+        <color>#333333</color>
+        <fontStyle>normal</fontStyle>
+        <fontWeight>normal</fontWeight>
+        <fontFamliy>Courier New</fontFamliy>
+        <fontSize>12</fontSize>
+        <lineHeight></lineHeight>
+        <width></width>
+        <height></height>
+        <textBorderColor>transparent</textBorderColor>
+        <textBorderWidth>0</textBorderWidth>
+        <textShadowColor>transparent</textShadowColor>
+        <textShadowBlur></textShadowBlur>
+        <textShadowOffsetX>0</textShadowOffsetX>
+        <textShadowOffsetY>0</textShadowOffsetY>
+    </textStyle>
+</dataZoom>
+    

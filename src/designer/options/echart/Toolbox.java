@@ -7,20 +7,19 @@ import designer.options.echart.code.Tool;
 import designer.options.echart.feature.Feature;
 import designer.options.echart.style.ItemStyle;
 
-import java.util.ArrayList;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author kimi
  */
 
 public class Toolbox extends Basic<Toolbox> implements Component {
+
+    private  String id;
     /**
      * 启用功能，目前支持feature见下，工具箱自定义功能回调处理
      */
-    private Map<String, Feature> feature;
+    private HashMap<String, Feature> feature;
     /**
      * 布局方式，默认为水平布局，可选为：'horizontal' | 'vertical'
      *
@@ -30,7 +29,7 @@ public class Toolbox extends Basic<Toolbox> implements Component {
     /**
      * 工具箱背景颜色，默认透明
      */
-    private List<Object> color;
+    private ArrayList<Object> color;
     /**
      * 无效颜色
      */
@@ -66,7 +65,7 @@ public class Toolbox extends Basic<Toolbox> implements Component {
      *
      * @param color
      */
-    public Toolbox color(List<Object> color) {
+    public Toolbox color(ArrayList<Object> color) {
         this.color = color;
         return this;
     }
@@ -91,7 +90,7 @@ public class Toolbox extends Basic<Toolbox> implements Component {
     /**
      * 工具箱背景颜色，默认透明
      */
-    public List<Object> color() {
+    public ArrayList<Object> color() {
         if (this.color == null) {
             this.color = new ArrayList<Object>();
         }
@@ -169,7 +168,7 @@ public class Toolbox extends Basic<Toolbox> implements Component {
     /**
      * 启用功能，目前支持feature见下，工具箱自定义功能回调处理
      */
-    public Map<String, Feature> feature() {
+    public HashMap<String, Feature> feature() {
         if (this.feature == null) {
             this.feature = new LinkedHashMap<String, Feature>();
         }
@@ -248,5 +247,14 @@ public class Toolbox extends Basic<Toolbox> implements Component {
         if (!this.feature().containsKey(_name)) {
             this.feature().put(_name, feature);
         }
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public Toolbox id(String id) {
+        this.id = id;
+        return this;
     }
 }

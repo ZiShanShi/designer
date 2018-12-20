@@ -4,8 +4,7 @@ package designer.options.echart.series;
 
 import designer.options.echart.AbstractData;
 import designer.options.echart.style.ItemStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * Description: MarkPoint

@@ -1,8 +1,7 @@
 package designer.options.echart.series.other;
 
 import designer.options.echart.code.Layout;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

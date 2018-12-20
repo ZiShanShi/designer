@@ -5,8 +5,7 @@ package designer.options.echart.series;
 import designer.options.echart.code.RoseType;
 import designer.options.echart.code.SelectedMode;
 import designer.options.echart.code.SeriesType;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 饼图

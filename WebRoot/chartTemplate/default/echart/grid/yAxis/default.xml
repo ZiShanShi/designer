@@ -1,0 +1,194 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<yAxis>
+    <id></id>
+    <show>true</show>
+    <gridIndex>0</gridIndex>
+    <position remark="left,right">left</position>
+    <offset remark="X 轴相对于默认位置的偏移，在相同的 position 上有多个 X 轴的时候有用。">0</offset>
+    <type remark="value,category,time,log">value</type>
+    <name></name>
+    <nameLocation remark="坐标轴名称显示位置。 start,center,end" >end</nameLocation>
+    <zlevel>0</zlevel>
+    <z>0</z>
+    <nameGap remark="坐标轴名称与轴线之间的距离。">15</nameGap>
+    <nameRotate remark="坐标轴名字旋转，角度值。"></nameRotate>
+    <inverse remark="是否是反向坐标轴  反转">false</inverse>
+    <boundaryGap remark="category :true ,false; ohter:['20%', '20%']"></boundaryGap>
+    <min remark="number, string, function"></min>
+    <max remark="number, string"></max>
+    <scale remark=" type=value  是否是脱离 0 值比例。设置成 true 后坐标刻度不会强制包含零刻度。在双数值轴的散点图中比较有用。">false</scale>
+    <splitNumber remark="type=onther">5</splitNumber>
+    <minInterval  remark="type='value' 或 'time'">0</minInterval >
+    <maxInterval  remark="type='value' 或 'time'"></maxInterval >
+    <interval  remark="type=other time:时间戳 log：指数值。"></interval >
+    <logBase remark="type=log">10</logBase>
+    <silent remark="坐标轴是否是静态无法交互">false</silent>
+    <triggerEvent remark="坐标轴的标签是否响应和触发鼠标事件">false</triggerEvent>
+
+    <nameTextStyle>
+        <color></color>
+        <fontStyle>normal</fontStyle>
+        <fontWeight>normal</fontWeight>
+        <fontFamliy>Courier New</fontFamliy>
+        <fontSize>12</fontSize>
+        <align></align>
+        <verticalAlign></verticalAlign>
+        <lineHeight></lineHeight>
+
+        <backgroundColor>transparent</backgroundColor>
+        <borderColor>transparent</borderColor>
+        <borderWidth>0</borderWidth>
+        <borderRadius>0</borderRadius>
+        <shadowColor>transparent</shadowColor>
+        <shadowBlur>0</shadowBlur>
+        <shadowOffsetX>0</shadowOffsetX>
+        <shadowOffsetY>0</shadowOffsetY>
+
+        <width></width>
+        <height></height>
+        <textBorderColor>transparent</textBorderColor>
+        <textBorderWidth>0</textBorderWidth>
+        <textShadowColor>transparent</textShadowColor>
+        <textShadowBlur></textShadowBlur>
+        <textShadowOffsetX>0</textShadowOffsetX>
+        <textShadowOffsetY>0</textShadowOffsetY>
+    </nameTextStyle>
+
+    <axisLine>
+        <show>true</show>
+        <onZero remark="X 轴或者 Y 轴的轴线是否在另一个轴的 0 刻度上，只有在另一个轴为数值轴且包含 0 刻度时有效。">true</onZero>
+        <onZeroAxisIndex remark="当有双轴时，可以用这个属性手动指定，在哪个轴的 0 刻度上。"></onZeroAxisIndex>
+        <symbol remark="轴线两边的箭头 ['none', 'arrow']">none</symbol>
+        <symbolSzie>[10, 15]</symbolSzie>
+        <symbolOffset>[0, 0]</symbolOffset>
+        <lineStyle>
+            <color>#333</color>
+            <width>1</width>
+            <type remark="solid,dashed,dotted">solid</type>
+            <shadowColor></shadowColor>
+            <shadowBlur></shadowBlur>
+            <shadowOffsetX></shadowOffsetX>
+            <shadowOffsetY></shadowOffsetY>
+            <opacity type="图形透明度 0 时不绘制该图形。"></opacity>
+        </lineStyle>
+    </axisLine>
+
+    <axisTick remark="坐标轴刻度相关设置。">
+        <show>true</show>
+        <alignWithLabel remark="boundaryGap=true"></alignWithLabel>
+        <interval  remark="坐标轴刻度的显示间隔">auto</interval >
+        <inside remark="坐标轴刻度是否朝内，默认朝外。">false</inside>
+        <length>5</length>
+        <lineStyle>
+            <color>#333</color>
+            <width>1</width>
+            <type remark="solid,dashed,dotted">solid</type>
+            <shadowColor></shadowColor>
+            <shadowBlur></shadowBlur>
+            <shadowOffsetX></shadowOffsetX>
+            <shadowOffsetY></shadowOffsetY>
+            <opacity type="图形透明度 0 时不绘制该图形。"></opacity>
+        </lineStyle>
+    </axisTick>
+
+    <axisLabel remark="坐标轴刻度标签的相关设置。">
+        <show>true</show>
+        <interval  remark="坐标轴刻度的显示间隔">auto</interval >
+        <inside remark="坐标轴刻度是否朝内，默认朝外。">false</inside>
+        <rotate>0</rotate>
+        <formatter>$formatter</formatter>
+        <showMinLabel remark="是否显示最小 tick 的 label :true, false,null">false</showMinLabel>
+        <showMaxLabel remark="是否显示最大 tick 的 label :true, false,null">false</showMaxLabel>
+        <color></color>
+        <fontStyle>normal</fontStyle>
+        <fontWeight>normal</fontWeight>
+        <fontFamliy>Courier New</fontFamliy>
+        <fontSize>12</fontSize>
+        <align></align>
+        <verticalAlign></verticalAlign>
+        <lineHeight></lineHeight>
+        <backgroundColor>transparent</backgroundColor>
+        <borderColor>transparent</borderColor>
+        <borderWidth>0</borderWidth>
+        <borderRadius>0</borderRadius>
+        <shadowColor>transparent</shadowColor>
+        <shadowBlur>0</shadowBlur>
+        <shadowOffsetX>0</shadowOffsetX>
+        <shadowOffsetY>0</shadowOffsetY>
+
+        <width></width>
+        <height></height>
+        <textBorderColor>transparent</textBorderColor>
+        <textBorderWidth>0</textBorderWidth>
+        <textShadowColor>transparent</textShadowColor>
+        <textShadowBlur></textShadowBlur>
+        <textShadowOffsetX>0</textShadowOffsetX>
+        <textShadowOffsetY>0</textShadowOffsetY>
+        <rich>$rich</rich>
+    </axisLabel>
+
+    <splitLine remark="坐标轴在 grid 区域中的分隔线。">
+        <show>true</show>
+        <interval  remark="坐标轴分隔线的显示间隔">auto</interval >
+        <lineStyle>
+            <color>#333</color>
+            <type remark="solid,dashed,dotted">solid</type>
+            <shadowColor></shadowColor>
+            <shadowBlur></shadowBlur>
+            <shadowOffsetX></shadowOffsetX>
+            <shadowOffsetY></shadowOffsetY>
+            <opacity type="图形透明度 0 时不绘制该图形。"></opacity>
+        </lineStyle>
+    </splitLine>
+
+    <splitArea remark="坐标轴在 grid 区域中的分隔区域。">
+        <show>true</show>
+        <interval  remark="坐标轴分隔线的显示间隔">auto</interval >
+        <areaStyle>
+            <color>['rgba(250,250,250,0.3)','rgba(200,200,200,0.3)']</color>
+            <shadowColor></shadowColor>
+            <shadowBlur></shadowBlur>
+            <shadowOffsetX>0</shadowOffsetX>
+            <shadowOffsetY>0</shadowOffsetY>
+            <opacity type="图形透明度 0 时不绘制该图形。"></opacity>
+        </areaStyle>
+    </splitArea>
+
+    <data type="array">
+        <value></value>
+        <textStyle>
+            <color>#fff</color>
+            <fontStyle>normal</fontStyle>
+            <fontWeight>normal</fontWeight>
+            <fontFamliy>Courier New</fontFamliy>
+            <fontSize>12</fontSize>
+            <align></align>
+            <verticalAlign></verticalAlign>
+            <lineHeight></lineHeight>
+
+            <backgroundColor>transparent</backgroundColor>
+            <borderColor>transparent</borderColor>
+            <borderWidth>0</borderWidth>
+            <borderRadius>0</borderRadius>
+            <shadowColor>transparent</shadowColor>
+            <shadowBlur>0</shadowBlur>
+            <shadowOffsetX>0</shadowOffsetX>
+            <shadowOffsetY>0</shadowOffsetY>
+
+            <width></width>
+            <height></height>
+            <textBorderColor>transparent</textBorderColor>
+            <textBorderWidth>0</textBorderWidth>
+            <textShadowColor>transparent</textShadowColor>
+            <textShadowBlur></textShadowBlur>
+            <textShadowOffsetX>0</textShadowOffsetX>
+            <textShadowOffsetY>0</textShadowOffsetY>
+            <rich>$rich</rich>
+        </textStyle>
+    </data>
+
+    <axisPointer type="link" remark="同axispointer">
+
+    </axisPointer>
+</yAxis>
+    

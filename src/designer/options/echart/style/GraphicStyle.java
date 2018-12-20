@@ -3,8 +3,7 @@
 package designer.options.echart.style;
 
 import designer.options.echart.code.X;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 图形元素样式

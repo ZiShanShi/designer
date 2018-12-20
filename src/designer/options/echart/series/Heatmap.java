@@ -4,8 +4,7 @@ package designer.options.echart.series;
 
 import designer.options.echart.code.SeriesType;
 import designer.options.echart.data.GradientColor;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.util.Arrays;
 import java.util.LinkedList;

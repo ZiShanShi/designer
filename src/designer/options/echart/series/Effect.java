@@ -3,8 +3,7 @@
 package designer.options.echart.series;
 
 import designer.options.echart.code.Symbol;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

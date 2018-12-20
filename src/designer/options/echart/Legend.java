@@ -6,8 +6,7 @@ import designer.options.echart.code.Align;
 import designer.options.echart.code.LegendType;
 import designer.options.echart.code.Orient;
 import designer.options.echart.style.TextStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.util.*;
 
@@ -16,6 +15,8 @@ import java.util.*;
  */
 
 public class Legend extends Basic<Legend> implements Data<Legend>, Component {
+
+    private String id;
     /**
      * 布局方式，默认为水平布局，可选为：'horizontal' | 'vertical'
      *
@@ -51,13 +52,13 @@ public class Legend extends Basic<Legend> implements Data<Legend>, Component {
     /**
      * 配置默认选中状态，可配合LEGEND.SELECTED事件做动态数据载入
      */
-    private Map<String, Boolean> selected;
+    private HashMap <String, Boolean> selected;
     /**
      * 图例内容数组，数组项通常为{string}，每一项代表一个系列的name。
      *
      * @see designer.options.echart.data.LegendData
      */
-    private List data;
+    private ArrayList data;
 
     private Align align;
     private String formatter;
@@ -118,7 +119,7 @@ public class Legend extends Basic<Legend> implements Data<Legend>, Component {
      *
      * @param data
      */
-    public Legend data(List data) {
+    public Legend data(ArrayList data) {
         this.data = data;
         return this;
     }
@@ -238,7 +239,7 @@ public class Legend extends Basic<Legend> implements Data<Legend>, Component {
     /**
      * 获取data值
      */
-    public List data() {
+    public ArrayList data() {
         if (this.data == null) {
             this.data = new ArrayList();
         }
@@ -256,6 +257,15 @@ public class Legend extends Basic<Legend> implements Data<Legend>, Component {
             return this;
         }
         this.data().addAll(Arrays.asList(values));
+        return this;
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public Legend id(String id) {
+        this.id = id;
         return this;
     }
 }

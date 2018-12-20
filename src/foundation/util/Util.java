@@ -1,5 +1,14 @@
 package foundation.util;
 
+import foundation.config.Configer;
+import foundation.data.DataType;
+import foundation.data.Entity;
+import foundation.data.EntitySet;
+import foundation.persist.DataBaseType;
+import foundation.persist.DataHandler;
+import foundation.persist.sql.NamedSQL;
+import foundation.persist.sql.SQLRunner;
+
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.math.BigDecimal;
@@ -10,30 +19,19 @@ import java.nio.charset.Charset;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import foundation.config.Configer;
-import foundation.data.DataType;
-import foundation.data.Entity;
-import foundation.data.EntitySet;
-import foundation.persist.DataBaseType;
-import foundation.persist.DataHandler;
-import foundation.persist.sql.NamedSQL;
-import foundation.persist.sql.SQLRunner;
- 
 
 public class Util {
 	
 	public static final String TRUE = "T"; 
 	public static final String FALSE = "F"; 
 	public static final String String_Return = "\r\n";
-	public static final String String_Empty = "";	
+	public static final String String_Escape_newSpace = "\t";
+	public static final String String_Escape_newLine = "\n";
+	public static final String String_Empty = "";
 	public static final String Default_Patter = "(?<=@\\{)(.+?)(?=\\})";
 	public static final String Integer_Patter = "^-?[1-9]\\d*$";
 	public static final String Double_Patter = "^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$";
@@ -47,7 +45,9 @@ public class Util {
 	public static final String Dot = ".";
 	public static final String Equal = "=";
 	public static final String String_Space = " ";
-	
+	public static final String windows_slash = "/";
+	public static final String java_slash = "\\";
+
 	public static int field;
 	private static ArrayList<String> tmpArr = new ArrayList<String>();
 	public static String newShortGUID() {
@@ -60,6 +60,23 @@ public class Util {
 						+ strGUID.substring(19, 23) + strGUID.substring(24, 36);
 
 		return shortGUID;
+	}
+
+	public static String filePathJion(String preFilePath, String filePath) {
+		if (preFilePath == null || filePath == null) {
+			return  null;
+		}
+		preFilePath = preFilePath.replace(windows_slash,java_slash);
+		filePath = filePath.replace(windows_slash,java_slash);
+		return  preFilePath + java_slash + filePath;
+	}
+
+	public static String stringJoin(String... strings) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String s: strings) {
+			stringBuilder.append(s);
+		}
+		return  stringBuilder.toString();
 	}
 
 	public static String quotedStr(String str) {
@@ -258,7 +275,7 @@ public class Util {
 		return false;
 	}
 
-	public static boolean stringToBoolean(String value, Boolean defaultValue) {
+	public static Boolean stringToBoolean(String value, Boolean defaultValue) {
 		if (value != null) {
 			value = value.toLowerCase();
 			
@@ -282,7 +299,7 @@ public class Util {
 			return defaultValue;
 	}
 	
-	public static boolean stringToBoolean(String value) {
+	public static  Boolean stringToBoolean(String value) {
 		return stringToBoolean(value, false);
 	}
 
@@ -312,11 +329,13 @@ public class Util {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T, Y> T StringToOther(String dataValue, Class<T> clazz, Class<Y> listClazz) throws ParseException {
+	public static <T, Y> T StringToOther(String dataValue, Class<? extends  Object> clazz, Class<Y> listClazz) throws ParseException {
 		if (clazz.getSimpleName().equalsIgnoreCase("string")) {
 			return (T) dataValue;
 		}
 		else if (clazz.getSimpleName().equalsIgnoreCase("int")) {
+			return (T)(Object) stringToInt(dataValue, -1);
+		}else if (clazz.getSimpleName().equalsIgnoreCase("integer")) {
 			return (T)(Object) stringToInt(dataValue, -1);
 		}
 		else if (clazz.getSimpleName().equalsIgnoreCase("double")) {
@@ -330,19 +349,23 @@ public class Util {
 		}
 		else if (clazz.getSimpleName().equalsIgnoreCase("decimal")) {
 			return (T)parseBigDecimal(dataValue);
-		}
-		else if (clazz.getSimpleName().equalsIgnoreCase("list")) {
-			return (T) StringToList(dataValue, listClazz);
-		}
-		
-		return null;
-	
+		}else if (clazz.getSimpleName().equalsIgnoreCase("boolean")) {
+			return (T) stringToBoolean(dataValue);
+		} else if (clazz.getSimpleName().equalsIgnoreCase("list")) {
+            return (T) StringToList(dataValue, listClazz);
+        } else {
+
+            return (T) dataValue;
+        }
+
+
+
 	}
 	
 	public static <T> T StringToOther(String dataValue, Class<T> clazz) throws ParseException {
 		return StringToOther(dataValue, clazz, String.class);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public static <T> T StringToOther(String dataValue, DataType type, DataType listType) throws ParseException {
 		
@@ -368,6 +391,7 @@ public class Util {
 			Class<?> listClaz = listType.getJavaClass();
 			return (T) StringToList(dataValue, listClaz);
 		}
+
 		
 		return null;
 		
@@ -890,4 +914,21 @@ public class Util {
 		return ret;
 	}
 
+	public static Object getDefaultValue(DataType type) {
+	    Object object = null;
+
+        if (DataType.String.equals(type)) {
+            object = "";
+        } else if (DataType.Integer.equals(type)) {
+            object = 0;
+        }else if (DataType.Double.equals(type)) {
+            object = 0.0;
+        }else if (DataType.Float.equals(type)) {
+            object = 0.0;
+        }else if (DataType.Boolean.equals(type)) {
+            object = false;
+        }
+        //TODO 未完成
+	    return  object;
+    }
 }

@@ -3,8 +3,7 @@
 package designer.options.echart.series.gauge;
 
 import designer.options.echart.style.TextStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

@@ -3,8 +3,7 @@
 package designer.options.echart.axis;
 
 import designer.options.echart.style.AreaStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 分隔区域

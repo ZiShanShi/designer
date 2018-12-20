@@ -6,8 +6,7 @@ import designer.options.echart.code.MarkType;
 import designer.options.echart.code.Symbol;
 import designer.options.echart.style.ItemStyle;
 import designer.options.echart.style.TextStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 import java.util.ArrayList;

@@ -1,7 +1,6 @@
 package designer.options.echart;
 
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * @author kimi
@@ -59,7 +58,7 @@ public class DataSet {
 
         private ArrayList data;
 
-        public List data() {
+        public ArrayList data() {
             if (this.data == null) {
                 this.data = new ArrayList();
             }
@@ -79,9 +78,9 @@ public class DataSet {
     }
     public class  DataSerSource<T> implements Data<T> {
 
-        private List data;
+        private ArrayList data;
 
-        public List data() {
+        public ArrayList data() {
             if (this.data == null) {
                 this.data = new ArrayList();
             }

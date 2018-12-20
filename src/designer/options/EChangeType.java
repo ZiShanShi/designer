@@ -3,6 +3,7 @@ package designer.options;
 public enum EChangeType {
     all,hasgrid,charttype,
     dimension,measurment,axis,
+    inverseX,inverseY,inverse,
     filter,
     theme,
     unknown;
@@ -24,9 +25,15 @@ public enum EChangeType {
             return filter;
         }else if (theme.name().equalsIgnoreCase(type)) {
             return theme;
-        } else {
+        }else if (inverse.name().equalsIgnoreCase(type)) {
+            return inverse;
+        }else if (inverseY.name().equalsIgnoreCase(type)) {
+            return inverseY;
+        }else if (inverseX.name().equalsIgnoreCase(type)) {
+            return inverseX;
+        }
+        else {
             return unknown;
         }
-
     }
 }

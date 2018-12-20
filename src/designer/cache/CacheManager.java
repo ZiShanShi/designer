@@ -1,7 +1,6 @@
 package designer.cache;
 
-import designer.IDesiginerConstant;
-import designer.engine.DesignerUtil;
+import designer.DesignerConstant;
 import designer.options.IOption;
 import foundation.config.Configer;
 import foundation.util.Util;
@@ -26,7 +25,7 @@ public class CacheManager {
     }
 
     private void _initLruCache() {
-        String cacheSzie = Configer.getParam(IDesiginerConstant.CACHE_DEFAULT_SIZE);
+        String cacheSzie = Configer.getParam(DesignerConstant.CACHE_DEFAULT_SIZE);
         int size = Util.stringToInt(cacheSzie, -1);
         if (size != -1) {
             lruCache = new LruCache<>(size);
@@ -50,8 +49,8 @@ public class CacheManager {
         }
         IOption removedOptions = lruCache.remove(key);
 
-        String id = removedOptions.getId();
-        String optionFilePath = DesignerUtil.getOptionFilePath(id);
+       /* String id = removedOptions.getId();
+        String optionFilePath = DesignerUtil.getOptionFilePath(id);*/
         //TODO
     }
 }

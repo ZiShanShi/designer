@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<toolbox remark="工具栏">
+    <id></id>
+    <show>true</show>
+    <orient>horizontal</orient>
+    <itemSize>15</itemSize>
+    <itemGap>10</itemGap>
+    <showTitle>true</showTitle>
+    <zlevel>0</zlevel>
+    <z>2</z>
+    <left>auto</left>
+    <top>auto</top>
+    <right>auto</right>
+    <bottom>auto</bottom>
+    <width>auto</width>
+    <height>auto</height>
+
+    <iconStyle>
+        <color></color>
+        <borderColor>#999999</borderColor>
+        <borderWidth>0</borderWidth>
+        <shadowColor>#aaa</shadowColor>
+        <shadowBlur>3</shadowBlur>
+        <shadowOffsetX>0</shadowOffsetX>
+        <shadowOffsetY>0</shadowOffsetY>
+        <opacity></opacity>
+        <textPosition></textPosition>
+        <textAlign></textAlign>
+    </iconStyle>
+    <emphasis>
+        <iconStyle>
+            <color></color>
+            <borderColor>#999999</borderColor>
+            <borderWidth>0</borderWidth>
+            <shadowColor>#aaa</shadowColor>
+            <shadowBlur>3</shadowBlur>
+            <shadowOffsetX>0</shadowOffsetX>
+            <shadowOffsetY>0</shadowOffsetY>
+            <opacity></opacity>
+        </iconStyle>
+    </emphasis>
+
+    <feature remark="各工具配置项  自定义的工具名字，只能以 my 开头">
+        <saveAsImage>
+            <type>png</type>
+            <name remark="保存的文件名称"></name>
+            <backgroundColor>auto</backgroundColor>
+            <excludeComponents></excludeComponents>
+            <show>true</show>
+            <title>保存为图片</title>
+            <icon></icon>
+            <pixelRatio remark="保存图片的分辨率比例">1</pixelRatio>
+            <iconStyle>
+                <color></color>
+                <borderColor>#666</borderColor>
+                <borderWidth>1</borderWidth>
+                <borderType>solid</borderType>
+                <shadowColor>#aaa</shadowColor>
+                <shadowBlur>3</shadowBlur>
+                <shadowOffsetX>0</shadowOffsetX>
+                <shadowOffsetY>0</shadowOffsetY>
+                <opacity></opacity>
+                <textPosition></textPosition>
+                <textAlign></textAlign>
+            </iconStyle>
+            <emphasis>
+                <iconStyle>
+                    <color></color>
+                    <borderColor>#666</borderColor>
+                    <borderWidth>0</borderWidth>
+                    <shadowColor>#aaa</shadowColor>
+                    <shadowBlur>3</shadowBlur>
+                    <shadowOffsetX>0</shadowOffsetX>
+                    <shadowOffsetY>0</shadowOffsetY>
+                    <opacity></opacity>
+                </iconStyle>
+            </emphasis>
+        </saveAsImage>
+        <restore>
+            <show>true</show>
+            <title>还原</title>
+            <icon></icon>
+            <iconStyle>
+                <color></color>
+                <borderColor>#666</borderColor>
+                <borderWidth>1</borderWidth>
+                <borderType>solid</borderType>
+                <shadowColor>#aaa</shadowColor>
+                <shadowBlur>3</shadowBlur>
+                <shadowOffsetX>0</shadowOffsetX>
+                <shadowOffsetY>0</shadowOffsetY>
+                <opacity></opacity>
+                <textPosition></textPosition>
+                <textAlign></textAlign>
+            </iconStyle>
+            <emphasis>
+                <iconStyle>
+                    <color></color>
+                    <borderColor>#666</borderColor>
+                    <borderWidth>0</borderWidth>
+                    <shadowColor>#aaa</shadowColor>
+                    <shadowBlur>3</shadowBlur>
+                    <shadowOffsetX>0</shadowOffsetX>
+                    <shadowOffsetY>0</shadowOffsetY>
+                    <opacity></opacity>
+                </iconStyle>
+            </emphasis>
+        </restore>
+
+        <dataView remark="数据视图">
+            <show>true</show>
+            <title>数据视图</title>
+            <icon></icon>
+            <readOnly>false</readOnly>
+            <optionToContent remark="自定义 dataView 展现函数，(HTMLDomElement|string)用以取代默认的 textarea 使用更丰富的数据编辑。"></optionToContent>
+            <contentToOption remark="在使用 optionToContent 的情况下，如果支持数据编辑后的刷新，需要自行通过该函数实现组装 option 的逻辑"></contentToOption>
+            <lang>['数据视图', '关闭', '刷新']</lang>
+            <backgroundColor>#fff</backgroundColor>
+            <textareaColor>#fff</textareaColor>
+            <textareaBorderColor>#333</textareaBorderColor>
+            <textColor>#000</textColor>
+            <buttonColor>#c23531</buttonColor>
+            <buttonTextColor>#fff</buttonTextColor>
+            <iconStyle>
+                <color></color>
+                <borderColor>#666</borderColor>
+                <borderWidth>1</borderWidth>
+                <borderType>solid</borderType>
+                <shadowColor>#aaa</shadowColor>
+                <shadowBlur>3</shadowBlur>
+                <shadowOffsetX>0</shadowOffsetX>
+                <shadowOffsetY>0</shadowOffsetY>
+                <opacity></opacity>
+                <textPosition></textPosition>
+                <textAlign></textAlign>
+            </iconStyle>
+            <emphasis>
+                <iconStyle>
+                    <color></color>
+                    <borderColor>#666</borderColor>
+                    <borderWidth>0</borderWidth>
+                    <shadowColor>#aaa</shadowColor>
+                    <shadowBlur>3</shadowBlur>
+                    <shadowOffsetX>0</shadowOffsetX>
+                    <shadowOffsetY>0</shadowOffsetY>
+                    <opacity></opacity>
+                </iconStyle>
+            </emphasis>
+        </dataView>
+
+        <dataZoom remark="数据区域缩放。">
+            <show>true</show>
+            <xAxisIndex remark="指定哪些 xAxis 被控制。如果缺省则控制所有的x轴。如果设置为 false 则不控制任何x轴">
+            </xAxisIndex>
+            <yAxisIndex></yAxisIndex>
+            <title>
+                <zoom>区域缩放</zoom>
+                <back>区域缩放还原</back>
+            </title>
+            <icon>
+                <zoom></zoom>
+                <back></back>
+            </icon>
+
+            <iconStyle>
+                <color></color>
+                <borderColor>#666</borderColor>
+                <borderWidth>1</borderWidth>
+                <borderType>solid</borderType>
+                <shadowColor>#aaa</shadowColor>
+                <shadowBlur>3</shadowBlur>
+                <shadowOffsetX>0</shadowOffsetX>
+                <shadowOffsetY>0</shadowOffsetY>
+                <opacity></opacity>
+                <textPosition></textPosition>
+                <textAlign></textAlign>
+            </iconStyle>
+            <emphasis>
+                <iconStyle>
+                    <color></color>
+                    <borderColor>#666</borderColor>
+                    <borderWidth>0</borderWidth>
+                    <shadowColor>#aaa</shadowColor>
+                    <shadowBlur>3</shadowBlur>
+                    <shadowOffsetX>0</shadowOffsetX>
+                    <shadowOffsetY>0</shadowOffsetY>
+                    <opacity></opacity>
+                </iconStyle>
+            </emphasis>
+        </dataZoom>
+
+        <magicType remark="动态类型切换">
+            <show>true</show>
+            <type remark="line,bar,stack,tiled"></type>
+            <title>
+                <line>切换为折线图</line>
+                <bar>切换为柱状图</bar>
+                <stack>切换为堆叠</stack>
+                <tiled>切换为平铺</tiled>
+            </title>
+
+            <icon>
+                <line></line>
+                <bar></bar>
+                <stack></stack>
+                <tiled></tiled>
+            </icon>
+
+            <iconStyle>
+                <color></color>
+                <borderColor>#666</borderColor>
+                <borderWidth>1</borderWidth>
+                <borderType>solid</borderType>
+                <shadowColor>#aaa</shadowColor>
+                <shadowBlur>3</shadowBlur>
+                <shadowOffsetX>0</shadowOffsetX>
+                <shadowOffsetY>0</shadowOffsetY>
+                <opacity></opacity>
+                <textPosition></textPosition>
+                <textAlign></textAlign>
+            </iconStyle>
+            <emphasis>
+                <iconStyle>
+                    <color></color>
+                    <borderColor>#666</borderColor>
+                    <borderWidth>0</borderWidth>
+                    <shadowColor>#aaa</shadowColor>
+                    <shadowBlur>3</shadowBlur>
+                    <shadowOffsetX>0</shadowOffsetX>
+                    <shadowOffsetY>0</shadowOffsetY>
+                    <opacity></opacity>
+                </iconStyle>
+            </emphasis>
+
+            <option>
+                <line></line>
+                <bar></bar>
+                <stack></stack>
+                <tiled></tiled>
+            </option>
+
+            <seriesIndex>
+                <line></line>
+                <bar></bar>
+                <stack></stack>
+                <tiled></tiled>
+            </seriesIndex>
+        </magicType>
+
+        <brush remark="选框组件的控制按钮">
+            <type remark="rect,polygon,lineX,lineY,keep,clear"></type>
+            <icon>
+                <rect></rect>
+                <polygon></polygon>
+                <lineX></lineX>
+                <lineY></lineY>
+                <keep></keep>
+                <clear></clear>
+            </icon>
+            <title>
+                <rect>矩形选择</rect>
+                <polygon>圈选</polygon>
+                <lineX>横向选择</lineX>
+                <lineY>纵向选择</lineY>
+                <keep>保持选择</keep>
+                <clear>清除选择</clear>
+            </title>
+        </brush>
+    </feature>
+</toolbox>
+    

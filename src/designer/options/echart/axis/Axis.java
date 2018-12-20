@@ -18,6 +18,8 @@ import java.util.Arrays;
  */
 
 public abstract class Axis<T> extends AbstractData<T> implements Component {
+
+    private String id;
     /**
      * 是否显示
      */
@@ -521,5 +523,14 @@ public abstract class Axis<T> extends AbstractData<T> implements Component {
     public T minInterval(Number minInterval) {
         this.minInterval = minInterval;
         return (T) this;
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public Axis<T> id(String id) {
+        this.id = id;
+        return this;
     }
 }

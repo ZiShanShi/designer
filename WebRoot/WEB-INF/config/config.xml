@@ -20,7 +20,12 @@
 
 	<!--bi数据路径-->
 	<param name="chartRootPath" value="root/chartTemplate"/>
-	<param name="defaultChartEnigne" value="echart"/>
+	<param name="defaultChartEngine" value="echart"/>
+	<param name="defaultChartPartPath" value="chart"/>
+	<param name="defaultTopicPartPath" value="topic"/>
+	<param name="defaultThemePartPath" value="theme"/>
+
+	<param name="defaultChartPath" value="default"/>
 	<param name="defaultChartSuffix" value="xml"/>
 	<!--缓存-->
 	<param name="cacheSize" value="10" remark="默认缓存10M"/>
@@ -64,6 +69,7 @@
 		<virtualPath path="data" classname="foundation.persist.DataObject" />
 		<virtualPath path="user" classname="foundation.user.User" />
 		<virtualPath path="dictionary" classname="foundation.dictionary.DictionaryService" />
+		<virtualPath path="sync" classname="designer.DesignerConsole" />
 
 	</virtualPaths>
 	
@@ -72,7 +78,8 @@
 		<loader name="datasource" classname="foundation.persist.DatasuorceLoader" active="T"/>
 		<loader name="task" classname="foundation.schedule.ScheduleJobLoader" active="T"/>
 		<loader name="namedSQL" classname="foundation.persist.sql.NamedSQLLoader" active="T"/>
-		
+		<loader name="designer" classname="designer.DesignerDefaultLoader" active="T"/>
+
 	</configLoader>
 	
 	<!-- 7.数据过滤权限 -->

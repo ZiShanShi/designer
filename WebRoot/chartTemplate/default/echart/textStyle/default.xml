@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<textStyle>
+    <color>#333333</color>
+    <fontStyle>normal</fontStyle>
+    <fontWeight>normal</fontWeight>
+    <fontFamliy>Courier New</fontFamliy>
+    <fontSize>12</fontSize>
+    <align>left</align>
+    <lineHeight></lineHeight>
+    <width></width>
+    <height></height>
+    <textBorderColor>transparent</textBorderColor>
+    <textBorderWidth>0</textBorderWidth>
+    <textShadowColor>transparent</textShadowColor>
+    <textShadowBlur></textShadowBlur>
+    <textShadowOffsetX>0</textShadowOffsetX>
+    <textShadowOffsetY>0</textShadowOffsetY>
+    <rich>$rich</rich>
+</textStyle>
+    

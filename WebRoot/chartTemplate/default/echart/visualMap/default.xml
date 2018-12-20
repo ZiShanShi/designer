@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<visualMap remark="视觉映射组件" type="array">
+
+    <object type="continuous">
+        <type>continuous</type>
+        <id></id>
+        <min></min>
+        <max></max>
+        <range></range>
+        <calculable remark="是否显示拖拽用的手柄">false</calculable>
+        <realtime>true</realtime>
+        <inverse>false</inverse>
+        <precision remark="数据展示的小数精度，默认为0，无小数点。">0</precision>
+        <itemWidth remark="图形的宽度，即长条的宽度">20</itemWidth>
+        <itemHeight>40</itemHeight>
+        <align remark="auto,left,,right,top,bottom">auto</align>
+        <text remark="两端的文本，如 ['High', 'Low']"></text>
+        <textGap>10</textGap>
+        <show>true</show>
+        <dimension remark="指定用数据的『哪个维度』 取第I列data 默认取 data 中最后一个维度"></dimension>
+        <seriesIndex remark="指定取哪个系列的数据，即哪个系列的 series.data。"></seriesIndex>
+        <hoverLink remark="鼠标位置对应的数值 在 图表中对应的图形元素，会高亮。">true</hoverLink>
+        <zlevel>0</zlevel>
+        <z>4</z>
+        <left>0</left>
+        <top>auto</top>
+        <right>auto</right>
+        <bottom>0</bottom>
+        <orient>vertical</orient>
+        <padding>5</padding>
+        <backgroundColor>#d88273</backgroundColor>
+        <borderColor>f6efa6</borderColor>
+        <formatter>$formatter</formatter>
+        <textStyle>
+            <color>#f6efa6</color>
+            <fontStyle>normal</fontStyle>
+            <fontWeight>normal</fontWeight>
+            <fontFamliy>Courier New</fontFamliy>
+            <fontSize>12</fontSize>
+            <verticalAlign></verticalAlign>
+            <lineHeight></lineHeight>
+            <width></width>
+            <height></height>
+            <textBorderColor>transparent</textBorderColor>
+            <textBorderWidth>0</textBorderWidth>
+            <textShadowColor>transparent</textShadowColor>
+            <textShadowBlur></textShadowBlur>
+            <textShadowOffsetX>0</textShadowOffsetX>
+            <textShadowOffsetY>0</textShadowOffsetY>
+
+        </textStyle>
+        <inRange>
+            <symbol></symbol>
+            <symbolSize></symbolSize>
+            <color></color>
+            <colorAlpha></colorAlpha>
+            <opacity></opacity>
+            <colorLightness></colorLightness>
+            <colorSaturation></colorSaturation>
+            <colorHue></colorHue>
+
+        </inRange>
+
+        <outRange>
+            <symbol></symbol>
+            <symbolSize></symbolSize>
+            <color></color>
+            <colorAlpha></colorAlpha>
+            <opacity></opacity>
+            <colorLightness></colorLightness>
+            <colorSaturation></colorSaturation>
+            <colorHue></colorHue>
+        </outRange>
+
+        <controller>
+            <inRange></inRange>
+            <outRange></outRange>
+        </controller>
+    </object>
+    <object type="piecewise">
+        <type>piecewise</type>
+        <id></id>
+        <splitNumber>5</splitNumber>
+        <pieces remark="Array每一段的范围，以及每一段的文字，以及每一段的特别的样式"></pieces>
+        <categories remark="用于表示离散型数据（或可以称为类别型数据、枚举型数据）的全集。"></categories>
+
+        <min></min>
+        <max></max>
+        <minOpen></minOpen>
+        <maxOpen></maxOpen>
+        <selectedMode>multiple</selectedMode>
+        <inverse>false</inverse>
+        <precision remark="数据展示的小数精度，默认为0，无小数点。">0</precision>
+        <itemWidth remark="图形的宽度，即长条的宽度">20</itemWidth>
+        <itemHeight>40</itemHeight>
+        <align remark="auto,left,,right,top,bottom">auto</align>
+        <text remark="两端的文本，如 ['High', 'Low']"></text>
+        <textGap>10</textGap>
+        <show>true</show>
+        <dimension remark="指定用数据的『哪个维度』 取第I列data 默认取 data 中最后一个维度"></dimension>
+        <seriesIndex remark="指定取哪个系列的数据，即哪个系列的 series.data。"></seriesIndex>
+        <hoverLink remark="鼠标位置对应的数值 在 图表中对应的图形元素，会高亮。">true</hoverLink>
+        <zlevel>0</zlevel>
+        <z>4</z>
+        <left>0</left>
+        <top>auto</top>
+        <right>auto</right>
+        <bottom>0</bottom>
+        <orient>vertical</orient>
+        <padding>5</padding>
+        <backgroundColor>#d88273</backgroundColor>
+        <borderColor>f6efa6</borderColor>
+        <formatter>$formatter</formatter>
+        <textStyle>
+            <color>#f6efa6</color>
+            <fontStyle>normal</fontStyle>
+            <fontWeight>normal</fontWeight>
+            <fontFamliy>Courier New</fontFamliy>
+            <fontSize>12</fontSize>
+            <verticalAlign></verticalAlign>
+            <lineHeight></lineHeight>
+            <width></width>
+            <height></height>
+            <textBorderColor>transparent</textBorderColor>
+            <textBorderWidth>0</textBorderWidth>
+            <textShadowColor>transparent</textShadowColor>
+            <textShadowBlur></textShadowBlur>
+            <textShadowOffsetX>0</textShadowOffsetX>
+            <textShadowOffsetY>0</textShadowOffsetY>
+
+        </textStyle>
+        <inRange>
+            <symbol></symbol>
+            <symbolSize></symbolSize>
+            <color></color>
+            <colorAlpha></colorAlpha>
+            <opacity></opacity>
+            <colorLightness></colorLightness>
+            <colorSaturation></colorSaturation>
+            <colorHue></colorHue>
+
+        </inRange>
+
+        <outRange>
+            <symbol></symbol>
+            <symbolSize></symbolSize>
+            <color></color>
+            <colorAlpha></colorAlpha>
+            <opacity></opacity>
+            <colorLightness></colorLightness>
+            <colorSaturation></colorSaturation>
+            <colorHue></colorHue>
+        </outRange>
+
+        <controller>
+            <inRange></inRange>
+            <outRange></outRange>
+        </controller>
+    </object>
+</visualMap>
+    

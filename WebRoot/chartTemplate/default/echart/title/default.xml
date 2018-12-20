@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<title>
+    <id></id>
+    <show>true</show>
+    <text></text>
+    <link></link>
+    <target>blank</target>
+
+    <subtext></subtext>
+    <sublink></sublink>
+    <subTarget>blank</subTarget>
+
+    <triggerEvent remark="是否触发事件。">false</triggerEvent>
+    <padding>5</padding>
+    <itemGap remark="项目之间的间距。">10</itemGap>
+    <zlevel>0</zlevel>
+    <z>2</z>
+    <left>auto</left>
+    <top>auto</top>
+    <right>auto</right>
+    <bottom>auto</bottom>
+
+    <backgroundColor>transparent</backgroundColor>
+    <borderColor>#ccc</borderColor>
+    <borderWidth>0</borderWidth>
+    <shadowColor></shadowColor>
+    <shadowBlur></shadowBlur>
+    <shadowOffsetX>0</shadowOffsetX>
+    <shadowOffsetY>0</shadowOffsetY>
+
+    <textStyle>
+        <color>#333333</color>
+        <fontStyle>normal</fontStyle>
+        <fontWeight>normal</fontWeight>
+        <fontFamliy>Courier New</fontFamliy>
+        <fontSize>18</fontSize>
+        <align>left</align>
+        <verticalAlign></verticalAlign>
+        <lineHeight></lineHeight>
+        <width></width>
+        <height></height>
+        <textBorderColor>transparent</textBorderColor>
+        <textBorderWidth>0</textBorderWidth>
+        <textShadowColor>transparent</textShadowColor>
+        <textShadowBlur></textShadowBlur>
+        <textShadowOffsetX>0</textShadowOffsetX>
+        <textShadowOffsetY>0</textShadowOffsetY>
+        <rich>$rich</rich>
+    </textStyle>
+
+
+    <subtextStyle>
+        <color>#aaa</color>
+        <fontStyle>normal</fontStyle>
+        <fontWeight>normal</fontWeight>
+        <fontFamliy>Courier New</fontFamliy>
+        <fontSize>12</fontSize>
+        <align>left</align>
+        <verticalAlign></verticalAlign>
+        <lineHeight></lineHeight>
+        <width></width>
+        <height></height>
+        <textBorderColor>transparent</textBorderColor>
+        <textBorderWidth>0</textBorderWidth>
+        <textShadowColor>transparent</textShadowColor>
+        <textShadowBlur></textShadowBlur>
+        <textShadowOffsetX>0</textShadowOffsetX>
+        <textShadowOffsetY>0</textShadowOffsetY>
+    </subtextStyle>
+
+
+</title>

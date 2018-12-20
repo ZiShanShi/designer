@@ -1,7 +1,5 @@
 package foundation.persist;
 
-import java.sql.Connection;
-
 import foundation.config.Configer;
 import foundation.data.Entity;
 import foundation.data.EntitySet;
@@ -12,6 +10,8 @@ import foundation.persist.loader.ValueLoader;
 import foundation.persist.sql.NamedSQL;
 import foundation.persist.sql.SQLRunner;
 import foundation.util.Util;
+
+import java.sql.Connection;
 
 public class DataHandler {
 
@@ -114,6 +114,17 @@ public class DataHandler {
 		EntityLoader loader = new EntityLoader(tableName);
 		SQLRunner.getData(namedSQL, loader);
 		
+		return loader.getEntity();
+	}
+	public static Entity getLine(String tableName, String fieldNameId, String id) throws Exception {
+		NamedSQL namedSQL = NamedSQL.getInstance("getLineById");
+		namedSQL.setTableName(tableName);
+		namedSQL.setParam("fieldNameId", fieldNameId);
+		namedSQL.setParam("id", Util.quotedStr(id));
+
+		EntityLoader loader = new EntityLoader(tableName);
+		SQLRunner.getData(namedSQL, loader);
+
 		return loader.getEntity();
 	}
 	

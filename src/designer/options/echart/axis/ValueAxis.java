@@ -5,8 +5,7 @@ package designer.options.echart.axis;
 import designer.options.echart.code.AxisType;
 import designer.options.echart.code.NameLocation;
 import designer.options.echart.style.LineStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 值轴

@@ -4,8 +4,7 @@ package designer.options.echart.series.force;
 
 import designer.options.echart.style.ItemStyle;
 import designer.options.echart.style.LineStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

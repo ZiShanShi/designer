@@ -10,8 +10,7 @@ import designer.options.echart.series.force.Category;
 import designer.options.echart.series.force.Link;
 import designer.options.echart.series.force.Node;
 import designer.options.echart.series.other.Force;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.util.ArrayList;
 import java.util.Arrays;

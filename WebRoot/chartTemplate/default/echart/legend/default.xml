@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!--关键字 if   特殊属性 type-->
+<legend>
+    <type remark="plain,scroll">plain</type>
+    <id></id>
+    <show>true</show>
+    <zlevel>0</zlevel>
+    <z>2</z>
+    <left>auto</left>
+    <top>auto</top>
+    <right>auto</right>
+    <bottom>auto</bottom>
+    <orient remark="horizontal,vertical">horizontal</orient>
+    <align remark="对齐方式">auto</align>
+    <padding>5</padding>
+    <itemGap remark="项目之间的间距。">10</itemGap>
+    <itemWidth>25</itemWidth>
+    <itemHeight>14</itemHeight>
+    <symbolKeepAspect remark="icon 缩放比例一致">true</symbolKeepAspect>
+    <formatter>$formatter</formatter>
+    <selectedMode remark="控制是否可以通过点击图例改变系列的显示状态 true, false, single, multiple">true</selectedMode>
+    <inactiveColor remark="图例关闭时的颜色。">#ccc</inactiveColor>
+
+    <backgroundColor>transparent</backgroundColor>
+    <borderColor>#ccc</borderColor>
+    <borderWidth>1</borderWidth>
+    <borderRadius>0</borderRadius>
+    <shadowColor></shadowColor>
+    <shadowBlur></shadowBlur>
+    <shadowOffsetX>0</shadowOffsetX>
+    <shadowOffsetY>0</shadowOffsetY>
+
+    <if type="scroll">
+        <scrollDataIndex remark="图例当前最左上显示项的 dataIndex。">0</scrollDataIndex>
+        <pageButtonItemGap remark="图例控制块中，按钮和页信息之间的间隔。">5</pageButtonItemGap>
+        <pageButtonGap remark="图例控制块和图例项之间的间隔。。"></pageButtonGap>
+        <pageButtonPosition remark="图例控制块的位置。">end</pageButtonPosition>
+        <pageFormatter remark="图例控制块中，页信息的显示格式。">{current}/{total}</pageFormatter>
+        <pageIcons remark="图例控制块的图标。" type="object">
+            <if orient="horizontal">['M0,0L12,-10L12,10z', 'M0,0L-12,-10L-12,10z']</if>
+            <if orient="vertical">['M0,0L20,0L10,-20z', 'M0,0L20,0L10,20z']</if>
+        </pageIcons>
+        <pageIconColor>#2f4554</pageIconColor>
+        <pageIconInactiveColor remark="翻页按钮不激活时（即翻页到头时）的颜色。">#aaa</pageIconInactiveColor>
+        <pageIconSize>15</pageIconSize>
+        <pageTextStyle>
+            <color>#333333</color>
+            <fontStyle>normal</fontStyle>
+            <fontWeight>normal</fontWeight>
+            <fontFamliy>Courier New</fontFamliy>
+            <fontSize>18</fontSize>
+            <align>left</align>
+            <lineHeight></lineHeight>
+            <width></width>
+            <height></height>
+            <textBorderColor>transparent</textBorderColor>
+            <textBorderWidth>0</textBorderWidth>
+            <textShadowColor>transparent</textShadowColor>
+            <textShadowBlur></textShadowBlur>
+            <textShadowOffsetX>0</textShadowOffsetX>
+            <textShadowOffsetY>0</textShadowOffsetY>
+        </pageTextStyle>
+    </if>
+    <animation remark="图例翻页是否使用动画。">true</animation>
+    <animationDurationUpdate remark="图例翻页时的动画时长。">800</animationDurationUpdate>
+
+    <selected  remark="图例选中状态表。" type="array">
+        <object name="" remark="true,false">true</object>
+    </selected>
+
+    <textStyle>
+        <color>#333333</color>
+        <fontStyle>normal</fontStyle>
+        <fontWeight>normal</fontWeight>
+        <fontFamliy>Courier New</fontFamliy>
+        <fontSize>18</fontSize>
+        <align>left</align>
+        <lineHeight></lineHeight>
+        <width></width>
+        <height></height>
+        <backgroundColor>transparent</backgroundColor>
+        <borderColor>#ccc</borderColor>
+        <borderWidth>0</borderWidth>
+        <shadowColor></shadowColor>
+        <shadowBlur></shadowBlur>
+        <shadowOffsetX>0</shadowOffsetX>
+        <shadowOffsetY>0</shadowOffsetY>
+        <textBorderColor>transparent</textBorderColor>
+        <textBorderWidth>0</textBorderWidth>
+        <textShadowColor>transparent</textShadowColor>
+        <textShadowBlur></textShadowBlur>
+        <textShadowOffsetX>0</textShadowOffsetX>
+        <textShadowOffsetY>0</textShadowOffsetY>
+        <rich>$rich</rich>
+    </textStyle>
+    <tooltip remark="默认不显示，可以在 legend 文字很多的时候对文字做裁剪并且开启" type="link">
+         
+    </tooltip>
+    <data type="array">
+        <object>
+            <name></name>
+            <icon></icon>
+            <textStyle>
+                <color>transparent</color>
+                <fontStyle>normal</fontStyle>
+                <fontWeight>normal</fontWeight>
+                <fontFamliy>Courier New</fontFamliy>
+                <fontSize>12</fontSize>
+                <align>left</align>
+                <lineHeight></lineHeight>
+                <width></width>
+                <height></height>
+                <backgroundColor>transparent</backgroundColor>
+                <borderColor>#ccc</borderColor>
+                <borderWidth>0</borderWidth>
+                <shadowColor></shadowColor>
+                <shadowBlur></shadowBlur>
+                <shadowOffsetX>0</shadowOffsetX>
+                <shadowOffsetY>0</shadowOffsetY>
+                <textBorderColor>transparent</textBorderColor>
+                <textBorderWidth>0</textBorderWidth>
+                <textShadowColor>transparent</textShadowColor>
+                <textShadowBlur></textShadowBlur>
+                <textShadowOffsetX>0</textShadowOffsetX>
+                <textShadowOffsetY>0</textShadowOffsetY>
+            </textStyle>
+        </object>
+
+    </data>
+</legend>
+    

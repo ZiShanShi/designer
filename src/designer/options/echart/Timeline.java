@@ -8,8 +8,7 @@ import designer.options.echart.code.TimeLineType;
 import designer.options.echart.style.CheckpointStyle;
 import designer.options.echart.style.ControlStyle;
 import designer.options.echart.style.LineStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * Description: Timeline
@@ -18,6 +17,8 @@ import lombok.Setter;
  */
 
 public class Timeline extends AbstractData<Timeline> implements Component {
+
+    private String id;
     /**
      * 轴的类型
      */
@@ -616,6 +617,16 @@ public class Timeline extends AbstractData<Timeline> implements Component {
      * 获取z值
      */
     public Integer z() {
+
         return this.z;
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public Timeline id(String id) {
+        this.id = id;
+        return this;
     }
 }

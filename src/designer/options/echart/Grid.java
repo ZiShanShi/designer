@@ -9,6 +9,8 @@ package designer.options.echart;
  */
 
 public class Grid extends Basic<Grid> implements Component {
+
+    private String id;
     /**
      * 直角坐标系内绘图网格左上角横坐标，数值单位px，支持百分比（字符串），如'50%'(显示区域横向中心)
      */
@@ -70,6 +72,15 @@ public class Grid extends Basic<Grid> implements Component {
      */
     public Grid y2(Object y2) {
         this.y2 = y2;
+        return this;
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public Grid id(String id) {
+        this.id = id;
         return this;
     }
 }

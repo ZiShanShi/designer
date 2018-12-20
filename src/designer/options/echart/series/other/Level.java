@@ -2,8 +2,7 @@ package designer.options.echart.series.other;
 
 import designer.options.echart.code.ColorMappingBy;
 import designer.options.echart.style.ItemStyle;
-import lombok.Getter;
-import lombok.Setter;
+
 
 import java.io.Serializable;
 

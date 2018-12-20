@@ -3,8 +3,7 @@
 package designer.options.echart.series;
 
 import designer.options.echart.code.SeriesType;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 雷达图

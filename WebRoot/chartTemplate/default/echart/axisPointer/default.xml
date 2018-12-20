@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<axisPointer remark="坐标轴指示器">
+    <id></id>
+    <show>false</show>
+    <type remark="line,shadow,none">line</type>
+    <snap></snap>
+    <z></z>
+    <triggerTooltip>true</triggerTooltip>
+    <value></value>
+    <status></status>
+    <link remark="不同轴的 axisPointer 可以进行联动，在这里设置。联动表示轴能同步一起活动。"></link>
+    <triggerOn>mousemove|click</triggerOn>
+    <label>
+        <show>false</show>
+        <precision remark="文本标签中数值的小数点精度">auto</precision>
+        <formatter>$formatter</formatter>
+        <margin>3</margin>
+        <color>#fff</color>
+        <fontStyle>normal</fontStyle>
+        <fontWeight>normal</fontWeight>
+        <fontFamliy>Courier New</fontFamliy>
+        <fontSize>12</fontSize>
+        <lineHeight></lineHeight>
+        <width></width>
+        <height></height>
+        <textBorderColor>transparent</textBorderColor>
+        <textBorderWidth>0</textBorderWidth>
+        <textShadowColor>transparent</textShadowColor>
+        <textShadowBlur></textShadowBlur>
+        <textShadowOffsetX>0</textShadowOffsetX>
+        <textShadowOffsetY>0</textShadowOffsetY>
+        <padding>0</padding>
+        <backgroundColor>auto</backgroundColor>
+        <borderColor></borderColor>
+        <borderWidth>0</borderWidth>
+        <shadowColor>#aaa</shadowColor>
+        <shadowBlur>3</shadowBlur>
+        <shadowOffsetX>0</shadowOffsetX>
+        <shadowOffsetY>0</shadowOffsetY>
+    </label>
+
+    <lineStyle>
+        <color>#555</color>
+        <width>1</width>
+        <type>solid</type>
+        <shadowColor></shadowColor>
+        <shadowBlur></shadowBlur>
+        <shadowOffsetX>0</shadowOffsetX>
+        <shadowOffsetY>0</shadowOffsetY>
+        <opacity></opacity>
+    </lineStyle>
+
+    <shadowStyle>
+        <color>rgba(150,150,150,0.3)</color>
+        <shadowColor></shadowColor>
+        <shadowBlur></shadowBlur>
+        <shadowOffsetX>0</shadowOffsetX>
+        <shadowOffsetY>0</shadowOffsetY>
+        <opacity></opacity>
+    </shadowStyle>
+
+    <handle>
+        <show>false</show>
+        <icon></icon>
+        <size>45</size>
+        <margin>50</margin>
+        <color>#333</color>
+        <throttle>40</throttle>
+        <shadowColor>#aaa</shadowColor>
+        <shadowBlur>3</shadowBlur>
+        <shadowOffsetX>2</shadowOffsetX>
+        <shadowOffsetY>0</shadowOffsetY>
+    </handle>
+</axisPointer>
+    

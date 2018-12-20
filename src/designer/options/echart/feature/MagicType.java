@@ -6,7 +6,6 @@ import designer.options.echart.code.Magic;
 import designer.options.echart.series.Funnel;
 
 import java.util.HashMap;
-import java.util.Map;
 
 /**
  * @author kimi
@@ -21,7 +20,7 @@ public class MagicType extends Feature {
      */
     public MagicType(Magic... magics) {
         this.show(true);
-        Map title = new HashMap<String, String>();
+        HashMap title = new HashMap<String, String>();
         title.put("line", "折线图切换");
         title.put("bar", "柱形图切换");
         title.put("stack", "堆积");
@@ -73,7 +72,7 @@ public class MagicType extends Feature {
     }
 
     /**
-     * 内部类 Option
+     * 内部类 ChartOption
      */
     public static class Option {
         private Funnel funnel;

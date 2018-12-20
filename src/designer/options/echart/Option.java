@@ -15,7 +15,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
-import java.util.List;
+
 
 /**
  * Description: Option
@@ -34,7 +34,7 @@ public class Option implements Serializable {
     /**
      * 数值系列的颜色列表，（详见color），可配数组，eg：['#87cefa', 'rgba(123,123,123,0.5)','...']，当系列数量个数比颜色列表长度大时将循环选取
      */
-    private List<Object> color;
+    private ArrayList<Object> color;
     /**
      * 非IE8-支持渲染为图片，（详见renderAsImage）
      * {boolean | string} false，非IE8-支持渲染为图片，可设为true或指定图片格式（png | jpeg），渲染为图片后实例依然可用（如setOption，resize等），但各种交互失效
@@ -75,7 +75,7 @@ public class Option implements Serializable {
     /**
      * 数据区域缩放（详见dataZoom）,数据展现范围选择
      */
-    private List<DataZoom> dataZoom;
+    private ArrayList<DataZoom> dataZoom;
     /**
      * 缩放漫游组件（详见RoamController）,数据缩放漫游选择
      */
@@ -87,23 +87,23 @@ public class Option implements Serializable {
     /**
      * 直角坐标系中横轴数组（详见xAxis），数组中每一项代表一条横轴坐标轴，标准（1.0）中规定最多同时存在2条横轴
      */
-    private List<Axis> xAxis;
+    private ArrayList<Axis> xAxis;
     /**
      * 直角坐标系中纵轴数组（详见yAxis），数组中每一项代表一条纵轴坐标轴，标准（1.0）中规定最多同时存在2条纵轴
      */
-    private List<Axis> yAxis;
+    private ArrayList<Axis> yAxis;
     /**
      * 驱动图表生成的数据内容（详见series），数组中每一项代表一个系列的特殊选项及数据
      */
-    private List<Series> series;
+    private ArrayList<Series> series;
     /**
      * 极坐标
      */
-    private List<Polar> polar;
+    private ArrayList<Polar> polar;
     /**
      * 默认标志图形类型列表，循环使用
      */
-    private List<Symbol> symbolList;
+    private LinkedList<Symbol> symbolList;
     /**
      * 拖拽重计算提示边框颜色
      */
@@ -151,7 +151,7 @@ public class Option implements Serializable {
     /**
      * 当使用timeline时，每一组数据要放到单独的option中
      */
-    private List<Option> options;
+    private ArrayList<Option> options;
     /**
      * 样式
      */
@@ -167,7 +167,7 @@ public class Option implements Serializable {
     /**
      * visualMap 是视觉映射组件，用于进行『视觉编码』，也就是将数据映射到视觉元素（视觉通道）
      */
-    private List<VisualMap> visualMap;
+    private ArrayList<VisualMap> visualMap;
     /**
      * 图形元素组件
      */
@@ -177,7 +177,7 @@ public class Option implements Serializable {
      */
     private Radar radar;
 
-    public List<VisualMap> visualMap() {
+    public ArrayList<VisualMap> visualMap() {
         if (this.visualMap == null) {
             this.visualMap = new ArrayList<VisualMap>();
         }
@@ -190,16 +190,16 @@ public class Option implements Serializable {
         return v;
     }
 
-    public Option visualMap(List<VisualMap> visualMap) {
+    public Option visualMap(ArrayList<VisualMap> visualMap) {
         this.visualMap = visualMap;
         return this;
     }
 
-    public List<VisualMap> getVisualMap() {
+    public ArrayList<VisualMap> getVisualMap() {
         return visualMap;
     }
 
-    public void setVisualMap(List<VisualMap> visualMap) {
+    public void setVisualMap(ArrayList<VisualMap> visualMap) {
         this.visualMap = visualMap;
     }
 
@@ -269,7 +269,7 @@ public class Option implements Serializable {
     /**
      * 获取symbolList值
      */
-    public List<Symbol> symbolList() {
+    public LinkedList<Symbol> symbolList() {
         return this.symbolList;
     }
 
@@ -278,7 +278,7 @@ public class Option implements Serializable {
      *
      * @param symbolList
      */
-    public Option symbolList(List<Symbol> symbolList) {
+    public Option symbolList(LinkedList<Symbol> symbolList) {
         if (this.symbolList == null) {
             this.symbolList = new LinkedList<Symbol>();
         }
@@ -495,7 +495,7 @@ public class Option implements Serializable {
     /**
      * 获取polar值
      */
-    public List<Polar> polar() {
+    public ArrayList<Polar> polar() {
         if (this.polar == null) {
             this.polar = new ArrayList<Polar>();
         }
@@ -507,7 +507,7 @@ public class Option implements Serializable {
      *
      * @param polar
      */
-    public Option polar(List<Polar> polar) {
+    public Option polar(ArrayList<Polar> polar) {
         this.polar = polar;
         return this;
     }
@@ -623,7 +623,7 @@ public class Option implements Serializable {
      *
      * @param dataZoom
      */
-    public Option dataZoom(List<DataZoom> dataZoom) {
+    public Option dataZoom(ArrayList<DataZoom> dataZoom) {
         this.dataZoom = dataZoom;
         return this;
     }
@@ -656,7 +656,7 @@ public class Option implements Serializable {
      *
      * @param xAxis
      */
-    public Option xAxis(List<Axis> xAxis) {
+    public Option xAxis(ArrayList<Axis> xAxis) {
         this.xAxis = xAxis;
         return this;
     }
@@ -666,7 +666,7 @@ public class Option implements Serializable {
      *
      * @param yAxis
      */
-    public Option yAxis(List<Axis> yAxis) {
+    public Option yAxis(ArrayList<Axis> yAxis) {
         this.yAxis = yAxis;
         return this;
     }
@@ -676,7 +676,7 @@ public class Option implements Serializable {
      *
      * @param series
      */
-    public Option series(List<Series> series) {
+    public Option series(ArrayList<Series> series) {
         this.series = series;
         return this;
     }
@@ -686,7 +686,7 @@ public class Option implements Serializable {
      *
      * @param options
      */
-    public Option options(List<Option> options) {
+    public Option options(ArrayList<Option> options) {
         this.options = options;
         return this;
     }
@@ -711,7 +711,7 @@ public class Option implements Serializable {
     /**
      * 获取color值
      */
-    public List<Object> color() {
+    public ArrayList<Object> color() {
         if (this.color == null) {
             this.color = new ArrayList<Object>();
         }
@@ -865,7 +865,7 @@ public class Option implements Serializable {
     /**
      * 数据区域缩放（详见dataZoom）,数据展现范围选择
      */
-    public List<DataZoom> dataZoom() {
+    public ArrayList<DataZoom> dataZoom() {
         if (this.dataZoom == null) {
             this.dataZoom = new ArrayList<DataZoom>();
         }
@@ -895,7 +895,7 @@ public class Option implements Serializable {
     /**
      * 直角坐标系中横轴数组（详见xAxis），数组中每一项代表一条横轴坐标轴，标准（1.0）中规定最多同时存在2条横轴
      */
-    public List<Axis> xAxis() {
+    public ArrayList<Axis> xAxis() {
         if (this.xAxis == null) {
             this.xAxis = new ArrayList<Axis>();
         }
@@ -925,7 +925,7 @@ public class Option implements Serializable {
     /**
      * 直角坐标系中横轴数组（详见xAxis），数组中每一项代表一条横轴坐标轴，标准（1.0）中规定最多同时存在2条横轴
      */
-    public List<Axis> yAxis() {
+    public ArrayList<Axis> yAxis() {
         if (this.yAxis == null) {
             this.yAxis = new ArrayList<Axis>();
         }
@@ -955,7 +955,7 @@ public class Option implements Serializable {
     /**
      * 驱动图表生成的数据内容（详见series），数组中每一项代表一个系列的特殊选项及数据
      */
-    public List<Series> series() {
+    public ArrayList<Series> series() {
         if (this.series == null) {
             this.series = new ArrayList<Series>();
         }
@@ -979,7 +979,7 @@ public class Option implements Serializable {
     /**
      * 当使用timeline时，每一组数据要放到单独的option中
      */
-    public List<Option> options() {
+    public ArrayList<Option> options() {
         if (this.options == null) {
             this.options = new ArrayList<Option>();
         }
@@ -1026,7 +1026,7 @@ public class Option implements Serializable {
     /**
      * 获取xAxis值
      */
-    public List<Axis> getxAxis() {
+    public ArrayList<Axis> getxAxis() {
         return xAxis;
     }
 
@@ -1035,14 +1035,14 @@ public class Option implements Serializable {
      *
      * @param xAxis
      */
-    public void setxAxis(List<Axis> xAxis) {
+    public void setxAxis(ArrayList<Axis> xAxis) {
         this.xAxis = xAxis;
     }
 
     /**
      * 获取yAxis值
      */
-    public List<Axis> getyAxis() {
+    public ArrayList<Axis> getyAxis() {
         return yAxis;
     }
 
@@ -1051,7 +1051,7 @@ public class Option implements Serializable {
      *
      * @param yAxis
      */
-    public void setyAxis(List<Axis> yAxis) {
+    public void setyAxis(ArrayList<Axis> yAxis) {
         this.yAxis = yAxis;
     }
 

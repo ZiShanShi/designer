@@ -6,8 +6,7 @@ import designer.options.echart.code.EffectType;
 import designer.options.echart.code.SeriesType;
 import designer.options.echart.code.ShowEffectOn;
 import designer.options.echart.series.other.RippleEffect;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 带有涟漪特效动画的散点（气泡）图

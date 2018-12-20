@@ -3,8 +3,7 @@
 package designer.options.echart.series;
 
 import designer.options.echart.code.SeriesType;
-import lombok.Getter;
-import lombok.Setter;
+
 
 /**
  * 平行坐标系
@@ -13,6 +12,8 @@ import lombok.Setter;
  */
 
 public class Parallel extends Series<Parallel> {
+
+    private String id;
     /**
      * 使用的平行坐标系的 index，在单个图表实例中存在多个平行坐标系的时候有用
      */
@@ -67,6 +68,15 @@ public class Parallel extends Series<Parallel> {
 
     public Parallel activeOpacity(Double activeOpacity) {
         this.activeOpacity = activeOpacity;
+        return this;
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public Parallel id(String id) {
+        this.id = id;
         return this;
     }
 }

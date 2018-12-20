@@ -9,6 +9,7 @@ import designer.options.echart.style.ItemStyle;
  */
 
 public class Geo extends Basic<Geo> implements Component {
+    private String id;
     private String map;
     private Roam roam;
     private ItemStyle label;
@@ -53,6 +54,15 @@ public class Geo extends Basic<Geo> implements Component {
 
     public Geo itemStyle(ItemStyle itemStyle) {
         this.itemStyle = itemStyle;
+        return this;
+    }
+
+    public String id() {
+        return id;
+    }
+
+    public Geo id(String id) {
+        this.id = id;
         return this;
     }
 }

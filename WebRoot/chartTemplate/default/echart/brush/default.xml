@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<brush remark="区域选择组件">
+
+    <id></id>
+    <toolbox>['rect', 'polygon', 'keep', 'clear']</toolbox>
+    <brushLink remark="不同系列间，选中的项可以联动。"></brushLink>
+    <seriesIndex>all</seriesIndex>
+    <geoIndex></geoIndex>
+    <xAxisIndex></xAxisIndex>
+    <yAxisIndex></yAxisIndex>
+    <brushType remark="rect,polygon,lineX,lineY">rect</brushType>
+    <brushMode remark="multiple,single">single</brushMode>
+    <transformable remark="好的选框是否可以被调整形状或平移。">true</transformable>
+    <throttleType remark="debounce,fixRate">fixRate</throttleType>
+    <throttleDelay>0</throttleDelay>
+    <removeOnClick remark="是否支持『单击清除所有选框』。">true</removeOnClick>
+    <z>10000</z>
+    <brushStyle>
+        <borderWidth>1</borderWidth>
+        <color>rgba(120,140,180,0.3)</color>
+        <borderColor>rgba(120,140,180,0.8)</borderColor>
+    </brushStyle>
+
+    <inBrush>
+        <symbol></symbol>
+        <symbolSize></symbolSize>
+        <color></color>
+        <colorAlpha></colorAlpha>
+        <opacity></opacity>
+        <colorLightness></colorLightness>
+        <colorSaturation></colorSaturation>
+        <colorHue></colorHue>
+    </inBrush>
+
+    <outBrush>
+        <symbol></symbol>
+        <symbolSize></symbolSize>
+        <color></color>
+        <colorAlpha></colorAlpha>
+        <opacity></opacity>
+        <colorLightness></colorLightness>
+        <colorSaturation></colorSaturation>
+        <colorHue></colorHue>
+    </outBrush>
+</brush>
+    

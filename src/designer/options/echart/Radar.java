@@ -5,7 +5,6 @@ import designer.options.echart.style.TextStyle;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
 /**
  * 雷达图
@@ -39,7 +38,7 @@ public class Radar extends AbstractData<Radar> implements Component {
      * [ default: ['50%', '50%'] ]的中心（圆心）坐标，数组的第一项是横坐标，第二项是纵坐标。
      * 支持设置成百分比，设置成百分比时第一项是相对于容器宽度，第二项是相对于容器高度。
      */
-    private Object[] center;
+    private String center;
 
     /**
      * [ default: 75% ]的半径，数组的第一项是内半径，第二项是外半径。支持设置成百分比，相对于容器高宽中较小的一项的一半。
@@ -109,7 +108,7 @@ public class Radar extends AbstractData<Radar> implements Component {
     /**
      * 坐标轴在 grid 区域中的分隔区域，默认不显示。
      */
-    private List<Indicator> indicator;
+    private ArrayList<Indicator> indicator;
 
     public Radar id(String id) {
         this.id = id;
@@ -126,7 +125,7 @@ public class Radar extends AbstractData<Radar> implements Component {
         return this;
     }
 
-    public Radar center(Object[] center) {
+    public Radar center(String center) {
         this.center = center;
         return this;
     }
@@ -196,7 +195,7 @@ public class Radar extends AbstractData<Radar> implements Component {
         return this;
     }
 
-    public Radar indicator(List<Indicator> indicator) {
+    public Radar indicator(ArrayList<Indicator> indicator) {
         this.indicator = indicator;
         return this;
     }
@@ -214,7 +213,7 @@ public class Radar extends AbstractData<Radar> implements Component {
     /**
      * 雷达指标列表，同时也是label内容
      */
-    public List<Indicator> indicator() {
+    public ArrayList<Indicator> indicator() {
         if (this.indicator == null) {
             this.indicator = new ArrayList<Indicator>();
         }
