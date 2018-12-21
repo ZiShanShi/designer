@@ -14,11 +14,16 @@ import java.util.List;
 
 
 public class ChartOption implements IOption{
-
+    private String topicId;
     private Option realChartOption;
     private Theme theme;
 
     public ChartOption() {
+        this.realChartOption = DesignerComponentFactory.getInstance().getDefautOption();
+    }
+
+    public ChartOption(String topicId) {
+        this.topicId = topicId;
         this.realChartOption = DesignerComponentFactory.getInstance().getDefautOption();
     }
 
@@ -107,6 +112,15 @@ public class ChartOption implements IOption{
 
     public ChartOption setTheme(Theme theme) {
         this.theme = theme;
+        return this;
+    }
+
+    public String getTopicId() {
+        return topicId;
+    }
+
+    public ChartOption setTopicId(String topicId) {
+        this.topicId = topicId;
         return this;
     }
 }

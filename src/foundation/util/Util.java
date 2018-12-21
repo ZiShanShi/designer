@@ -392,9 +392,7 @@ public class Util {
 			return (T) StringToList(dataValue, listClaz);
 		}
 
-		
 		return null;
-		
 	}
 	
 	public static <T> T StringToOther(String dataValue, DataType type) throws ParseException {
@@ -414,7 +412,7 @@ public class Util {
 		if (Util.isEmptyStr(dataValue)) {
 			return null;
 		}
-		List<T> resultList = new ArrayList<T>();
+		List<T> resultList = new ArrayList<>();
 		String[] splitedData = dataValue.split(split);
 		for (String oneValue : splitedData) {
 			T stringToOther = StringToOther(oneValue, claz);
@@ -927,6 +925,10 @@ public class Util {
             object = 0.0;
         }else if (DataType.Boolean.equals(type)) {
             object = false;
+        }else if (DataType.ArrayList.equals(type)) {
+            object = new ArrayList<>();
+        }else if (DataType.LinkedList.equals(type)) {
+            object = new LinkedList<>();
         }
         //TODO 未完成
 	    return  object;

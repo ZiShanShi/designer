@@ -2,15 +2,19 @@
 
 <topic name="001">
     <hasgrid>false</hasgrid>
+    <categoryAxis>x</categoryAxis>
 
     <chartType>
             <bar minDimension="1" minMensurment="1" default="true">true</bar>
             <line minDimension="1" minMensurment="1">true</line>
-
     </chartType>
 
+    <nowChartType>bar</nowChartType>
+
     <dimensions></dimensions>
-    <mesurments></mesurments>
+    <mesurments>
+        <!--<one type="bar">11</one>-->
+    </mesurments>
 
     <datatype remark="目前仅支持sql db 不支持 后台拼接数据">db</datatype>
     <dataname></dataname>

@@ -11,6 +11,8 @@ public class DesignerComponentFactory {
     private GsonOption defautOption;
     private designer.topic.Topic baseTopic;
     private Map<String, Theme> themeMap;
+    private Map<String, Topic> topicMap;
+    private Map<String, ChartOption> optionMap;
 
     public static DesignerComponentFactory getInstance() {
         if (ourInstance == null) {
@@ -25,6 +27,8 @@ public class DesignerComponentFactory {
 
     private DesignerComponentFactory() {
         themeMap = new HashMap<>();
+        optionMap = new HashMap<>();
+        topicMap = new HashMap<>();
     }
 
     public void putTheme(Theme theme) {
@@ -33,6 +37,20 @@ public class DesignerComponentFactory {
             themeMap = new HashMap<>();
         }
         themeMap.put(name, theme);
+    }
+    public void putOption(ChartOption option) {
+        String topicId = option.getTopicId();
+        if (optionMap == null) {
+            optionMap = new HashMap<>();
+        }
+        optionMap.put(topicId, option);
+    }
+    public void putTopic(Topic topic) {
+        String id = topic.getId();
+        if (topicMap == null) {
+            topicMap = new HashMap<>();
+        }
+        topicMap.put(id, topic);
     }
 
     public Theme getThemeByName(String name) {

@@ -3,7 +3,10 @@ package designer;
 import designer.engine.DesignContext;
 import designer.options.DesignerComponentFactory;
 import designer.topic.Topic;
+import designer.xml.EDesignerXmlType;
+import designer.xml.XmlReader;
 import foundation.callable.Callable;
+import foundation.config.Configer;
 import foundation.data.Entity;
 import foundation.persist.DataHandler;
 
@@ -39,10 +42,11 @@ public class DesignerConsole extends Callable {
 
         String topicName = topicLine.getString(DesignerConstant.FIELD_TOPICNAME);
         String path = topicLine.getString(DesignerConstant.FIELD_TOPICpath);
-
+        path = path.replace(DesignerConstant.ROOT, Configer.getPath_Application());
         File topicFile = DesignerUtil.checkFileLegality(path);
         Topic topic = new Topic(topicId, topicName);
-        DesignerUtil.loadTopicFile(topicFile ,topic);
+        XmlReader topicReader = new XmlReader(EDesignerXmlType.realTopic);
+        topicReader.read(topicFile ,topic);
 
     }
 

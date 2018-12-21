@@ -15,13 +15,12 @@ public class ChartRefected {
     private Object componentBean;
 
     public ChartRefected(boolean isSimple, Class<?> chartComponentClaz, Object componentBean) {
+        this(chartComponentClaz, componentBean);
         this.isSimple = isSimple;
-        this.chartComponentClaz = chartComponentClaz;
-        this.componentBean = componentBean;
     }
 
     public ChartRefected(Class<?> chartComponentClaz, Object componentBean) {
-        this.chartComponentClaz = chartComponentClaz;
+        this(chartComponentClaz);
         this.componentBean = componentBean;
 
     }public ChartRefected(Class<?> chartComponentClaz) {

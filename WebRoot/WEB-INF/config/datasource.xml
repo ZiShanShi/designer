@@ -16,7 +16,7 @@
 <datasource>
 	<defination
     	driverName="com.mysql.jdbc.Driver"
-        url="jdbc:mysql://localhost:3306/bd?useUnicode=true&amp;characterEncoding=UTF8&amp;rewriteBatched                                                                                                                                                                                                                                                                       Statements=true"
+        url="jdbc:mysql://localhost:3306/designer?useUnicode=true&amp;characterEncoding=UTF8&amp;rewriteBatched                                                                                                                                                                                                                                                                       Statements=true"
         username="root"
         password="123456"
         characterEncoding="utf-8"

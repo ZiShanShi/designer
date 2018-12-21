@@ -34,6 +34,22 @@ public class DataHandler {
 		
 		return loader.getDataSet();
 	}
+	public static EntitySet getDataSet(String tableName, String fields, String filter, String groupBy, String orderby) throws Exception {
+		NamedSQL namedSQL = NamedSQL.getInstance("getFieldsDataSet");
+		if (!Util.isEmptyStr(groupBy)) {
+			filter = filter + " group by " +groupBy;
+		}
+
+		namedSQL.setTableName(tableName);
+		namedSQL.setFilter(filter);
+		namedSQL.setOrderBy(orderby);
+		namedSQL.setFieldNames(fields);
+
+		EntitySetLoader loader = new EntitySetLoader(tableName);
+		SQLRunner.getData(namedSQL, loader);
+
+		return loader.getDataSet();
+	}
 	
 	public static EntitySet getDataSetByPage(TableMeta tableMeta, String fields, String filter, Page page, String orderby) throws Exception {
 		NamedSQL namedSQL = NamedSQL.getInstance("getFieldsDataSet");
