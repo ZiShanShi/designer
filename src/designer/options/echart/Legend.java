@@ -12,6 +12,7 @@ import java.util.*;
 
 /**
  * @author kimi
+ * //TODO legend data 对象需要修改  同样的还有axis
  */
 
 public class Legend extends Basic<Legend> implements Data<Legend>, Component {

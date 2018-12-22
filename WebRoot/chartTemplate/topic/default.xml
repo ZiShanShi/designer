@@ -12,9 +12,9 @@
     <nowChartType>bar</nowChartType>
 
     <dimensions></dimensions>
-    <mesurments>
+    <measurments>
         <!--<one type="bar">11</one>-->
-    </mesurments>
+    </measurments>
 
     <datatype remark="目前仅支持sql db 不支持 后台拼接数据">db</datatype>
     <dataname></dataname>

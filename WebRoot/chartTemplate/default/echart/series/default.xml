@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<series remark="系列列表。每个系列通过 type 决定自己的图表类型" typ="array">
+<root>
+<series remark="系列列表。每个系列通过 type 决定自己的图表类型" type="array">
     <!--未完成  effectScatter tree treemap sunburst boxplot candlestick heatmap map parallel lines graph sankey pictorialBar themeRiver custom-->
     <object type="line">
         <type>line</type>
@@ -6741,4 +6742,4 @@
         </tooltip>
     </object>
 </series>
-    
+</root>

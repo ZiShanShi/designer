@@ -14,7 +14,6 @@
     <xAxis type="link" parent="grid" essential="false" >
     </xAxis>
 
-
     <yAxis type="link" parent="grid" essential="false" >
     </yAxis>
 

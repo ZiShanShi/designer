@@ -8,6 +8,9 @@ import designer.options.echart.Tooltip;
 import designer.options.echart.code.*;
 import designer.options.echart.style.ItemStyle;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Description: Series
  *
@@ -15,6 +18,9 @@ import designer.options.echart.style.ItemStyle;
  */
 
 public abstract class Series<T> extends AbstractData<T> implements Chart {
+
+    private Map<String, Object> defaultMap = new HashMap<>();
+
     /**
      * 是否启用图例（legend）hover时的联动响应（高亮显示）
      */
@@ -616,5 +622,9 @@ public abstract class Series<T> extends AbstractData<T> implements Chart {
     public T showAllSymbol(Boolean showAllSymbol) {
         this.showAllSymbol = showAllSymbol;
         return (T) this;
+    }
+
+    public void PutDefaultObject(String name, Object o) {
+        defaultMap.put(name,o);
     }
 }

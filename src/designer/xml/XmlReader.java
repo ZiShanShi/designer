@@ -8,7 +8,11 @@ import designer.exception.DesignerOptionException;
 import designer.exception.DesignerOptionsFileException;
 import designer.options.*;
 import designer.options.echart.Option;
+import designer.options.echart.axis.Axis;
+import designer.options.echart.axis.CategoryAxis;
+import designer.options.echart.axis.ValueAxis;
 import designer.options.echart.json.GsonOption;
+import designer.options.echart.series.Series;
 import designer.topic.*;
 import foundation.config.Configer;
 import foundation.data.DataType;
@@ -20,13 +24,12 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 
 import java.io.File;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
+import java.lang.reflect.*;
+import java.text.MessageFormat;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -65,12 +68,12 @@ public class XmlReader {
 
         switch (readerType) {
             case defaultChart:
-                loadDefaultFile(file, chartEnginePath, (GsonOption) obj);
+                loadDefaultFile(file, (GsonOption) obj);
                 break;
             case theme:
                 break;
             case realChart:
-                loadDefaultFile(file, chartEnginePath, (GsonOption) obj);
+                loadDefaultFile(file, (GsonOption) obj);
 //                DesignerUtil.combine((GsonOption) obj);
                 break;
             case realTopic:
@@ -85,7 +88,7 @@ public class XmlReader {
 
     }
 
-    public void loadDefaultFile(File defaultFile, String chartEngintPath, GsonOption defaultOption) {
+    public void loadDefaultFile(File defaultFile, GsonOption defaultOption) {
         SAXReader reader = new SAXReader();
 
         Document doc = null;
@@ -93,6 +96,10 @@ public class XmlReader {
             doc = reader.read(defaultFile);
             Element root = doc.getRootElement();
             Attribute attribute = root.attribute(DesignerConstant.keyword_pathDefault);
+            Attribute type = root.attribute(DesignerConstant.keyword_type);
+            if (type != null) {
+                System.out.println("haha");
+            }
             String pathDefault = attribute.getValue();
             isPathDefault = Util.stringToBoolean(pathDefault);
 
@@ -100,7 +107,7 @@ public class XmlReader {
             while (iterator.hasNext()) {
                 Element child = iterator.next();
 
-                loadOneTierChild(defaultOption,defaultFile, chartEngintPath, child);
+                loadOneTierChild(defaultOption, defaultFile, child);
             }
         } catch (DocumentException e) {
             e.printStackTrace();
@@ -108,9 +115,13 @@ public class XmlReader {
 
     }
 
-    private void loadOneTierChild(Object eleOption, File defaultFile, String chartEngintPath, Element child) {
+    private void loadOneTierChild(Object eleOption, File defaultFile, Element child) {
+        // eleOption 可能为list 不是实际 数据类型;
         String childName = child.getName();
         try {
+            if (childName.equalsIgnoreCase("xaxis")) {
+                System.out.println("1");
+            }
             if (DesignerConstant.keyelement_IF.equalsIgnoreCase(childName)) {
                 Iterator<Attribute> attributeIterator = child.attributeIterator();
                 boolean checkd = true;
@@ -157,61 +168,10 @@ public class XmlReader {
                 // chartEnginePath = Util.filePathJion(chartEnginePath, parentPathName);
             }
 
-            ChartRefected componentReflected = load2Options(eleOption, child);
 
-            if (componentReflected == null) {
-                System.out.println(childName);
-                return;
-            }
-            Attribute typeAttr = child.attribute(DesignerConstant.keyword_type);
-            if (typeAttr == null) {
-                if (componentReflected.isSimple()) {
-                    boolean seted = trySetSimpleValue(eleOption, child, childName, componentReflected);
-                    if (!seted) {
-                        throw new DesignerOptionException(childName + "设值不成功");
-                    }
 
-                } else {
-                    //不是基础类型 也没有type 还有type是Object类型 说明是本xml内定义的
-                    Object componentBean = componentReflected.getComponentBean();
-                    boolean seted = true;
-                    if (componentReflected.getChartComponentClaz().equals(Object.class)) {
-                        seted = trySetSimpleValue(eleOption, child, childName, componentReflected);
+            loadWhenParamsIsType(eleOption, defaultFile, child);
 
-                    }
-
-                    Iterator<Element> iterator = child.elementIterator();
-                    if (!seted && !iterator.hasNext()) {
-                        throw new DesignerOptionException(childName + "设值不成功, 并且没有子元素");
-                    }
-
-                    while (iterator.hasNext()) {
-                        Element next = iterator.next();
-                        loadOneTierChild(componentBean, defaultFile, chartEngintPath, next);
-                    }
-
-                }
-            }
-            else {
-                String typeValue = typeAttr.getValue();
-                if (DesignerConstant.keyword_type_link.equalsIgnoreCase(typeValue)) {
-                    Element urlEle = child.element(DesignerConstant.keyelement_url);
-
-                    Attribute parentAttribute = child.attribute(DesignerConstant.keyword_parent);
-                    if (parentAttribute != null) {
-                        String parentPathName = parentAttribute.getValue();
-                        chartEngintPath = Util.filePathJion(chartEngintPath, parentPathName);
-                    }
-
-                    String eleFilePath = findEleFilePath(defaultFile, chartEngintPath, childName, urlEle);
-
-                    DesignerUtil.checkFileLegality(eleFilePath);
-
-                    File eleFile = new File(eleFilePath);
-
-                    loadChildXml(eleFile, componentReflected, defaultFile, chartEngintPath);
-                }
-            }
         } catch (NoSuchFieldException e) {
             e.printStackTrace();
             //TODO 保护性屏蔽
@@ -220,7 +180,116 @@ public class XmlReader {
             e.printStackTrace();
         } catch (DocumentException e) {
             e.printStackTrace();
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
         }
+    }
+
+    private void loadWhenParamsIsType(Object eleOption, File defaultFile, Element child) throws DocumentException, IllegalAccessException, NoSuchFieldException, ClassNotFoundException {
+        Attribute typeAttr = child.attribute(DesignerConstant.keyword_type);
+        String childName = child.getName();
+
+        ChartRefected componentReflected = load2Options(eleOption, child, defaultFile);
+
+        if (componentReflected == null) {
+            System.out.println(childName);
+            return;
+        }
+        if (typeAttr == null) {
+            if (componentReflected.isSimple()) {
+                boolean seted = trySetSimpleValue(eleOption, child, childName, componentReflected);
+                if (!seted) {
+                    throw new DesignerOptionException(childName + "设值不成功");
+                }
+
+            } else {
+                //不是基础类型 也没有type 还有type是Object类型 说明是本xml内定义的
+                Object componentBean = componentReflected.getComponentBean();
+                boolean seted = true;
+                if (componentReflected.getChartComponentClaz().equals(Object.class)) {
+                    seted = trySetSimpleValue(eleOption, child, childName, componentReflected);
+
+                }
+
+                Iterator<Element> iterator = child.elementIterator();
+                if (!seted && !iterator.hasNext()) {
+                    throw new DesignerOptionException(childName + "设值不成功, 并且没有子元素");
+                }
+
+                while (iterator.hasNext()) {
+                    Element next = iterator.next();
+                    loadOneTierChild(componentBean, defaultFile, next);
+                }
+
+            }
+        }
+        else {
+            String typeValue = typeAttr.getValue();
+            if (DesignerConstant.keyword_type_link.equalsIgnoreCase(typeValue)) {
+                Element urlEle = child.element(DesignerConstant.keyelement_url);
+
+                Attribute parentAttribute = child.attribute(DesignerConstant.keyword_parent);
+                String parentPathName = null;
+                if (parentAttribute != null) {
+                    parentPathName = parentAttribute.getValue();
+                }
+
+                String eleFilePath = findEleFilePath(defaultFile, parentPathName, childName, urlEle);
+
+                DesignerUtil.checkFileLegality(eleFilePath);
+
+                File eleFile = new File(eleFilePath);
+
+                loadChildXml(eleFile, componentReflected, defaultFile);
+            } else if (DesignerConstant.keyword_type_array.equalsIgnoreCase(typeValue)){
+                //default 中 数组数据中一个数据的模板  暂定两种 map  和obj　(series 特殊)
+                List<Element> objectElementList = child.elements(DesignerConstant.keyelement_object);
+                if (childName.equalsIgnoreCase(Series.class.getSimpleName())) {
+                    //series
+                    setSeriesDefault(eleOption, defaultFile, childName, objectElementList);
+                }
+
+            } else if (DesignerConstant.keyelement_object.equalsIgnoreCase(typeValue)) {
+                // type = object
+            }
+        }
+    }
+
+    private void setSeriesDefault(Object eleOption, File defaultFile, String childName, List<Element> objectElementList) throws IllegalAccessException, NoSuchFieldException {
+        ArrayList<Series> serieObjects = new ArrayList<>();
+
+        for (Element objectElement : objectElementList) {
+            if (objectElement == null) {
+                return;
+            }
+            Attribute objectTypeAttr = objectElement.attribute(DesignerConstant.keyword_type);
+            if (objectTypeAttr == null) {
+                throw  new DesignerOptionsFileException(MessageFormat.format("series Object {0}无 type:", childName));
+            }
+            String realClazType = objectTypeAttr.getValue();
+            String packageName = Series.class.getPackage().getName();
+            realClazType = realClazType.substring(0, 1).toUpperCase() + realClazType.substring(1);
+            String realClazName = Util.stringJoin(packageName,Util.Dot,realClazType);
+            try {
+                Class<? extends Series> realSeries = (Class<? extends Series>) Class.forName(realClazName);
+                Series realseries = realSeries.newInstance();
+
+                Iterator<Element> iterator = objectElement.elementIterator();
+                if (!iterator.hasNext()) {
+                    throw new DesignerOptionException(childName + "设值不成功, 并且没有子元素");
+                }
+
+                while (iterator.hasNext()) {
+                    Element next = iterator.next();
+                    loadOneTierChild(realseries, defaultFile, next);
+                }
+            } catch (ClassNotFoundException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+        }
+        setSimpleChildValue(eleOption, childName, serieObjects);
     }
 
     private boolean trySetSimpleValue(Object eleOption, Element child, String childName, ChartRefected componentReflected) {
@@ -250,43 +319,26 @@ public class XmlReader {
     }
 
 
-    private void loadChildXml(File eleFile, ChartRefected componentReflected, File defaultFile, String chartEngintPath) throws DocumentException {
+    private void loadChildXml(File eleFile, ChartRefected componentReflected, File defaultFile) throws DocumentException {
         SAXReader reader = new SAXReader();
         Document doc = reader.read(eleFile);
         Element rootElement = doc.getRootElement();
         Object componentBean = componentReflected.getComponentBean();
-        loadDetailChild(rootElement,componentBean, defaultFile, chartEngintPath);
+        loadDetailChild(rootElement,componentBean, defaultFile);
     }
 
-    private void loadDetailChild(Element root, Object componentBean, File defaultFile, String chartEngintPath) {
+    private void loadDetailChild(Element root, Object componentBean, File defaultFile) {
         Iterator<Element> iterator = root.elementIterator();
         while (iterator.hasNext()) {
             Element child = iterator.next();
-            loadOneTierChild(componentBean, defaultFile, chartEngintPath, child);
+            loadOneTierChild(componentBean, defaultFile, child);
         }
     }
 
 
-    private ChartRefected load2Options(Object defaultOption, Element child) {
+    private ChartRefected load2Options(Object defaultOption, Element child, File defaultFile) throws ClassNotFoundException {
         String childName = child.getName();
-        Attribute essentialAttr = child.attribute(DesignerConstant.keyword_essential);
-        Attribute defaultAttr = child.attribute(DesignerConstant.keyword_default);
-        boolean isEessential = false; //TODO 默认是不必备
-        boolean isDefault = false; //TODO 默认是不默认有
-
-        if (essentialAttr != null) {
-            String essentialValue = essentialAttr.getValue();
-            isEessential = Util.stringToBoolean(essentialValue);
-        }
-        if (defaultAttr != null) {
-            String defaultValue = defaultAttr.getValue();
-            isDefault = Util.stringToBoolean(defaultValue);
-        }
-
-        /*if (!(isEessential || isDefault)) {
-            //TODO 既不是 必备的 也不是默认的 不加defaultOption去
-            return null;
-        }*/
+        checkEssentialAndDefault(child);
         ChartRefected chartRefected = null;
 
         try {
@@ -307,6 +359,47 @@ public class XmlReader {
 
             Object componentObject;
             //TODO list 需要特殊处理 暂未
+            if (DataType.List.equals(dataType) || DataType.ArrayList.equals(dataType) || DataType.LinkedList.equals(dataType)) {
+                List<Object> objectList = null;
+                if (DataType.ArrayList.equals(dataType)) {
+                    objectList = new ArrayList<>();
+                } else if (DataType.LinkedList.equals(dataType)) {
+                    objectList = new LinkedList<>();
+                }
+                Type genericType = declaredField.getGenericType();
+                if (genericType != null && genericType instanceof ParameterizedType) {
+                    ParameterizedType pt = (ParameterizedType) genericType;
+                    //得到泛型里的class类型对象
+                    Class<?> genericClazz = (Class<?>) pt.getActualTypeArguments()[0];
+                    Object genericObject = null;
+                    if (genericClazz.getName().equalsIgnoreCase(Axis.class.getName())) {
+                        if (childName.equalsIgnoreCase(DesignerConstant.fix_element_xaxis)) {
+                            genericObject = new CategoryAxis();
+                        } else if (childName.equalsIgnoreCase(DesignerConstant.fix_element_yaxis)){
+                            genericObject = new ValueAxis();
+                        }
+
+                    }else if (genericClazz.getName().equalsIgnoreCase(Series.class.getName())){
+                            //series
+                            List<Element> objectElementList = child.elements(DesignerConstant.keyelement_object);
+                            setSeriesDefault(defaultOption, defaultFile, childName, objectElementList);
+                    }
+                    else {
+                        genericObject = genericClazz.newInstance();
+                    }
+
+                    //loadWhenParamsIsType(defaultOption, defaultFile, child);
+
+                    Iterator<Element> iterator = child.elementIterator();
+                    while (iterator.hasNext()) {
+                        Element next = iterator.next();
+                        loadOneTierChild(genericObject, defaultFile, next);
+                        objectList.add(genericObject);
+                    }
+
+                }
+                setSimpleChildValue(defaultOption, childName, objectList);
+            }
 
             if (!(DataType.Unknown.equals(dataType)) || DataType.Enum.equals(superDataType)) {
                 chartRefected.setSimple(true);
@@ -338,6 +431,27 @@ public class XmlReader {
         return chartRefected;
     }
 
+    private void checkEssentialAndDefault(Element child) {
+        Attribute essentialAttr = child.attribute(DesignerConstant.keyword_essential);
+        Attribute defaultAttr = child.attribute(DesignerConstant.keyword_default);
+        boolean isEessential = false; //TODO 默认是不必备
+        boolean isDefault = false; //TODO 默认是不默认有
+
+        if (essentialAttr != null) {
+            String essentialValue = essentialAttr.getValue();
+            isEessential = Util.stringToBoolean(essentialValue);
+        }
+        if (defaultAttr != null) {
+            String defaultValue = defaultAttr.getValue();
+            isDefault = Util.stringToBoolean(defaultValue);
+        }
+
+        /*if (!(isEessential || isDefault)) {
+            //TODO 既不是 必备的 也不是默认的 不加defaultOption去
+            return null;
+        }*/
+    }
+
     private Field getReflectField(Object defaultOption, String childName) throws NoSuchFieldException {
         childName = fixEleNameName(childName);
         Class<? extends Object> optionClass = defaultOption.getClass();
@@ -357,6 +471,7 @@ public class XmlReader {
                 }
             }
         }
+
         return declaredField;
     }
 
@@ -368,7 +483,7 @@ public class XmlReader {
         }
     }
 
-    private String findEleFilePath(File defaultFile, String chartEngintPath, String childName, Element urlEle) {
+    private String findEleFilePath(File defaultFile, String parentPathName, String childName, Element urlEle) {
         String eleFilePath;
         if (isPathDefault) {
             String eleFileName;
@@ -379,7 +494,12 @@ public class XmlReader {
             }
             String suffix = Configer.getParam(DesignerConstant.DEFAULT_CHART_SUFFIX);
             String fileCompleteName= Util.filePathJion(childName, Util.stringJoin(eleFileName, Util.Dot, suffix));
-            eleFilePath = Util.filePathJion(chartEngintPath, fileCompleteName);
+            if (Util.isEmptyStr(parentPathName)) {
+                eleFilePath = Util.filePathJion(chartEnginePath, fileCompleteName);
+            } else {
+                eleFilePath = Util.filePathJion(chartEnginePath, parentPathName + Util.java_slash +fileCompleteName);
+            }
+
         }else{
             if (urlEle != null) {
                 eleFilePath = urlEle.getStringValue();
@@ -414,7 +534,6 @@ public class XmlReader {
 
     public void loadTopicFile(File topicFile, Topic topic) {
         loadTopicFile(topicFile, false, topic);
-
     }
 
     private  void loadTopicElement(Element root, Topic topic) {
@@ -427,8 +546,8 @@ public class XmlReader {
     }
 
     private void load2Topic(Element childElement, Topic topic) {
-        String name = childElement.getName();
-        String elementStringValue = childElement.getStringValue();
+        String name = DesignerUtil.fixXmlStringValue(childElement.getName());
+        String elementStringValue = DesignerUtil.fixXmlStringValue(childElement.getStringValue());
         if (DesignerConstant.HAS_GRID.equalsIgnoreCase(name)) {
             topic.setHasGrid(Util.stringToBoolean(elementStringValue));
         } else if (DesignerConstant.CHART_TYPE.equalsIgnoreCase(name)) {
@@ -471,7 +590,7 @@ public class XmlReader {
                     mensurmentType = EChartType.valueOf(typeAttr.getValue());
                 }
                 Mensurment mensurment = new Mensurment(mensurmentType);
-                String mensurmentName = mesurmentEle.getStringValue();
+                String mensurmentName = DesignerUtil.fixXmlStringValue(mesurmentEle.getStringValue());
                 mensurment.setName(mensurmentName);
                 topic.putMensurment(mensurment);
             }
@@ -517,8 +636,14 @@ public class XmlReader {
             ChartOption chartOption;
             Element path = childElement.element("path");
             if (path != null) {
-                Option realOption = DesignerUtil.combineOption(path);
-                chartOption = new ChartOption(realOption);
+                String filePath = path.getStringValue();
+                if (Util.isEmptyStr(filePath)) {
+                    chartOption = new ChartOption();
+                } else {
+                    Option realOption = DesignerUtil.combineOption(path);
+                    chartOption = new ChartOption(realOption);
+                }
+
             } else {
                 chartOption = new ChartOption();
             }
@@ -529,6 +654,7 @@ public class XmlReader {
                 Theme realTheme = DesignerComponentFactory.getInstance().getThemeByName(themeName);
                 chartOption.setTheme(realTheme);
             }
+            topic.setChartOption(chartOption);
         }else if (DesignerConstant.GRID_OPTION.equalsIgnoreCase(name)) {
             //TODO 暂无
         }else if (DesignerConstant.CATEGORY_AXIS.equalsIgnoreCase(name)) {

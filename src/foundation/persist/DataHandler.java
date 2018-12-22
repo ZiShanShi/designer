@@ -36,6 +36,9 @@ public class DataHandler {
 	}
 	public static EntitySet getDataSet(String tableName, String fields, String filter, String groupBy, String orderby) throws Exception {
 		NamedSQL namedSQL = NamedSQL.getInstance("getFieldsDataSet");
+		if (Util.isEmptyStr(filter)) {
+			filter = " 1=1 ";
+		}
 		if (!Util.isEmptyStr(groupBy)) {
 			filter = filter + " group by " +groupBy;
 		}

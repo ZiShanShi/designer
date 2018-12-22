@@ -1,6 +1,8 @@
 package designer.options;
 
 import designer.options.echart.series.*;
+import foundation.util.Util;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.List;
 
@@ -27,47 +29,47 @@ public class SeriesBuilder {
         return builder;
     }
 
-    public static Series createBaseDataSeries(EChartType type, String mensurmentName, List<String> mensurmentDataList) {
+    public static Series createBaseDataSeries(EChartType type, String measurmentName, List<String> measurmentDataList) {
         Series series = null;
         switch (type) {
             //TODO 未完
             case bar:
-                 series = new Bar(mensurmentName);
+                 series = new Bar(measurmentName);
                  break;
             case map:
-                series = new Map(mensurmentName);
+                series = new Map(measurmentName);
                 break;
             case pie:
-                series = new Pie(mensurmentName);
+                series = new Pie(measurmentName);
                 break;
             case line:
-                series = new Line(mensurmentName);
+                series = new Line(measurmentName);
                 break;
             case gauge:
-                series = new Gauge(mensurmentName);
+                series = new Gauge(measurmentName);
                 break;
             case graph:
-                series = new Graph(mensurmentName);
+                series = new Graph(measurmentName);
                 break;
             case radar:
-                series = new RadarSeries(mensurmentName);
+                series = new RadarSeries(measurmentName);
                 break;
             case lines:
-                series = new Lines(mensurmentName);
+                series = new Lines(measurmentName);
                 break;
             case funnel:
-                series = new Funnel(mensurmentName);
+                series = new Funnel(measurmentName);
                 break;
             case scatter:
-                series = new Scatter(mensurmentName);
+                series = new Scatter(measurmentName);
                 break;
 
             default:
-                series = new Bar(mensurmentName);
+                series = new Bar(measurmentName);
                 break;
         }
 
-        series.data(mensurmentDataList);
+        series.data(StringUtils.join(measurmentDataList.toArray(), Util.comma));
         return  series;
     }
 }

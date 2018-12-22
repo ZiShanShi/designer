@@ -42,9 +42,5 @@
       </library>
     </orderEntry>
     <orderEntry type="library" name="Java EE 6-Java EE 6" level="project" />
-    <orderEntry type="library" name="lucene-core-6.3.0" level="project" />
-    <orderEntry type="library" name="lucene-core-4.0.0" level="project" />
-    <orderEntry type="library" name="gson-2.3.1" level="project" />
-    <orderEntry type="library" name="gson-2.5" level="project" />
   </component>
 </module>

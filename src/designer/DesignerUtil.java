@@ -2,7 +2,6 @@ package designer;
 
 import designer.exception.DesignerBaseException;
 import designer.exception.DesignerFileException;
-import designer.options.ChartOption;
 import designer.options.DesignerComponentFactory;
 import designer.options.echart.Option;
 import designer.topic.Topic;
@@ -34,7 +33,7 @@ public class DesignerUtil {
         rawValue = rawValue.replaceAll(Util.String_Escape_newSpace,Util.String_Space);
         rawValue = rawValue.trim();
         if (Util.isEmptyStr(rawValue)) {
-            return null;
+            return Util.String_Empty;
         }else {
             return rawValue;
         }
@@ -51,41 +50,36 @@ public class DesignerUtil {
     }
 
     public static Option combineOption(Element path) {
+        //TODO
         return null;
     }
 
     public static void combine(Topic topic) {
-        //TODO 组合成完整的topic
         combine(topic, DesignerComponentFactory.getInstance().getBaseTopic());
     }
-    public static void combine(ChartOption option) {
-        //TODO 组合成完整的option
+    public static void combine(Option option) {
         combine(option, DesignerComponentFactory.getInstance().getDefautOption());
     }
 
     public static void combine(Topic topic, Topic baseTopic) {
-        //TODO 组合成完整的topic
+        //组合成完整的topic
         try {
             combineObj(topic, baseTopic);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-    public static void combine(ChartOption option, Option baseOption) {
-        //TODO 组合成完整的option
+    public static void combine(Option option, Option baseOption) {
+        // 组合成完整的option
         try {
             combineObj(option, baseOption);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (NoSuchFieldException e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    public static  void combineObj (Object targetObj, Object sourseObj) throws IllegalAccessException, NoSuchFieldException {
+    public static  void combineObj (Object targetObj, Object sourseObj) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         Class<?> targetClass = targetObj.getClass();
         Class<?> sourseClass = sourseObj.getClass();
 
@@ -111,6 +105,11 @@ public class DesignerUtil {
             boolean isSample = checkFieldSimple(fieldClass);
             if (isSample) {
                 DataType dataType = DataType.valueOfString(fieldClass.getSimpleName());
+
+                if (targetValue != null || sourseValue == null) {
+                    continue;
+                }
+
                 if (DataType.List.equals(dataType)) {
                     Type genericType = targetField.getGenericType();
                     if (genericType != null && genericType instanceof ParameterizedType) {
@@ -120,25 +119,37 @@ public class DesignerUtil {
                         setListTypeValue(genericClazz, targetValue, sourseValue);
                     }
                 }
-                if (targetValue != null || sourseValue == null) {
-                    continue;
-                }
+
                 DesignerUtil.setSimpleValue(targetObj, targetField, sourseValue);
             } else {
                 if (sourseValue == null) {
                     continue;
                 }
-                combineObj(targetValue , sourseValue);
+                if (targetValue == null) {
+                    DesignerUtil.setSimpleValue(targetObj, targetField, sourseValue);
+                } else {
+                    combineObj(targetValue , sourseValue);
+                }
+
             }
         }
     }
 
-    private static void setListTypeValue(Class<?> targetFieldClaz, Object targetValue, Object sourseValue) throws IllegalAccessException, NoSuchFieldException {
+    private static void setListTypeValue(Class<?> targetFieldClaz, Object targetValue, Object sourseValue) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         boolean isGenericSample = checkFieldSimple(targetFieldClaz);
         DataType genericClassType = DataType.valueOfString(targetFieldClaz.getSimpleName());
         List targetList = (List) targetValue;
         List soutseList = (List) sourseValue;
-        for (Object oneSourseValue : soutseList) {
+
+        for (int i = 0; i < soutseList.size(); i++) {
+            Object oneSourseValue = soutseList.get(i);
+            Object oneTargetValue = null;
+            if (targetList.size() <= i) {
+                oneTargetValue = targetFieldClaz.newInstance();
+            } else {
+                oneTargetValue = targetList.get(i);
+            }
+
             if (isGenericSample) {
                 if (DataType.List.equals(genericClassType)) {
                     ParameterizedType parameterizedType=(ParameterizedType)targetFieldClaz.getGenericSuperclass();
@@ -156,7 +167,8 @@ public class DesignerUtil {
                 }
                 targetList.add(oneSourseValue);
             } else {
-                combineObj(targetValue , sourseValue);
+
+                combineObj(oneTargetValue , oneSourseValue);
             }
         }
     }

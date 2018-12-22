@@ -182,7 +182,7 @@ public class Topic {
     public void invalidate()  {
         try {
             //1 组合 完整的options
-            DesignerUtil.combine(chartOption);
+            DesignerUtil.combine(chartOption.getRealChartOption());
 
             //2 加载数据
             Option realChartOption = chartOption.getRealChartOption();
@@ -253,7 +253,7 @@ public class Topic {
             realChartOption.xAxis(new ValueAxis());
         }
 
-        realChartOption.legend().data(mensurmentList);
+        realChartOption.legend().data(StringUtils.join(mensurmentList.toArray(),Util.comma));
 
         for (Mensurment mensurment : mensurmentList) {
             EChartType type = mensurment.getType();

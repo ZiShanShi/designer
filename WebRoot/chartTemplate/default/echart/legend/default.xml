@@ -6,10 +6,6 @@
     <show>true</show>
     <zlevel>0</zlevel>
     <z>2</z>
-    <left>auto</left>
-    <top>auto</top>
-    <right>auto</right>
-    <bottom>auto</bottom>
     <orient remark="horizontal,vertical">horizontal</orient>
     <align remark="对齐方式">auto</align>
     <padding>5</padding>

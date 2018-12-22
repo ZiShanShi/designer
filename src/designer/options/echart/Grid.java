@@ -20,7 +20,7 @@ public class Grid extends Basic<Grid> implements Component {
      */
     private Object y2;
     /**
-     * grid 区域是否包含坐标轴的刻度标签，在无法确定坐标轴标签的宽度，容器有比较小无法预留较多空间的时候，可以设为 true 防止标签溢出容器
+     * grid 区域是否包含坐标轴的刻度标签，在无法确定坐标轴标签的宽度，容器有比较小无法预留较多空间的时候，可以设为 rue 防止标签溢出容器
      */
     private Boolean containLabel;
 

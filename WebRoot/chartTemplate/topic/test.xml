@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <topic>
 
-    <dataname>text</dataname>
+    <dataname>flowslit</dataname>
     <dimensions>
         customercode;
     </dimensions>
-    <mesurments>
+    <measurments>
         <one>qty</one>
         <one>qty_original</one>
         <!--<one type="bar">11</one>-->
-    </mesurments>
+    </measurments>
 </topic>

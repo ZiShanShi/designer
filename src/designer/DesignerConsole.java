@@ -2,6 +2,7 @@ package designer;
 
 import designer.engine.DesignContext;
 import designer.options.DesignerComponentFactory;
+import designer.options.echart.json.GsonUtil;
 import designer.topic.Topic;
 import designer.xml.EDesignerXmlType;
 import designer.xml.XmlReader;
@@ -47,7 +48,7 @@ public class DesignerConsole extends Callable {
         Topic topic = new Topic(topicId, topicName);
         XmlReader topicReader = new XmlReader(EDesignerXmlType.realTopic);
         topicReader.read(topicFile ,topic);
-
+        System.out.println(GsonUtil.format(topic.getChartOption()));
     }
 
 

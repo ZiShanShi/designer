@@ -11,7 +11,7 @@ import java.util.Date;
 
 /**
  * 数据区域缩放。与toolbox.feature.dataZoom同步，仅对直角坐标系图表有效
- *
+ * //TODO 需要考虑构造这种对象的 xml 以及 如何读取 保证option的正确性　同样的还有visvalMap
  * @author kimi
  */
 

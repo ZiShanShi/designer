@@ -1,5 +1,6 @@
 package designer.options;
 
+import designer.options.echart.Option;
 import designer.options.echart.json.GsonOption;
 import designer.topic.Topic;
 
@@ -57,7 +58,7 @@ public class DesignerComponentFactory {
         return  themeMap.get(name);
     }
 
-    public GsonOption getDefautOption() {
+    public Option getDefautOption() {
         return defautOption;
     }
 

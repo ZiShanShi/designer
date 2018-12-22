@@ -17,6 +17,8 @@ import java.util.Arrays;
 
 public class Radar extends AbstractData<Radar> implements Component {
 
+    private Indicator defaultObject;
+
     /**
      * 组件 ID。默认不指定。指定则可用于在 option 或者 API 中引用组件。
      */
@@ -330,4 +332,12 @@ public class Radar extends AbstractData<Radar> implements Component {
 
     }
 
+    public Indicator defaultObject() {
+        return defaultObject;
+    }
+
+    public Radar defaultObject(Indicator defaultObject) {
+        this.defaultObject = defaultObject;
+        return this;
+    }
 }

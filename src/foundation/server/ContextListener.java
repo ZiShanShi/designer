@@ -1,11 +1,10 @@
 package foundation.server;
 
-import javax.servlet.ServletContextEvent;
-import javax.servlet.ServletContextListener;
-
+import foundation.config.Configer;
 import org.apache.log4j.PropertyConfigurator;
 
-import foundation.config.Configer;
+import javax.servlet.ServletContextEvent;
+import javax.servlet.ServletContextListener;
 
 public class ContextListener implements ServletContextListener {
 

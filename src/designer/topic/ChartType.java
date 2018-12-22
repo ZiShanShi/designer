@@ -16,6 +16,8 @@ public class ChartType {
     private Integer maxMensurmentNum;
     private EChartType type;
 
+    public ChartType(){this.type = EChartType.bar;}
+
     public ChartType(EChartType type) {
         this.type = type;
     }

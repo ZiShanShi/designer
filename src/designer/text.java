@@ -2,6 +2,7 @@ package designer;
 
 import designer.options.echart.Title;
 import designer.options.echart.json.GsonOption;
+import designer.options.echart.series.Series;
 import designer.options.echart.style.TextStyle;
 import designer.topic.Topic;
 import foundation.util.Util;
@@ -29,8 +30,16 @@ public class text {
 
         //eee();
         //tetxt();
-        options();
+//        options();
+        clasname();
+    }
 
+    private static void clasname() {
+        String name = Series.class.getName();
+        int length = Series.class.getSimpleName().length();
+        System.out.println(name.substring(0, name.length() - length));
+        String name1 = Series.class.getPackage().getName();
+        System.out.println(name1);
     }
 
     private static void options() {
