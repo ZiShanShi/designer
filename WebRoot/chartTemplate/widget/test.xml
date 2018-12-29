@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<widget>
+
+    <dataname>flowslit</dataname>
+    <chartType>
+    </chartType>
+
+    <Axis>
+        <xAxis type="dimension" position="bottom" >
+            <field>customercode</field>
+            <field>customername</field>
+        </xAxis>
+
+        <yAxis type="measurment" position="left" name="左轴">
+
+            <field>qty_original</field>
+        </yAxis>
+        <yAxis type="measurment" position="right">
+            <field type="line">qty</field>
+        </yAxis>
+    </Axis>
+    <filters>
+        <segment name="typecode" link="=" type="value">佣金</segment>
+
+    </filters>
+    <chartOption>
+        <theme>macarons</theme>
+        <path>root/chartTemplate/chart/textChart</path>
+    </chartOption>
+    <gridOption>
+
+        <field caption="客户编码" width="120" align="left" groupby="true">customercode</field>
+        <field caption="总价" width="120" align="right">qty</field>
+        <field caption="原始总价" width="120" align="right">qty_original</field>
+    </gridOption>
+</widget>

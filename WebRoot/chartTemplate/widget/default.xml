@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<widget name="001">
+    <hasgrid>false</hasgrid>
+    <chartType>
+            <bar minDimension="1" minMensurment="1" >true</bar>
+            <line minDimension="1" minMensurment="1">true</line>
+    </chartType>
+
+    <nowChartType>bar</nowChartType>
+
+    <axis>
+        <xAxis type="dimension" position="bottom">
+            <field></field>
+        </xAxis>
+        <yAxis type="measurment" position="left">
+            <field type="bar"></field>
+        </yAxis>
+    </axis>
+
+    <datatype remark="目前仅支持sql db 不支持 后台拼接数据">db</datatype>
+    <dataname></dataname>
+
+    <filters>
+     <!--   <segment name="" link="=" type="value"></segment>
+        <segment name="" link="%%" type="field"></segment>
+        <segment name="" link="%*" type="field"></segment>
+        <segment name="" link="*%" type="field"></segment>-->
+    </filters>
+
+    <chartOption>
+        <theme default=""></theme>
+        <path></path>
+    </chartOption>
+    
+    <gridOption>
+        <showPage>true</showPage>
+        <hasTitle>true</hasTitle>
+        <pageSize>10</pageSize>
+    </gridOption>
+</widget>

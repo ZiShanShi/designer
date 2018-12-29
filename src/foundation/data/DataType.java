@@ -5,7 +5,7 @@ import java.sql.Types;
 
 public enum DataType {  
 
-	Integer, Double, Float, Decimal, Date, String, Boolean, List, ArrayList, LinkedList, Enum, Unknown;
+	Integer, Double, Float, Long, Decimal, Date, String, Boolean, List, ArrayList, LinkedList, Enum, Unknown;
 
 	public static DataType valueOfTypes(int value) {
 		if (Types.BIGINT == value) {
@@ -91,7 +91,7 @@ public enum DataType {
 			return Integer;
 		}
 		else if ("long".equals(value)) {
-			return Integer;
+			return Long;
 		}
 		else if ("number".equals(value)) {
 			return Double;

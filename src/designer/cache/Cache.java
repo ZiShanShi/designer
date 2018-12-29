@@ -41,13 +41,13 @@ public interface Cache<K, V> {
      *
      * @return max memory size.
      */
-    int getMaxMemorySize();
+    long getMaxMemorySize();
 
     /**
      * Returns the current memory size of the cache.
      *
      * @return current memory size.
      */
-    int getMemorySize();
+    long getMemorySize();
 
 }

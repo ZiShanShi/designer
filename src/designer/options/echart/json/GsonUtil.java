@@ -2,13 +2,18 @@
 
 package designer.options.echart.json;
 
-import designer.options.echart.Option;
-import designer.options.echart.axis.Axis;
-import designer.options.echart.series.Series;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import designer.options.AxisTypeDeserializer;
+import designer.options.GridDataDeserializer;
+import designer.options.echart.Option;
+import designer.options.echart.axis.Axis;
+import designer.options.echart.code.TriggerOn;
+import designer.options.echart.series.Series;
+import designer.widget.EDesignerDataType;
+import foundation.data.Entity;
 
 /**
  * @author kimi
@@ -22,7 +27,11 @@ public class GsonUtil {
      * @return
      */
     public static String format(Object object) {
-        Gson gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+        Gson gson = new GsonBuilder().setPrettyPrinting()
+                .registerTypeAdapter(TriggerOn.class, new TypeAdapterFactory())
+                .registerTypeAdapter(Entity.class, new GridDataDeserializer())
+                .registerTypeAdapter(EDesignerDataType.class, new AxisTypeDeserializer())
+                .disableHtmlEscaping().create();
         JsonParser jp = new JsonParser();
         JsonElement je = jp.parse(gson.toJson(object));
         String prettyJsonString = gson.toJson(je);
@@ -114,7 +123,8 @@ public class GsonUtil {
     public static Option fromJSON(String json) {
         Gson gson = new GsonBuilder().setPrettyPrinting().
                 registerTypeAdapter(Series.class, new SeriesDeserializer()).
-                registerTypeAdapter(Axis.class, new AxisDeserializer()).create();
+                registerTypeAdapter(Axis.class, new AxisDeserializer()).
+                registerTypeAdapter(TriggerOn.class, new TypeAdapterFactory()).create();
         Option option = gson.fromJson(json, Option.class);
         return option;
     }

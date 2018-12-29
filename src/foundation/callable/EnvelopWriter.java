@@ -1,26 +1,25 @@
 package foundation.callable;
 
-import java.io.IOException;
-import java.io.OutputStream;
-import java.io.PrintWriter;
-import java.math.BigDecimal;
-import java.net.URLEncoder;
-import java.util.Date;
-import java.util.Collection;
-import java.util.List;
-import java.util.Stack;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.Logger;
-
 import foundation.config.Configer;
 import foundation.data.Entity;
 import foundation.data.EntitySet;
 import foundation.data.reader.EntityReaderContainer;
 import foundation.data.reader.IEntityReader;
 import foundation.util.Util;
+import net.sf.json.JSONObject;
+import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintWriter;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
+import java.util.Collection;
+import java.util.Date;
+import java.util.List;
+import java.util.Stack;
 
 public class EnvelopWriter {
 
@@ -121,6 +120,9 @@ public class EnvelopWriter {
 		else if (value instanceof Collection) {
 			writeCollection(name, (Collection) value);
 		}
+		else if (value instanceof JSONObject) {
+			writeJSONObject(name, (JSONObject) value);
+		}
 		else {
 			writeObject(name, value);// 写对象
 		}
@@ -164,7 +166,11 @@ public class EnvelopWriter {
 		}
 	}
 
-	public void write(String value) {
+	public void write(String value) throws IOException {
+		if (writer == null) {
+			getPrintWriterFromResponse();
+		}
+
 		writer.write(value);
 	}
 
@@ -320,6 +326,14 @@ public class EnvelopWriter {
 		}
 
 		endArray();
+	}
+
+	private void writeJSONObject(String name, JSONObject value) {
+		writeComma();
+		writeName(name);
+		writer.write(value.toString());
+
+		setNotEmpty();
 	}
 
 	public void writeObject(String name, ISmartWriter smartWriter) {

@@ -1,10 +1,9 @@
 package foundation.server;
 
+import javax.servlet.http.HttpServletRequest;
 import java.net.URLDecoder;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class RequestPath {
 
@@ -68,7 +67,7 @@ public class RequestPath {
 		int pos_dot = target.lastIndexOf(".");
 
 		if (pos_dot > 0) {
-			suffix = target.substring(pos_dot);
+			suffix = target.substring(pos_dot + 1);
 			CommonRequestSourceType parse = CommonRequestSourceType.parse(suffix);
 			if (parse.equals(CommonRequestSourceType.unknow)) {
 				type = RequestType.VirtualPath;

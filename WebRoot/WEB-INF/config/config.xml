@@ -22,7 +22,7 @@
 	<param name="chartRootPath" value="root/chartTemplate"/>
 	<param name="defaultChartEngine" value="echart"/>
 	<param name="defaultChartPartPath" value="chart"/>
-	<param name="defaultTopicPartPath" value="topic"/>
+	<param name="defaultTopicPartPath" value="widget"/>
 	<param name="defaultThemePartPath" value="theme"/>
 
 	<param name="defaultChartPath" value="default"/>
@@ -69,7 +69,7 @@
 		<virtualPath path="data" classname="foundation.persist.DataObject" />
 		<virtualPath path="user" classname="foundation.user.User" />
 		<virtualPath path="dictionary" classname="foundation.dictionary.DictionaryService" />
-		<virtualPath path="sync" classname="designer.DesignerConsole" />
+		<virtualPath path="report" classname="designer.DesignerConsole" />
 
 	</virtualPaths>
 	

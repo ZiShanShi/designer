@@ -1,15 +1,15 @@
 package designer;
 
 import designer.engine.DesignContext;
-import designer.options.DesignerComponentFactory;
-import designer.options.echart.json.GsonUtil;
-import designer.topic.Topic;
+import designer.widget.Widget;
+import designer.widget.WidgetManager;
 import designer.xml.EDesignerXmlType;
 import designer.xml.XmlReader;
 import foundation.callable.Callable;
 import foundation.config.Configer;
 import foundation.data.Entity;
 import foundation.persist.DataHandler;
+import net.sf.json.JSONObject;
 
 import java.io.File;
 
@@ -29,26 +29,37 @@ public class DesignerConsole extends Callable {
 
         if (DesignerConstant.CALLABLE_METHORD_SYNCHRONIZE.equalsIgnoreCase(operator)) {
             synchronize();
-        } else if (DesignerConstant.CALLABLE_METHORD_GETTOPIC.equalsIgnoreCase(operator)) {
-            getTopic();
+        } else if (DesignerConstant.CALLABLE_METHORD_GETWIDGET.equalsIgnoreCase(operator)) {
+            getWidegt();
         } else if ("default".equalsIgnoreCase(operator)) {
             System.out.println(DesignerComponentFactory.getInstance().getDefautOption().toString());
         }
 
     }
 
-    private void getTopic() throws Exception {
-        String topicId = request.getParameter("id");
-        Entity topicLine = DataHandler.getLine(DesignerConstant.TABLE_designer_paneltopic, DesignerConstant.TOPID, topicId);
+    private void getWidegt() throws Exception {
+        String widgetId = request.getParameter("id");
+        Widget widget = WidgetManager.getInstance().getWidget(widgetId);
+        if (widget != null) {
+            JSONObject object = widget.parseJson();
+            resultPool.addValue("widget", object);
+            WidgetManager.getInstance().remove(widgetId, widget);
+        } else {
+            Entity topicLine = DataHandler.getLine(DesignerConstant.TABLE_designer_panelwidget, DesignerConstant.WIDGETID, widgetId);
+            String topicName = topicLine.getString(DesignerConstant.FIELD_WIDGETNAME);
+            String path = topicLine.getString(DesignerConstant.FIELD_WIDGETPATH);
+            path = path.replace(DesignerConstant.ROOT, Configer.getPath_Application());
+            File topicFile = DesignerUtil.checkFileLegality(path);
+            widget = new Widget(widgetId, topicName);
+            XmlReader topicReader = new XmlReader(EDesignerXmlType.realTopic);
+            topicReader.read(topicFile , widget);
+            WidgetManager.getInstance().addWidget(widget);
+//            String gsonOptionsStr = GsonUtil.format(widget.getChartOption().getRealChartOption());
+//            System.out.println(gsonOptionsStr);
+            JSONObject object = widget.parseJson();
+            resultPool.addValue("widget", object);
+        }
 
-        String topicName = topicLine.getString(DesignerConstant.FIELD_TOPICNAME);
-        String path = topicLine.getString(DesignerConstant.FIELD_TOPICpath);
-        path = path.replace(DesignerConstant.ROOT, Configer.getPath_Application());
-        File topicFile = DesignerUtil.checkFileLegality(path);
-        Topic topic = new Topic(topicId, topicName);
-        XmlReader topicReader = new XmlReader(EDesignerXmlType.realTopic);
-        topicReader.read(topicFile ,topic);
-        System.out.println(GsonUtil.format(topic.getChartOption()));
     }
 
 

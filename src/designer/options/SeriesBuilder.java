@@ -1,9 +1,9 @@
 package designer.options;
 
+import designer.DesignerComponentFactory;
 import designer.options.echart.series.*;
-import foundation.util.Util;
-import org.apache.commons.lang3.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -29,47 +29,90 @@ public class SeriesBuilder {
         return builder;
     }
 
-    public static Series createBaseDataSeries(EChartType type, String measurmentName, List<String> measurmentDataList) {
-        Series series = null;
+    public static Series createBaseDataSeries(EChartType type, String measurmentName, List<String> measurmentData) {
+        Series defaultTemplate = null;
+        try {
+            defaultTemplate = getDefaultTemplate(type);
+        } catch (CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+
         switch (type) {
-            //TODO 未完
+            //TODO 未完 暂未知有何不同
             case bar:
-                 series = new Bar(measurmentName);
+                if (defaultTemplate == null) {
+                    defaultTemplate = new Bar(measurmentName);
+                }
+                defaultTemplate.name(measurmentName);
                  break;
             case map:
-                series = new Map(measurmentName);
-                break;
+                if (defaultTemplate == null) {
+                    defaultTemplate = new Map(measurmentName);
+                }
+                defaultTemplate.name(measurmentName);
+                 break;
             case pie:
-                series = new Pie(measurmentName);
+                if (defaultTemplate == null) {
+                    defaultTemplate = new Pie(measurmentName);
+                }
+                defaultTemplate.name(measurmentName);
                 break;
             case line:
-                series = new Line(measurmentName);
+                if (defaultTemplate == null) {
+                    defaultTemplate = new Line(measurmentName);
+                }
+                defaultTemplate.name(measurmentName);
                 break;
             case gauge:
-                series = new Gauge(measurmentName);
+                defaultTemplate.name(measurmentName);
                 break;
             case graph:
-                series = new Graph(measurmentName);
+                if (defaultTemplate == null) {
+                    defaultTemplate = new Graph(measurmentName);
+                }
+                defaultTemplate.name(measurmentName);
                 break;
             case radar:
-                series = new RadarSeries(measurmentName);
+                if (defaultTemplate == null) {
+                    defaultTemplate = new RadarSeries(measurmentName);
+                }
+                defaultTemplate.name(measurmentName);
                 break;
             case lines:
-                series = new Lines(measurmentName);
+                if (defaultTemplate == null) {
+                    defaultTemplate = new Lines(measurmentName);
+                }
+                defaultTemplate.name(measurmentName);
                 break;
             case funnel:
-                series = new Funnel(measurmentName);
+                if (defaultTemplate == null) {
+                    defaultTemplate = new Funnel(measurmentName);
+                }
+                defaultTemplate.name(measurmentName);
                 break;
             case scatter:
-                series = new Scatter(measurmentName);
+                if (defaultTemplate == null) {
+                    defaultTemplate = new Scatter(measurmentName);
+                }
+                defaultTemplate.name(measurmentName);
                 break;
 
             default:
-                series = new Bar(measurmentName);
+                defaultTemplate = new Bar(measurmentName);
                 break;
         }
 
-        series.data(StringUtils.join(measurmentDataList.toArray(), Util.comma));
-        return  series;
+        defaultTemplate.data(measurmentData);
+        return  defaultTemplate;
+    }
+
+    private static Series getDefaultTemplate(EChartType type) throws CloneNotSupportedException {
+        ArrayList<Series> defaultSerieList = DesignerComponentFactory.getInstance().getDefautOption().series();
+        for (Series series : defaultSerieList) {
+            if (series.type().name().equalsIgnoreCase(type.name())) {
+                return (Series) series.clone();
+            }
+        }
+        return null;
     }
 }

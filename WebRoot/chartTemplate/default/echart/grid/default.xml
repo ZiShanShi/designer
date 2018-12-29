@@ -25,7 +25,7 @@
     <tooltip remark="本坐标系特定的 tooltip 设定。">
         <show>true</show>
         <trigger remark="item,axis,none">item</trigger>
-        <axisPointer type="link" remark="同axispointer">
+        <axisPointer type="file" remark="同axispointer">
 
         </axisPointer>
         <position remark="Array,Function,inside,top,left,right,bottom"></position>
@@ -33,7 +33,7 @@
         <backgroundColor>rgba(50,50,50,0.7)</backgroundColor>
         <borderColor>#333</borderColor>
         <borderWidth>0</borderWidth>
-        <padding>5</padding>
+
         <textStyle>
             <color>#fff</color>
             <fontStyle>normal</fontStyle>

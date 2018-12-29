@@ -1,18 +1,19 @@
 package designer.cache;
 
 import designer.DesignerConstant;
-import designer.options.IOption;
+import designer.widget.Widget;
+import designer.widget.WidgetManager;
 import foundation.config.Configer;
 import foundation.util.Util;
 
 public class CacheManager {
     private static CacheManager ourInstance;
-    private LruCache<String, IOption> lruCache;
+    private LruCache<String, Widget> lruCache;
 
     public static CacheManager getInstance() {
-        if (ourInstance != null) {
+        if (ourInstance == null) {
             synchronized (CacheManager.class) {
-                if (ourInstance != null) {
+                if (ourInstance == null) {
                     ourInstance = new CacheManager();
                 }
             }
@@ -28,29 +29,33 @@ public class CacheManager {
         String cacheSzie = Configer.getParam(DesignerConstant.CACHE_DEFAULT_SIZE);
         int size = Util.stringToInt(cacheSzie, -1);
         if (size != -1) {
-            lruCache = new LruCache<>(size);
+            lruCache = new LruCache<>(this, size);
         }
         else {
-            lruCache = new LruCache<>();
+            lruCache = new LruCache<>(this);
         }
     }
 
-    public void put(String key, IOption value) {
+    public void put(String key, Widget value) {
         if (lruCache == null) {
             getInstance();
         }
         lruCache.put(key, value);
     }
+    public Widget get(String key) {
+        if (lruCache == null) {
+            getInstance();
+            return null;
+        }
+        return lruCache.get(key);
+    }
 
-
-    public void remove(String key) {
+    public <K,V> void remove(K key, V value) {
         if (lruCache == null) {
             getInstance();
         }
-        IOption removedOptions = lruCache.remove(key);
 
-       /* String id = removedOptions.getId();
-        String optionFilePath = DesignerUtil.getOptionFilePath(id);*/
-        //TODO
+        WidgetManager.getInstance().remove((String) key, (Widget)value);
+
     }
 }

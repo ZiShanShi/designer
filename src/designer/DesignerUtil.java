@@ -1,17 +1,30 @@
 package designer;
 
+import designer.cache.CheckCacheObject;
+import designer.cache.EOptionSourceType;
+import designer.cache.FieldNode;
+import designer.cache.ICacheSourceType;
 import designer.exception.DesignerBaseException;
 import designer.exception.DesignerFileException;
-import designer.options.DesignerComponentFactory;
 import designer.options.echart.Option;
-import designer.topic.Topic;
+import designer.options.echart.json.GsonOption;
+import designer.widget.Widget;
+import designer.widget.theme.Theme;
+import designer.xml.EDesignerXmlType;
+import designer.xml.XmlReader;
+import foundation.config.Configer;
 import foundation.data.DataType;
+import foundation.data.Entity;
+import foundation.persist.DataHandler;
 import foundation.util.Util;
-import org.dom4j.Element;
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
 
 import java.io.File;
 import java.lang.reflect.*;
 import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -23,10 +36,37 @@ import java.util.Set;
 
 
 public class DesignerUtil {
+    private static List<String> noCatchedList = new ArrayList<>();
 
-    public static String getOptionFilePath(String id) {
-        return id;
+    private static List<String> noJsonCatchedList = new ArrayList<>();
+    static {
+        noCatchedList.add("xAxis");
+        noCatchedList.add("yAxis");
+        noCatchedList.add("series");
+        noCatchedList.add("fieldNodeSourceMap");
+        noCatchedList.add("nodeSourceTypeMap");
+
+        noJsonCatchedList.add("timeline");
+        noJsonCatchedList.add("visualMap");
+        noJsonCatchedList.add("dataZoom");
     }
+
+    public static File getWidgetFile(String widgetId) {
+        Entity topicLine = null;
+        try {
+            topicLine = DataHandler.getLine(DesignerConstant.TABLE_designer_panelwidget, DesignerConstant.WIDGETID, widgetId);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (topicLine == null) {
+            return null;
+        }
+        String filepath = topicLine.getString(DesignerConstant.FIELD_WIDGETPATH);
+        File file = checkFileLegality(filepath);
+        return file;
+    }
+
 
     public static String fixXmlStringValue(String rawValue) {
         rawValue = rawValue.replaceAll(Util.String_Escape_newLine,Util.String_Space);
@@ -39,8 +79,12 @@ public class DesignerUtil {
         }
     }
     public static File checkFileLegality(String filePath) {
+
         if (Util.isEmptyStr(filePath)) {
             throw new DesignerFileException("path is empty");
+        }
+        if (filePath.indexOf(DesignerConstant.ROOT) != -1) {
+            filePath = filePath.replace(DesignerConstant.ROOT, Configer.getPath_Application());
         }
         File file = new File(filePath);
         if (!file.exists()) {
@@ -49,22 +93,61 @@ public class DesignerUtil {
         return file;
     }
 
-    public static Option combineOption(Element path) {
-        //TODO
-        return null;
+    public static File checkFileLegality(String filePath,String suffix) {
+        if (Util.isEmptyStr(filePath)) {
+            throw new DesignerFileException("path is empty");
+        }
+        if (Util.isEmptyStr(suffix)) {
+            throw new DesignerFileException("suffix is empty");
+        }
+
+        if (filePath.contains(DesignerConstant.ROOT)) {
+            filePath = filePath.replace(DesignerConstant.ROOT, Configer.getPath_Application());
+        }
+        if (!filePath.contains(Util.Dot)) {
+            filePath = Util.stringJoin(filePath, Util.Dot, suffix);
+        }
+        File file = new File(filePath);
+        if (!file.exists()) {
+            throw new DesignerFileException(filePath);
+        }
+        return file;
+    }
+    public static String checkFileSuffix(String filePath) {
+        if (Util.isEmptyStr(filePath)) {
+            throw new DesignerFileException("path is empty");
+        }
+        String suffix = Configer.getParam(DesignerConstant.DEFAULT_CHART_SUFFIX);
+        filePath = filePath.replace(DesignerConstant.ROOT,Configer.getPath_Application());
+        if (!filePath.endsWith(suffix)) {
+            filePath = Util.stringJoin(filePath, Util.Dot, suffix);
+        }
+
+        return filePath;
     }
 
-    public static void combine(Topic topic) {
-        combine(topic, DesignerComponentFactory.getInstance().getBaseTopic());
+
+    public static GsonOption combineOption(String path) {
+        path = checkFileSuffix(path);
+        File file = checkFileLegality(path);
+        XmlReader reader = new XmlReader(EDesignerXmlType.realChart);
+        GsonOption realOption = new GsonOption();
+        reader.read(file, realOption);
+        return realOption;
     }
+
+    public static void combine(Widget widget) {
+        combine(widget, DesignerComponentFactory.getInstance().getBaseWidget());
+    }
+
     public static void combine(Option option) {
         combine(option, DesignerComponentFactory.getInstance().getDefautOption());
     }
 
-    public static void combine(Topic topic, Topic baseTopic) {
-        //组合成完整的topic
+    public static void combine(Widget widget, Widget baseWidget) {
+        //组合成完整的widget
         try {
-            combineObj(topic, baseTopic);
+            combineObj(widget, baseWidget, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -73,29 +156,91 @@ public class DesignerUtil {
     public static void combine(Option option, Option baseOption) {
         // 组合成完整的option
         try {
-            combineObj(option, baseOption);
+            combineObj(option, baseOption, null);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
     }
-    public static  void combineObj (Object targetObj, Object sourseObj) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+
+    public static JSONObject combineTheme(String optionStr, String themeName) {
+        DesignerComponentFactory instance = DesignerComponentFactory.getInstance();
+        Theme findTheme = instance.getThemeByName(themeName);
+        JSONObject themeJson = findTheme.getThemeJson();
+        JSONObject optionObject = JSONObject.fromObject(optionStr);
+        JSONObject resultJsonObject = loadJSONObject(themeJson, optionObject);
+        return resultJsonObject;
+    }
+
+    private static JSONObject loadJSONObject(JSONObject themeObject, JSONObject optionObject) {
+        //Theme
+        Set ontKeySet = themeObject.keySet();
+
+        for (Object key : ontKeySet) {
+            Object oneThemeValue = themeObject.get(key);
+            Object oneOptionValue = optionObject.get(key);
+            checkObjectType(oneThemeValue, oneOptionValue, optionObject, key);
+        }
+        return optionObject;
+    }
+
+    private static void checkObjectType(Object oneThemeValue, Object oneOptionValue, JSONObject optionObject, Object key) {
+        if (oneOptionValue instanceof JSONArray) {
+            int oneOptionValueSize = ((JSONArray) oneOptionValue).size();
+            if (oneThemeValue == null) {
+                return;
+            }
+            for (int i = 0; i < oneOptionValueSize; i++) {
+                Object subThemeValue = ((JSONArray) oneThemeValue).get(i);
+                Object subOptionValue = ((JSONArray) oneOptionValue).get(i);
+                checkObjectType(subThemeValue, subOptionValue, optionObject, key);
+            }
+        } else if (oneOptionValue instanceof JSONObject) {
+            if (((JSONObject) oneThemeValue).isEmpty()) {
+                if (!((JSONObject) oneOptionValue).isEmpty()) {
+                    ((JSONObject) oneOptionValue).putAll((JSONObject) oneThemeValue);
+                }
+
+            } else {
+                ((JSONObject) oneOptionValue).putAll((JSONObject) oneThemeValue);
+            }
+        } else {
+            if (oneOptionValue == null) {
+                if (noJsonCatchedList.contains(key)) {
+                    return;
+                }
+                optionObject.put(key, oneThemeValue);
+            }
+        }
+    }
+
+    public static  void combineObj (Object targetObj, Object sourseObj, CheckCacheObject checkCacheObject) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         Class<?> targetClass = targetObj.getClass();
         Class<?> sourseClass = sourseObj.getClass();
+        Boolean mayCache = false;
+        if (checkCacheObject == null) {
+            if (targetClass != null && ICacheSourceType.class.isAssignableFrom(targetClass)) {
+                mayCache = true;
+            }
+            checkCacheObject = new CheckCacheObject(mayCache, targetObj, sourseObj);
+        }
 
         String targretClassName = targetClass.getName();
         String sourseClassName = sourseClass.getName();
         if (!targretClassName.equalsIgnoreCase(sourseClassName)) {
             throw  new DesignerBaseException(MessageFormat.format("combineObj 输入类型不一样 target: {0}; sourse:{1}",targretClassName,sourseClassName));
         }
+        List<Field> targetFieldList = getFieldList(targetClass);
+        List<Field> sourseFieldList = getFieldList(sourseClass);
+        for (int i = 0; i < targetFieldList.size(); i++) {
+            Field targetField = targetFieldList.get(i);
+            Field sourseField = sourseFieldList.get(i);
 
+            if (noCatchedList.contains(targetField.getName())) {
+                checkCacheObject = new CheckCacheObject(true, targetObj, sourseObj);
+                continue;
+            }
 
-        Field[] targetFieldArray = targetClass.getDeclaredFields();
-        Field[] sourseFieldArray = sourseClass.getDeclaredFields();
-
-        for (int i = 0; i < targetFieldArray.length; i++) {
-            Field targetField = targetFieldArray[i];
-            Field sourseField = sourseFieldArray[i];
             targetField.setAccessible(true);
             sourseField.setAccessible(true);
             Object targetValue = targetField.get(targetObj);
@@ -116,30 +261,35 @@ public class DesignerUtil {
                         ParameterizedType pt = (ParameterizedType) genericType;
                         //得到泛型里的class类型对象
                         Class<?> genericClazz = (Class<?>) pt.getActualTypeArguments()[0];
-                        setListTypeValue(genericClazz, targetValue, sourseValue);
+                        setListTypeValue(genericClazz, targetValue, sourseValue, targetField,checkCacheObject);
                     }
                 }
 
-                DesignerUtil.setSimpleValue(targetObj, targetField, sourseValue);
+                setSimpleValue(targetObj, targetField, sourseValue, checkCacheObject);
             } else {
+                if (noCatchedList.contains(targetField.getType().getSimpleName())) {
+                    continue;
+                }
                 if (sourseValue == null) {
                     continue;
                 }
                 if (targetValue == null) {
-                    DesignerUtil.setSimpleValue(targetObj, targetField, sourseValue);
+                    setSimpleValue(targetObj, targetField, sourseValue, checkCacheObject);
                 } else {
-                    combineObj(targetValue , sourseValue);
+                    combineObj(targetValue , sourseValue, checkCacheObject);
                 }
 
             }
         }
     }
 
-    private static void setListTypeValue(Class<?> targetFieldClaz, Object targetValue, Object sourseValue) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+    private static void setListTypeValue(Class<?> targetFieldClaz, Object targetValue, Object sourseValue, Field targetField, CheckCacheObject checkCacheObject) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         boolean isGenericSample = checkFieldSimple(targetFieldClaz);
         DataType genericClassType = DataType.valueOfString(targetFieldClaz.getSimpleName());
         List targetList = (List) targetValue;
         List soutseList = (List) sourseValue;
+
+        handleCacheTypes(targetField, checkCacheObject);
 
         for (int i = 0; i < soutseList.size(); i++) {
             Object oneSourseValue = soutseList.get(i);
@@ -158,7 +308,7 @@ public class DesignerUtil {
                         ParameterizedType pt = (ParameterizedType) genericType;
                         //得到泛型里泛型的class类型对象
                         Class<?> genericClazz = (Class<?>) pt.getActualTypeArguments()[0];
-                        setListTypeValue(genericClazz, targetValue, sourseValue);
+                        setListTypeValue(genericClazz, targetValue, sourseValue, targetField, checkCacheObject);
                     }
 
                 }
@@ -168,8 +318,32 @@ public class DesignerUtil {
                 targetList.add(oneSourseValue);
             } else {
 
-                combineObj(oneTargetValue , oneSourseValue);
+                combineObj(oneTargetValue , oneSourseValue, checkCacheObject);
             }
+        }
+    }
+
+    private static void handleCacheTypes(Field targetField, CheckCacheObject checkCacheObject) {
+        if (checkCacheObject != null && checkCacheObject.getMayCache()) {
+            ICacheSourceType targetObj = (ICacheSourceType) checkCacheObject.getCombineTargetObj();
+            ICacheSourceType sourceObj = (ICacheSourceType) checkCacheObject.getCombineSourceObj();
+            FieldNode node = new FieldNode(targetField.getType(),targetField.getName());
+            EOptionSourceType targetSourceType = targetObj.getTypeFromNode(node);
+            EOptionSourceType sourceSourceType = sourceObj.getTypeFromNode(node);
+            if (targetSourceType != null) {
+                Set<FieldNode> targetTargetTypeNodeSet = targetObj.getFieldNodeSet(targetSourceType);
+                if (targetTargetTypeNodeSet != null) {
+                    targetTargetTypeNodeSet.remove(node);
+                }
+            }
+            if (sourceSourceType != null) {
+                Set<FieldNode> targetSoutceTypeNodeSet = targetObj.getFieldNodeSet(sourceSourceType);
+                if (targetSoutceTypeNodeSet != null) {
+                    targetSoutceTypeNodeSet.add(node);
+                }
+            }
+
+
         }
     }
 
@@ -194,9 +368,12 @@ public class DesignerUtil {
         return  isSample;
     }
 
-    public static void setSimpleValue(Object targetObj, Field field, Object value) throws IllegalAccessException, NoSuchFieldException {
+    public static void setSimpleValue(Object targetObj, Field field, Object value, CheckCacheObject checkCacheObject) throws IllegalAccessException, NoSuchFieldException {
         Class componentClaz = field.getType();
         Class<?> superclass = componentClaz.getSuperclass();
+
+        handleCacheTypes(field, checkCacheObject);
+
         DataType superDataType;
         if (superclass == null) {
             superDataType = DataType.Unknown;
@@ -210,9 +387,7 @@ public class DesignerUtil {
                 valueString = fixJson2J(valueString);
                 value = valueOfMethord.invoke(targetObj, valueString);
 
-            } catch (NoSuchMethodException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
+            } catch (NoSuchMethodException | InvocationTargetException e) {
                 e.printStackTrace();
             }
         }
@@ -237,8 +412,23 @@ public class DesignerUtil {
         return  valueString;
     }
 
+    public static List<Field> getFieldList(Class<?> clazz){
+        if(null == clazz){
+            return null;
+        }
+        List<Field> fieldList = new LinkedList<Field>();
+        Field[] fields = clazz.getDeclaredFields();
+        for(Field field : fields){
+            fieldList.add(field);
+        }
+        /** 处理父类字段**/
+        Class<?> superClass = clazz.getSuperclass();
+        if(superClass.equals(Object.class)){
+            return fieldList;
+        }
 
-
-
+        fieldList.addAll(getFieldList(superClass));
+        return fieldList;
+    }
 
 }

@@ -156,7 +156,7 @@
         </textStyle>
     </data>
 
-    <axisPointer type="link" remark="同axispointer">
+    <axisPointer type="file" remark="同axispointer">
          　
     </axisPointer>
 </angleAxis>

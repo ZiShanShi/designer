@@ -13,12 +13,11 @@
     <renderMode remark="html ,richText">html</renderMode>
     <confine remark="是否将 tooltip 框限制在图表的区域内">false</confine>
     <transitionDuration>0.4</transitionDuration>
-    <position remark="string, Array, Function"></position>
     <formatter>$formatter</formatter>
     <backgroundColor>rgba(50,50,50,0.7)</backgroundColor>
     <borderColor>#333</borderColor>
     <borderWidth>0</borderWidth>
-    <padding>5</padding>
+
     <textStyle>
         <color>#fff</color>
         <fontStyle>normal</fontStyle>

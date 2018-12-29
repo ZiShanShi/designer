@@ -1,16 +1,20 @@
 package designer;
 
-import designer.options.DesignerComponentFactory;
-import designer.options.Theme;
+import designer.exception.DesignerFileException;
+import designer.options.ChartOption;
 import designer.options.echart.json.GsonOption;
-import designer.topic.Topic;
+import designer.widget.Widget;
+import designer.widget.theme.Theme;
 import designer.xml.EDesignerXmlType;
 import designer.xml.XmlReader;
 import foundation.config.Configer;
 import foundation.config.Preloader;
 import foundation.util.Util;
+import net.sf.json.JSONObject;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 
 /**
  * @author kimi
@@ -58,6 +62,10 @@ public class DesignerDefaultLoader extends Preloader {
         GsonOption option = new GsonOption();
         chartDefaultReader.read(chartDefaultFile, option);
         instance.setDefautOption(option);
+
+        ChartOption chartOption = new ChartOption("default");
+        chartOption.setRealChartOption(option);
+        DesignerComponentFactory.getInstance().putOption(chartOption);
     }
 
     private void loadDefaultThemes() {
@@ -77,18 +85,30 @@ public class DesignerDefaultLoader extends Preloader {
         String topicDefaultFilePath = Util.filePathJion(TopicRootPath, Util.stringJoin(DesignerConstant.DEFAULT, Util.Dot, suffix));
         File topicDefualtFile = DesignerUtil.checkFileLegality(topicDefaultFilePath);
 
-        Topic defaultTopic = new Topic(DesignerConstant.DEFAULT, DesignerConstant.DEFAULT);
+        Widget defaultWidget = new Widget(DesignerConstant.DEFAULT, DesignerConstant.DEFAULT);
         XmlReader topicDefaultReader = new XmlReader(EDesignerXmlType.defaultTopic);
-        topicDefaultReader.read(topicDefualtFile,defaultTopic);
-        instance.setBaseTopic(defaultTopic);
+        topicDefaultReader.read(topicDefualtFile, defaultWidget);
+        instance.setBaseWidget(defaultWidget);
+
+        DesignerComponentFactory.getInstance().putTopic(defaultWidget);
     }
 
     private void loadThemeFile(File themeRootFile) {
         File[] files = themeRootFile.listFiles();
         for (File themeFile : files) {
             Theme theme = new Theme();
-            XmlReader topicDefaultReader = new XmlReader(EDesignerXmlType.theme);
-            topicDefaultReader.read(themeFile,theme);
+            String fileName = themeFile.getName();
+            theme.setName(fileName.substring(0, fileName.lastIndexOf(Util.Dot)));
+            String themeJson = null;
+            try {
+                themeJson = FileUtils.readFileToString(themeFile, "UTF-8");
+
+            } catch (IOException e) {
+//                e.printStackTrace();
+                throw  new DesignerFileException(themeFile.getPath());
+            }
+            JSONObject themeObject = JSONObject.fromObject(themeJson);
+            theme.setThemeJson(themeObject);
             DesignerComponentFactory.getInstance().putTheme(theme);
         }
     }

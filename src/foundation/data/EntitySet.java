@@ -1,11 +1,12 @@
 package foundation.data;
 
+import foundation.persist.TableMeta;
+import foundation.persist.TableMetaCenter;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
-import foundation.persist.TableMeta;
-import foundation.persist.TableMetaCenter;
+import java.util.stream.Collectors;
 
 public class EntitySet implements Iterable<Entity> {
 
@@ -39,6 +40,10 @@ public class EntitySet implements Iterable<Entity> {
 		entityList.add(entity);
 
 		return entity;
+	}
+
+	public List<Entity> getSubData(int fromIndex, int size) {
+        return  entityList.subList(fromIndex, fromIndex + size);
 	}
 
 	public Entity next() {
@@ -101,4 +106,11 @@ public class EntitySet implements Iterable<Entity> {
 		getTableMeta().loadVaildField(validColumns, validFields);
 	}
 
+	public List<String>  getFieldList(String fieldName) {
+		if (entityList == null || entityList.size() == 0) {
+			return null;
+		}
+		List<String> orders =entityList.stream().map(entity -> entity.getString(fieldName)).collect(Collectors.toList());
+		return orders;
+	}
 }

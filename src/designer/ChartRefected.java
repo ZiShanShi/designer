@@ -11,8 +11,10 @@ package designer;
 
 public class ChartRefected {
     private boolean isSimple;
+    private boolean isList = false;
     private Class<?> chartComponentClaz;
     private Object componentBean;
+    private Object listParentObj;
 
     public ChartRefected(boolean isSimple, Class<?> chartComponentClaz, Object componentBean) {
         this(chartComponentClaz, componentBean);
@@ -52,5 +54,22 @@ public class ChartRefected {
     public ChartRefected setComponentBean(Object componentBean) {
         this.componentBean = componentBean;
         return this;
+    }
+
+    public boolean isList() {
+        return isList;
+    }
+
+    public ChartRefected setList(boolean list) {
+        isList = list;
+        return this;
+    }
+
+    public void setListParentObj(Object listParentObj) {
+        this.listParentObj = listParentObj;
+    }
+
+    public Object getListParentObj() {
+        return listParentObj;
     }
 }

@@ -14,7 +14,7 @@ public enum CommonRequestSourceType {
 		else if (type.equalsIgnoreCase(CommonRequestSourceType.jpg.name())) {
 			return CommonRequestSourceType.jpg;
 		}
-		else if (type.equalsIgnoreCase(CommonRequestSourceType.xml.name())) {
+		else if (type.equalsIgnoreCase(CommonRequestSourceType.png.name())) {
 			return CommonRequestSourceType.png;
 		}
 		else if (type.equalsIgnoreCase(CommonRequestSourceType.html.name())) {

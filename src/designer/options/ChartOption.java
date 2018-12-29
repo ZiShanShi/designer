@@ -1,8 +1,14 @@
 package designer.options;
 
+import designer.DesignerComponentFactory;
+import designer.DesignerUtil;
+import designer.EChangeType;
 import designer.engine.DesignContext;
-import designer.options.echart.Option;
+import designer.options.echart.json.GsonOption;
+import designer.options.echart.json.GsonUtil;
+import designer.widget.theme.Theme;
 import foundation.variant.Segment;
+import net.sf.json.JSONObject;
 
 import java.util.List;
 
@@ -15,11 +21,13 @@ import java.util.List;
 
 public class ChartOption implements IOption{
     private String topicId;
-    private Option realChartOption;
+    private GsonOption realChartOption;
     private Theme theme;
 
     public ChartOption() {
         this.realChartOption = DesignerComponentFactory.getInstance().getDefautOption();
+
+
     }
 
     public ChartOption(String topicId) {
@@ -27,8 +35,21 @@ public class ChartOption implements IOption{
         this.realChartOption = DesignerComponentFactory.getInstance().getDefautOption();
     }
 
-    public ChartOption(Option realChartOption) {
+    public ChartOption(GsonOption realChartOption) {
         this.realChartOption = realChartOption;
+    }
+
+    public JSONObject parseJson() {
+        JSONObject jsonObject = new JSONObject();
+        String format = GsonUtil.format(realChartOption);
+        if (theme == null) {
+            return JSONObject.fromObject(format);
+        }
+        String themeName = theme.getName();
+        JSONObject realChartJSONObject = DesignerUtil.combineTheme(format, themeName);
+        jsonObject.put("theme", themeName);
+        jsonObject.put("option", realChartJSONObject);
+        return jsonObject;
     }
 
     public void operator(EChangeType type, DesignContext context) {
@@ -97,11 +118,11 @@ public class ChartOption implements IOption{
         operator(type, context);
     }
 
-    public Option getRealChartOption() {
+    public GsonOption getRealChartOption() {
         return realChartOption;
     }
 
-    public ChartOption setRealChartOption(Option realChartOption) {
+    public ChartOption setRealChartOption(GsonOption realChartOption) {
         this.realChartOption = realChartOption;
         return this;
     }

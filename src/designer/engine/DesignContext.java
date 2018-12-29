@@ -1,7 +1,7 @@
 package designer.engine;
 
 import designer.DesignerConstant;
-import designer.options.EChangeType;
+import designer.EChangeType;
 import designer.options.EChartType;
 import foundation.util.Util;
 import foundation.variant.Segment;

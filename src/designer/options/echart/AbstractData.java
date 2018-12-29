@@ -1,10 +1,9 @@
-
-
 package designer.options.echart;
 
 import designer.options.echart.code.Easing;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Data接口 - 添加数据
@@ -126,6 +125,16 @@ public abstract class AbstractData<T> implements Data<T>, java.io.Serializable {
     @Override
     public T data(Object... values) {
         if (values == null || values.length == 0) {
+            return (T) this;
+        }
+        for (Object value : values) {
+            this.data().add(value);
+        }
+        return (T) this;
+    }
+
+    public T data(List<Object> values) {
+        if (values == null || values.size() == 0) {
             return (T) this;
         }
         for (Object value : values) {

@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<yAxis>
+<root>
+<yAxis type="array">
+<object>
     <id></id>
     <show>true</show>
     <gridIndex>0</gridIndex>
@@ -187,8 +189,9 @@
         </textStyle>
     </data>
 
-    <axisPointer type="link" remark="同axispointer">
+    <axisPointer type="file" remark="同axispointer">
 
     </axisPointer>
+</object>
 </yAxis>
-    
+</root>

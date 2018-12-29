@@ -44,6 +44,8 @@ public class Util {
 	public static final String semicolon = ";";
 	public static final String Dot = ".";
 	public static final String Equal = "=";
+	public static final String Percentage = "%";
+	public static final String SqlLike = "LIKE";
 	public static final String String_Space = " ";
 	public static final String windows_slash = "/";
 	public static final String java_slash = "\\";
@@ -96,6 +98,18 @@ public class Util {
 	public static String quotedLikeStr(String str) {
 		if (str != null)
 			return "'%" + str + "%'";
+		else
+			return "''";
+	}
+	public static String quotedLeftLikeStr(String str) {
+		if (str != null)
+			return "'%" + str + "'";
+		else
+			return "''";
+	}
+	public static String quotedRightLikeStr(String str) {
+		if (str != null)
+			return "'" + str + "'";
 		else
 			return "''";
 	}
@@ -329,7 +343,7 @@ public class Util {
 	}
 	
 	@SuppressWarnings("unchecked")
-	public static <T, Y> T StringToOther(String dataValue, Class<? extends  Object> clazz, Class<Y> listClazz) throws ParseException {
+	public static <T, Y> T StringToOther(String dataValue, Class<? extends  Object> clazz, Class<Y> listClazz) {
 		if (clazz.getSimpleName().equalsIgnoreCase("string")) {
 			return (T) dataValue;
 		}
@@ -340,12 +354,18 @@ public class Util {
 		}
 		else if (clazz.getSimpleName().equalsIgnoreCase("double")) {
 			return (T)(Object) StringToDouble(dataValue);
+		}else if (clazz.getSimpleName().equalsIgnoreCase("long")) {
+			return (T)(Object) StringtoLong(dataValue);
 		}
 		else if (clazz.getSimpleName().equalsIgnoreCase("float")) {
 			return (T)(Object) StringToFloat(dataValue);
 		}
 		else if (clazz.getSimpleName().equalsIgnoreCase("date")) {
-			return (T)StringToDate(dataValue);
+			try {
+				return (T)StringToDate(dataValue);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		else if (clazz.getSimpleName().equalsIgnoreCase("decimal")) {
 			return (T)parseBigDecimal(dataValue);
@@ -357,17 +377,19 @@ public class Util {
 
             return (T) dataValue;
         }
-
-
-
+        return  (T) dataValue;
 	}
-	
-	public static <T> T StringToOther(String dataValue, Class<T> clazz) throws ParseException {
+
+	private static Object StringtoLong(String dataValue) {
+		return  new Long(dataValue);
+	}
+
+	public static <T> T StringToOther(String dataValue, Class<T> clazz)  {
 		return StringToOther(dataValue, clazz, String.class);
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T StringToOther(String dataValue, DataType type, DataType listType) throws ParseException {
+	public static <T> T StringToOther(String dataValue, DataType type, DataType listType) {
 		
 		if (type.equals(DataType.String)) {
 			return (T) dataValue;
@@ -382,7 +404,11 @@ public class Util {
 			return (T)(Object) StringToFloat(dataValue);
 		}
 		else if (type.equals(DataType.Date)) {
-			return (T)(Object) StringToDate(dataValue);
+			try {
+				return (T)(Object) StringToDate(dataValue);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 		else if (type.equals(DataType.Decimal)) {
 			return (T)(Object) parseBigDecimal(dataValue);
@@ -399,18 +425,18 @@ public class Util {
 		return StringToOther(dataValue, type, DataType.String);
 	}
 	
-	public static <T> List<T> StringToList(String dataValue, Class<T> claz) throws ParseException {
+	public static <T> List<T> StringToList(String dataValue, Class<T> claz) {
 		return StringToList(dataValue, semicolon, claz);
 	}
 	
-	public static List<String> StringToList(String dataValue) throws ParseException {
+	public static List<String> StringToList(String dataValue) {
 		return StringToList(dataValue, semicolon, String.class);
 	}
 	
-	public static <T> List<T> StringToList(String dataValue, String split, Class<T> claz) throws ParseException {
+	public static <T> List<T> StringToList(String dataValue, String split, Class<T> claz){
 		// 只支持一层list  
 		if (Util.isEmptyStr(dataValue)) {
-			return null;
+			return new ArrayList<>();
 		}
 		List<T> resultList = new ArrayList<>();
 		String[] splitedData = dataValue.split(split);
@@ -421,7 +447,7 @@ public class Util {
 		return resultList;
 	}
 	
-	public static List<String> StringToList(String dataValue, String split) throws ParseException {
+	public static List<String> StringToList(String dataValue, String split)  {
 		return StringToList(dataValue, split, String.class);
 	}
 	
@@ -920,9 +946,11 @@ public class Util {
         } else if (DataType.Integer.equals(type)) {
             object = 0;
         }else if (DataType.Double.equals(type)) {
-            object = 0.0;
+            object = 0D;
         }else if (DataType.Float.equals(type)) {
-            object = 0.0;
+            object = 0F;
+        }else if (DataType.Long.equals(type)) {
+            object = 0L;
         }else if (DataType.Boolean.equals(type)) {
             object = false;
         }else if (DataType.ArrayList.equals(type)) {

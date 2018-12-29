@@ -17,7 +17,7 @@ import java.util.Map;
  * @author kimi
  */
 
-public abstract class Series<T> extends AbstractData<T> implements Chart {
+public abstract class Series<T> extends AbstractData<T> implements Chart, Cloneable {
 
     private Map<String, Object> defaultMap = new HashMap<>();
 
@@ -92,7 +92,7 @@ public abstract class Series<T> extends AbstractData<T> implements Chart {
     /**
      * 标记相对于原本位置的偏移
      */
-    private Object[] symbolOffset;
+    private Object symbolOffset;
 
     /**
      * treemap 组件离容器左侧的距离
@@ -253,11 +253,11 @@ public abstract class Series<T> extends AbstractData<T> implements Chart {
         return (T) this;
     }
 
-    public Object[] symbolOffset() {
+    public Object symbolOffset() {
         return this.symbolOffset;
     }
 
-    public T symbolOffset(Object[] symbolOffset) {
+    public T symbolOffset(Object symbolOffset) {
         this.symbolOffset = symbolOffset;
         return (T) this;
     }
@@ -626,5 +626,18 @@ public abstract class Series<T> extends AbstractData<T> implements Chart {
 
     public void PutDefaultObject(String name, Object o) {
         defaultMap.put(name,o);
+    }
+
+
+    @Override
+    public Object clone() throws CloneNotSupportedException {
+        Series series = null;
+        try{
+            series = (Series) super.clone();
+        }catch(CloneNotSupportedException e) {
+            e.printStackTrace();
+        }
+        return series;
+
     }
 }

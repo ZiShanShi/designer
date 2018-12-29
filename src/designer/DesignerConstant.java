@@ -5,10 +5,10 @@ import java.util.HashMap;
 public class DesignerConstant {
     public static final String CACHE_DEFAULT_SIZE = "cacheSize";
     public static final String CALLABLE_METHORD_SYNCHRONIZE = "synchronize";
-    public static final String CALLABLE_METHORD_GETTOPIC = "getTopic";
+    public static final String CALLABLE_METHORD_GETWIDGET = "getWidget";
 
     public static final String ID = "id";
-    public static final String TOPID = "topicid";
+
 
     public static final String CHANGED = "changed";
     public static final String CHART_TYPE = "chartType";
@@ -27,11 +27,13 @@ public class DesignerConstant {
     public static final String CHANGE_TYPE = "changeType";
     public static final String DEFAULT = "default";
     public static final String NOW_CHART_TYPE = "nowChartType";
+    public static final String PATH = "path";
 
 
-    public static final String TABLE_designer_paneltopic = "designer_paneltopic";
-    public static final String FIELD_TOPICNAME = "topicname";
-    public static final String FIELD_TOPICpath = "topicpath";
+    public static final String TABLE_designer_panelwidget = "designer_panelwidget";
+    public static final String WIDGETID = "widgetid";
+    public static final String FIELD_WIDGETNAME = "widgetname";
+    public static final String FIELD_WIDGETPATH = "widgetpath";
 
 
 
@@ -47,7 +49,7 @@ public class DesignerConstant {
 
 
     public static final String keyword_type = "type";
-    public static final String keyword_type_link = "link";
+    public static final String keyword_type_file = "file";
     public static final String keyword_type_array = "array";
     public static final String keyword_type_equal = "=";
     public static final String keyword_type_like = "%%";
@@ -66,12 +68,33 @@ public class DesignerConstant {
 
     public static final String keyelement_url = "url";
     public static final String keyelement_IF = "if";
+    public static final String keyelement_Show = "show";
     public static final String keyelement_object = "object";
 
+    public static final String keyelement_position = "position";
+    public static final String keyelement_field = "field";
 
-    public static final String fix_element_axis = "Axis";
-    public static final String fix_element_xaxis = "xAxis";
-    public static final String fix_element_yaxis = "yAxis";
+
+    public static final String fix_element_Axis = "Axis";
+    public static final String fix_element_xAxis = "xAxis";
+    public static final String fix_element_yAxis = "yAxis";
+
+
+    public static final String Grid_element_showPage = "showPage";
+    public static final String Grid_element_hasTitle = "hasTitle";
+    public static final String Grid_element_pageSize = "pageSize";
+    public static final String Grid_element_multiSelect = "multiSelect";
+    public static final String Grid_element_enableAllSelect = "enableAllSelect";
+    public static final String Grid_element_field = "field";
+
+    public static final String Grid_field_caption = "caption";
+    public static final String Grid_field_width = "width";
+    public static final String Grid_field_align = "align";
+    public static final String Grid_field_groupby = "groupby";
+
+    public static final String GET = "get";
+    public static final String IS = "is";
+
 
     public static HashMap<String,String> fixj2Json = new HashMap<>();
     public static HashMap<String,String> fixJson2J = new HashMap<>();

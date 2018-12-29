@@ -8,7 +8,7 @@
     <z>2</z>
     <orient remark="horizontal,vertical">horizontal</orient>
     <align remark="对齐方式">auto</align>
-    <padding>5</padding>
+
     <itemGap remark="项目之间的间距。">10</itemGap>
     <itemWidth>25</itemWidth>
     <itemHeight>14</itemHeight>
@@ -33,7 +33,7 @@
         <pageButtonPosition remark="图例控制块的位置。">end</pageButtonPosition>
         <pageFormatter remark="图例控制块中，页信息的显示格式。">{current}/{total}</pageFormatter>
         <pageIcons remark="图例控制块的图标。" type="object">
-            <if orient="horizontal">['M0,0L12,-10L12,10z', 'M0,0L-12,-10L-12,10z']</if>
+            <if orient="bvb    ">['M0,0L12,-10L12,10z', 'M0,0L-12,-10L-12,10z']</if>
             <if orient="vertical">['M0,0L20,0L10,-20z', 'M0,0L20,0L10,20z']</if>
         </pageIcons>
         <pageIconColor>#2f4554</pageIconColor>
@@ -89,7 +89,7 @@
         <textShadowOffsetY>0</textShadowOffsetY>
         <rich>$rich</rich>
     </textStyle>
-    <tooltip remark="默认不显示，可以在 legend 文字很多的时候对文字做裁剪并且开启" type="link">
+    <tooltip remark="默认不显示，可以在 legend 文字很多的时候对文字做裁剪并且开启" type="file">
          
     </tooltip>
     <data type="array">

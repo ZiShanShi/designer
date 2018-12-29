@@ -1,1 +1,12 @@
 <?xml version="1.0" encoding="UTF-8" ?>
+<option pathDefault="true">
+    <title>
+        <show>true</show>
+        <triggerEvent remark="是否触发事件。">false</triggerEvent>
+        <itemGap remark="项目之间的间距。">50</itemGap>
+        <textStyle>
+            <fontSize>20</fontSize>
+        </textStyle>
+    </title>
+
+</option>

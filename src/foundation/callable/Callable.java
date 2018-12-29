@@ -1,23 +1,21 @@
 package foundation.callable;
 
-import java.io.UnsupportedEncodingException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.log4j.Logger;
-
 import foundation.data.Entity;
 import foundation.data.Page;
 import foundation.persist.TableMeta;
 import foundation.user.OnlineUser;
 import foundation.user.UserRightContainer;
 import foundation.util.Util;
+import org.apache.log4j.Logger;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.UnsupportedEncodingException;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public abstract class Callable implements ICallable, IParameterProvider {
 
@@ -66,7 +64,7 @@ public abstract class Callable implements ICallable, IParameterProvider {
 					writer.replayTimeout();
 				}
 				
-				if(writer.isDefaultJson()) {
+				if (writer.isDefaultJson()) {
 					writer.replay(resultPool);
 				}
 				

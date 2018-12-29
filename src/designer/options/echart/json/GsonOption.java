@@ -2,14 +2,65 @@
 
 package designer.options.echart.json;
 
+import designer.cache.EOptionSourceType;
+import designer.cache.FieldNode;
+import designer.cache.ICacheSourceType;
 import designer.options.echart.Option;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 /**
- * 增强的Option - 主要用于测试、演示
+ * 增强的Option
  *
  * @author kimi
  */
-public class GsonOption extends Option {
+public class GsonOption extends Option implements ICacheSourceType {
+
+    private transient Map<EOptionSourceType,Set<FieldNode>> fieldNodeSourceMap;
+
+    private transient Map<FieldNode,EOptionSourceType> nodeSourceTypeMap;
+
+    public GsonOption() {
+        fieldNodeSourceMap = new HashMap<>();
+        nodeSourceTypeMap = new HashMap<>();
+    }
+
+    public Map<EOptionSourceType, Set<FieldNode>> getFieldNodeSourceMap() {
+        return fieldNodeSourceMap;
+    }
+
+
+    public GsonOption putFieldNodeSourceSet(EOptionSourceType type ,Set<FieldNode> fieldNodeSourceSet) {
+        fieldNodeSourceMap.put(type, fieldNodeSourceSet);
+        for (FieldNode fieldNode : fieldNodeSourceSet) {
+            nodeSourceTypeMap.put(fieldNode,type);
+        }
+        return this;
+    }
+
+    public GsonOption setFieldNodeSourceMap(Map<EOptionSourceType, Set<FieldNode>> fieldNodeSourceMap) {
+        this.fieldNodeSourceMap = fieldNodeSourceMap;
+        return this;
+    }
+
+    @Override
+    public EOptionSourceType getTypeFromNode(FieldNode node) {
+        return  nodeSourceTypeMap.get(node);
+    }
+
+    @Override
+    public Set<FieldNode> getFieldNodeSet(EOptionSourceType type) {
+        Set<FieldNode> fieldNodes = fieldNodeSourceMap.get(type);
+        if (fieldNodes == null) {
+            fieldNodes = new HashSet<>();
+        }
+        fieldNodeSourceMap.put(type, fieldNodes);
+        return fieldNodes;
+    }
 
     /**
      * 在浏览器中查看
@@ -53,4 +104,9 @@ public class GsonOption extends Option {
         return OptionUtil.exportToHtml(this, filePath, fileName);
     }
 
+    public void setPreFieldNode(FieldNode rootNode) {
+        nodeSourceTypeMap.keySet().stream()
+                .map(fieldNode -> fieldNode.addPreName(rootNode)).collect(Collectors.toList());
+
+    }
 }

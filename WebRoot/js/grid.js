@@ -35,7 +35,7 @@
 			    	'</div>',		 
 			   	
 				   	'<div class="grid-bar-group">',
-				   		'<input type="text" class="grid-bar-edit" id="currentPage" value="0"/>',	
+				   		'<input type="text" class="grid-bar-edit" id="currentPage" value="1"/>',	
 			    		'/',			   		
 		    			'<label class="grid-bar-label" id="totalPage">0</label>',			    	
 			    	'</div>',
@@ -392,6 +392,17 @@
     		me.initButton(btn_next, me.nextPage);
     		me.initButton(btn_last, me.lastPage);    		
     		me.initButton(btn_load, me.refresh);
+    		
+    		$('#currentPage', footer).change(function(){
+    			if(Math.ceil($(this).val())>totalPage.text()*1){
+    				$(this).val(totalPage.text());
+    			}else if(Math.ceil($(this).val())<=1){
+    				$(this).val(1);
+    			}else{
+    				$(this).val(Math.ceil($(this).val()));
+    			}
+    			me.pageTo($(this).val());
+    		});
     		
     		if (me.setGridRownoEvent) {
     			setGridRowno[0].onchange=function(){

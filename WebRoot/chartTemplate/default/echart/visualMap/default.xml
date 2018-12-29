@@ -27,7 +27,7 @@
         <right>auto</right>
         <bottom>0</bottom>
         <orient>vertical</orient>
-        <padding>5</padding>
+
         <backgroundColor>#d88273</backgroundColor>
         <borderColor>f6efa6</borderColor>
         <formatter>$formatter</formatter>
@@ -107,7 +107,7 @@
         <right>auto</right>
         <bottom>0</bottom>
         <orient>vertical</orient>
-        <padding>5</padding>
+
         <backgroundColor>#d88273</backgroundColor>
         <borderColor>f6efa6</borderColor>
         <formatter>$formatter</formatter>

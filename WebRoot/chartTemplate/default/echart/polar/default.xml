@@ -9,12 +9,12 @@
         <show>true</show>
         <trigger remark="item,axis,none">item</trigger>
         <axisPointer remark="同axispointer"></axisPointer>
-        <position remark="Array,Function,"></position>
+
         <formatter>$formatter</formatter>
         <backgroundColor>rgba(50,50,50,0.7)</backgroundColor>
         <borderColor>#333</borderColor>
         <borderWidth>0</borderWidth>
-        <padding>5</padding>
+
         <textStyle>
             <color>#fff</color>
             <fontStyle>normal</fontStyle>

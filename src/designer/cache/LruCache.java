@@ -18,20 +18,32 @@ public class LruCache<K, V> implements Cache<K, V> {
 
     private final Map<K, V> map;
 
-    private final int maxMemorySize;
+    private final Long maxMemorySize;
 
-    private int memorySize;
+    private Long memorySize;
 
-    public LruCache() {
+    private CacheManager manager;
+
+    private LruCache() {
         this(DEFAULT_CAPACITY);
     }
 
-    public LruCache(int capacity) {
+    private LruCache(int capacity) {
         if (capacity <= 0) {
             throw new IllegalArgumentException("capacity <= 0");
         }
         this.map = new LruHashMap<>(capacity);
-        maxMemorySize = capacity * 1024 * 1024;
+        maxMemorySize = capacity * 1024 * 1024L;
+        memorySize = 0l;
+    }
+
+    public LruCache(CacheManager manager,int capacity) {
+        this(capacity);
+        this.manager = manager;
+    }
+    public LruCache(CacheManager manager) {
+        this(DEFAULT_CAPACITY);
+        this.manager = manager;
     }
 
     @Override
@@ -81,12 +93,12 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
     @Override
-    public synchronized final int getMaxMemorySize() {
+    public synchronized final long getMaxMemorySize() {
         return maxMemorySize;
     }
 
     @Override
-    public synchronized final int getMemorySize() {
+    public synchronized final long getMemorySize() {
         return memorySize;
     }
 
@@ -119,8 +131,8 @@ public class LruCache<K, V> implements Cache<K, V> {
      * @return the size of the entry.
      */
 
-    private int safeSizeOf(K key, V value) {
-        int result = sizeOf(value);
+    private long safeSizeOf(K key, V value) {
+        long result = sizeOf(value);
         if (result < 0) {
             throw new IllegalStateException("Negative size: " + key + "=" + value);
         }
@@ -128,10 +140,10 @@ public class LruCache<K, V> implements Cache<K, V> {
     }
 
 
-    protected int sizeOf(V value) {
+    protected long sizeOf(V value) {
         long l = RamUsageEstimator.sizeOf(value);
 
-        return (int) l;
+        return  l;
     }
 
     /**
@@ -141,7 +153,7 @@ public class LruCache<K, V> implements Cache<K, V> {
      *
      * @param maxSize max size
      */
-    private void trimToSize(int maxSize) {
+    private void trimToSize(long maxSize) {
         while (true) {
             if (memorySize <= maxSize || map.isEmpty()) {
                 break;
@@ -150,8 +162,12 @@ public class LruCache<K, V> implements Cache<K, V> {
                 throw new IllegalStateException(getClassName() + ".getValueSize() is reporting inconsistent results");
             }
             Map.Entry<K, V> toRemove = map.entrySet().iterator().next();
-            map.remove(toRemove.getKey());
-            memorySize -= safeSizeOf(toRemove.getKey(), toRemove.getValue());
+            K key = toRemove.getKey();
+            V value = toRemove.getValue();
+            map.remove(key);
+
+            manager.remove(key, value);
+            memorySize -= safeSizeOf(key, value);
         }
     }
 

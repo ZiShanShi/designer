@@ -17,7 +17,7 @@ public class Pie extends Series<Pie> {
     /**
      * 圆心坐标，支持绝对值（px）和百分比，百分比计算min(width, height) * 50%
      */
-    private Object[] center;
+    private Object center;
     /**
      * 半径，支持绝对值（px）和百分比，百分比计算比，min(width, height) / 2 * 75%，
      * 传数组实现环形图，[内半径，外半径]
@@ -77,7 +77,7 @@ public class Pie extends Series<Pie> {
     /**
      * 获取center值
      */
-    public Object[] center() {
+    public Object center() {
         return this.center;
     }
 
@@ -86,7 +86,7 @@ public class Pie extends Series<Pie> {
      *
      * @param center
      */
-    public Pie center(Object[] center) {
+    public Pie center(Object center) {
         this.center = center;
         return this;
     }

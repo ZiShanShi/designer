@@ -11,7 +11,7 @@
     <subTarget>blank</subTarget>
 
     <triggerEvent remark="是否触发事件。">false</triggerEvent>
-    <padding>5</padding>
+
     <itemGap remark="项目之间的间距。">10</itemGap>
     <zlevel>0</zlevel>
     <z>2</z>
