@@ -52,6 +52,19 @@ public class SegmentPart {
     }
 
     @Override
+    public int hashCode() {
+        return name.hashCode() + value.hashCode() + link.hashCode() + valueType.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof SegmentPart) {
+            return this.hashCode() == obj.hashCode();
+        }
+        return super.equals(obj);
+    }
+
+    @Override
     public String toString() {
         switch (link) {
             case equal:

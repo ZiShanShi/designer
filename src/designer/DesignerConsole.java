@@ -52,6 +52,7 @@ public class DesignerConsole extends Callable {
             File topicFile = DesignerUtil.checkFileLegality(path);
             widget = new Widget(widgetId, topicName);
             XmlReader topicReader = new XmlReader(EDesignerXmlType.realTopic);
+            widget.setPath(path);
             topicReader.read(topicFile , widget);
             WidgetManager.getInstance().addWidget(widget);
 //            String gsonOptionsStr = GsonUtil.format(widget.getChartOption().getRealChartOption());
@@ -66,7 +67,10 @@ public class DesignerConsole extends Callable {
     private void synchronize() {
         try {
             DesignContext designContext = new DesignContext(request);
-
+            designContext.exec();
+            String widgetId = designContext.getWidgetId();
+            Widget widget = WidgetManager.getInstance().getWidget(widgetId);
+            WidgetManager.getInstance().remove(widgetId, widget);
         } catch (Exception e) {
             e.printStackTrace();
         }

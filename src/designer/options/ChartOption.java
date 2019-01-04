@@ -20,10 +20,11 @@ import java.util.List;
 
 
 public class ChartOption implements IOption{
-    private String topicId;
+    private transient String topicId;
     private GsonOption realChartOption;
     private Theme theme;
-
+    private transient boolean isLink;
+    private transient String path;
     public ChartOption() {
         this.realChartOption = DesignerComponentFactory.getInstance().getDefautOption();
 
@@ -136,12 +137,30 @@ public class ChartOption implements IOption{
         return this;
     }
 
+    public boolean isLink() {
+        return isLink;
+    }
+
+    public ChartOption setLink(boolean link) {
+        isLink = link;
+        return this;
+    }
+
     public String getTopicId() {
         return topicId;
     }
 
     public ChartOption setTopicId(String topicId) {
         this.topicId = topicId;
+        return this;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public ChartOption setPath(String path) {
+        this.path = path;
         return this;
     }
 }

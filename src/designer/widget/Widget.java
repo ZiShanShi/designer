@@ -43,12 +43,13 @@ public class Widget implements ICacheSourceType {
     private EChartType defaultType;
     private List<ChartAxis> axisList;
 
-
     private EDataType dataType;
     private String dataName;
     private List<SegmentPart> segmentList;
-    private transient ChartOption chartOption;
     private GridOption gridOption;
+    private transient ChartOption chartOption;
+
+    private transient  String path;
     private transient Map<EOptionSourceType,Set<FieldNode>> fieldNodeSourceMap;
     private transient Map<FieldNode,EOptionSourceType> nodeSourceTypeMap;
     private transient Map<String,String> xmlBeanMap;
@@ -63,9 +64,9 @@ public class Widget implements ICacheSourceType {
         nodeSourceTypeMap = new HashMap<>();
         xmlBeanMap = new HashMap<>();
 
-        xmlBeanMap.put("filters","segmentList");
-        xmlBeanMap.put("chartType","chartTypeList");
-        xmlBeanMap.put("axis","axisList");
+        xmlBeanMap.put("segmentList", "filters-segment");
+        xmlBeanMap.put("chartTypeList", "chartType");
+        xmlBeanMap.put("axisList", "axis-one");
 
     }
 
@@ -74,6 +75,13 @@ public class Widget implements ICacheSourceType {
         this.name = name;
     }
 
+    public String fromWidget2XmlBean(String fieldName) {
+        String fixedName = xmlBeanMap.get(fieldName);
+        if (Util.isEmptyStr(fixedName)) {
+            fixedName = fieldName;
+        }
+        return fixedName;
+    }
 
     public String putSegment(SegmentPart segmentPart) {
         if (segmentList == null) {
@@ -159,6 +167,10 @@ public class Widget implements ICacheSourceType {
         return "axisList";
     }
 
+    public List<ChartAxis> getAxisList() {
+        return axisList;
+    }
+
     public EDataType getDataType() {
         return dataType;
     }
@@ -213,7 +225,14 @@ public class Widget implements ICacheSourceType {
         return "defaultType";
     }
 
+    public String getPath() {
+        return path;
+    }
 
+    public Widget setPath(String path) {
+        this.path = path;
+        return this;
+    }
 
     public void invalidate()  {
         try {
@@ -276,7 +295,7 @@ public class Widget implements ICacheSourceType {
     private Object reSetAxis(ChartAxis chartAxis, EntitySet dataSet) {
         EDesignerDataType dataType = chartAxis.getType();
         EAxisPositon positon = chartAxis.getPositon();
-        String axisName = positon.getAxisName();
+        EDimensionAxis axisName = positon.getAxisName();
         GsonOption gsonOption = chartOption.getRealChartOption();
         Axis axis = null;
         switch (dataType) {
@@ -285,7 +304,6 @@ public class Widget implements ICacheSourceType {
                 if (!Util.isEmptyStr(chartAxis.getName())) {
                     axis.name(chartAxis.getName());
                 }
-                int index = 0;
 
                 chartAxis.getFieldList().stream()
                         .map(field -> setMeasurmentSeries(field,dataSet.getFieldList(field.getName()),axisName,gsonOption)).collect(Collectors.toList());
@@ -312,22 +330,33 @@ public class Widget implements ICacheSourceType {
                 break;
 
         }
-        if ("x".equalsIgnoreCase(axisName)) {
-            gsonOption.xAxis(axis);
-        } else if ("y".equalsIgnoreCase(axisName)) {
-            gsonOption.yAxis(axis);
+
+        switch (axisName) {
+            case x:
+                gsonOption.xAxis(axis);
+                break;
+            case y:
+                gsonOption.yAxis(axis);
+            default:
+                break;
         }
+
         return  axisName;
     }
 
-    private Object setMeasurmentSeries(AxisField field, List<String> measurmentData, String axisName, GsonOption gsonOption) {
+    private Object setMeasurmentSeries(AxisField field, List<String> measurmentData, EDimensionAxis axisName, GsonOption gsonOption) {
         String fieldName = field.getName();
         Series dataSeries = SeriesBuilder.createBaseDataSeries(field.getType(), fieldName, measurmentData);
+        switch (axisName) {
+            case x:
+                dataSeries.yAxisIndex(gsonOption.xAxis().size());
+                break;
+            case y:
+                dataSeries.yAxisIndex(gsonOption.yAxis().size());
+                break;
+            default:
+                break;
 
-        if ("x".equalsIgnoreCase(axisName)) {
-            dataSeries.yAxisIndex(gsonOption.xAxis().size());
-        } else if ("y".equalsIgnoreCase(axisName)) {
-            dataSeries.yAxisIndex(gsonOption.yAxis().size());
         }
 
         chartOption.getRealChartOption().legend().data(fieldName);
@@ -340,7 +369,7 @@ public class Widget implements ICacheSourceType {
 
         realChartOption.xAxis().clear();
         realChartOption.yAxis().clear();
-        List<Object> collect = axisList.stream()
+        axisList.stream()
                 .map(chartAxis ->
                         reSetAxis(chartAxis, dataSet)
                 ).collect(Collectors.toList());
@@ -389,4 +418,13 @@ public class Widget implements ICacheSourceType {
         return  topicJsonObject;
     }
 
+    public Widget putFieldNode(EOptionSourceType type ,FieldNode node) {
+        Set<FieldNode> fieldNodes = fieldNodeSourceMap.get(type);
+        if (fieldNodes == null) {
+            fieldNodes = new HashSet<>();
+        }
+        fieldNodes.add(node);
+        fieldNodeSourceMap.put(type, fieldNodes);
+        return this;
+    }
 }

@@ -444,7 +444,7 @@
 
             for (var i = 0; i < axises.length; i++) {
                 var axisOption = axises[i];
-                var type = axisOption.type;
+                var type = axisOption.axis;
 
                 var index = route[type];
                 var axis = route[type].axis[index];

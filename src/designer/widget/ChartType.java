@@ -15,6 +15,7 @@ public class ChartType {
     private Integer minMensurmentNum;
     private Integer maxMensurmentNum;
     private EChartType type;
+    private Boolean isOpen;
 
     public ChartType(){this.type = EChartType.bar;}
 
@@ -58,6 +59,14 @@ public class ChartType {
         return this;
     }
 
+    public boolean isOpen() {
+        return isOpen;
+    }
+
+    public ChartType setOpen(boolean open) {
+        isOpen = open;
+        return this;
+    }
 
     public EChartType getType() {
         return type;
@@ -66,5 +75,18 @@ public class ChartType {
     public ChartType setType(EChartType type) {
         this.type = type;
         return this;
+    }
+
+    @Override
+    public int hashCode() {
+        return type.hashCode() + isOpen.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof ChartType) {
+            return this.hashCode() == obj.hashCode();
+        }
+        return super.equals(obj);
     }
 }

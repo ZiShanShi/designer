@@ -83,8 +83,10 @@ public class FieldNode {
     public int hashCode() {
         if (fieldClaz != null) {
             return fieldClaz.hashCode() + fieldName.hashCode();
+        } else if (fieldName != null) {
+            return fieldName.hashCode();
         } else {
-            return  fieldName.hashCode();
+            return super.hashCode();
         }
 
     }

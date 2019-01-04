@@ -1,5 +1,5 @@
 package designer.widget;
 
-public enum EDimensonAxis {
+public enum EDimensionAxis {
     x,y;
 }

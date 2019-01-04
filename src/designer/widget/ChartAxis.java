@@ -15,10 +15,25 @@ import java.util.List;
 public class ChartAxis {
     private EAxisPositon positon;
     private EDesignerDataType type;
+    private EDimensionAxis axis;
     private List<AxisField> fieldList;
     private String name;
     public ChartAxis(EDesignerDataType dataType) {
         this.type = dataType;
+    }
+
+    public ChartAxis(EDesignerDataType eDesignerDataType, EDimensionAxis dimensonAxis) {
+        this.type = eDesignerDataType;
+        this.axis = dimensonAxis;
+    }
+
+    public EDimensionAxis getAxis() {
+        return axis;
+    }
+
+    public ChartAxis setAxis(EDimensionAxis axis) {
+        this.axis = axis;
+        return this;
     }
 
     public EAxisPositon getPositon() {

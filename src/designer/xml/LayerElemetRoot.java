@@ -1,5 +1,6 @@
 package designer.xml;
 
+import org.dom4j.Document;
 import org.dom4j.Element;
 
 /**
@@ -12,10 +13,21 @@ import org.dom4j.Element;
 public class LayerElemetRoot {
     private int layer;
     private Element root;
-
+    private String path;
+    private Document document;
     public LayerElemetRoot(int layer, Element root) {
         this.layer = layer;
         this.root = root;
+    }
+
+    public LayerElemetRoot(int layer, Element root, String path) {
+        this(layer, root);
+        this.path = path;
+    }
+
+    public LayerElemetRoot(int layer, Document document, Element rootElement, String absolutePath) {
+        this(layer,rootElement,absolutePath);
+        this.document = document;
     }
 
     public int getLayer() {
@@ -24,5 +36,13 @@ public class LayerElemetRoot {
 
     public Element getRoot() {
         return root;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public Document getDocument() {
+        return document;
     }
 }

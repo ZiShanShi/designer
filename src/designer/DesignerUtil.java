@@ -23,10 +23,7 @@ import net.sf.json.JSONObject;
 import java.io.File;
 import java.lang.reflect.*;
 import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author kimi
@@ -147,7 +144,7 @@ public class DesignerUtil {
     public static void combine(Widget widget, Widget baseWidget) {
         //组合成完整的widget
         try {
-            combineObj(widget, baseWidget, null);
+            combineObj(widget, baseWidget, null, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,7 +153,7 @@ public class DesignerUtil {
     public static void combine(Option option, Option baseOption) {
         // 组合成完整的option
         try {
-            combineObj(option, baseOption, null);
+            combineObj(option, baseOption, null, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -214,7 +211,7 @@ public class DesignerUtil {
         }
     }
 
-    public static  void combineObj (Object targetObj, Object sourseObj, CheckCacheObject checkCacheObject) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
+    public static  void combineObj(Object targetObj, Object sourseObj, CheckCacheObject checkCacheObject, boolean doChange) throws IllegalAccessException, NoSuchFieldException, InstantiationException {
         Class<?> targetClass = targetObj.getClass();
         Class<?> sourseClass = sourseObj.getClass();
         Boolean mayCache = false;
@@ -265,7 +262,7 @@ public class DesignerUtil {
                     }
                 }
 
-                setSimpleValue(targetObj, targetField, sourseValue, checkCacheObject);
+                setSimpleValue(targetObj, targetField, sourseValue, checkCacheObject, doChange);
             } else {
                 if (noCatchedList.contains(targetField.getType().getSimpleName())) {
                     continue;
@@ -274,9 +271,9 @@ public class DesignerUtil {
                     continue;
                 }
                 if (targetValue == null) {
-                    setSimpleValue(targetObj, targetField, sourseValue, checkCacheObject);
+                    setSimpleValue(targetObj, targetField, sourseValue, checkCacheObject, doChange);
                 } else {
-                    combineObj(targetValue , sourseValue, checkCacheObject);
+                    combineObj(targetValue , sourseValue, checkCacheObject, false);
                 }
 
             }
@@ -318,7 +315,7 @@ public class DesignerUtil {
                 targetList.add(oneSourseValue);
             } else {
 
-                combineObj(oneTargetValue , oneSourseValue, checkCacheObject);
+                combineObj(oneTargetValue , oneSourseValue, checkCacheObject, false);
             }
         }
     }
@@ -368,11 +365,13 @@ public class DesignerUtil {
         return  isSample;
     }
 
-    public static void setSimpleValue(Object targetObj, Field field, Object value, CheckCacheObject checkCacheObject) throws IllegalAccessException, NoSuchFieldException {
+    public static void setSimpleValue(Object targetObj, Field field, Object value, CheckCacheObject checkCacheObject, boolean doChange) throws IllegalAccessException, NoSuchFieldException {
         Class componentClaz = field.getType();
         Class<?> superclass = componentClaz.getSuperclass();
 
-        handleCacheTypes(field, checkCacheObject);
+        if (doChange) {
+            handleCacheTypes(field, checkCacheObject);
+        }
 
         DataType superDataType;
         if (superclass == null) {
@@ -397,6 +396,23 @@ public class DesignerUtil {
         field.setAccessible(true);
 
         field.set(targetObj, value);
+    }
+
+    public static Widget addAllCacheMap(Widget widget, GsonOption realChartOption) {
+        Map<EOptionSourceType, Set<FieldNode>> topicCacheNodeMap = widget.getFieldNodeSourceMap();
+        Map<EOptionSourceType, Set<FieldNode>> optionCacheNodeMap = realChartOption.getFieldNodeSourceMap();
+
+        Set<EOptionSourceType> optionTypes = optionCacheNodeMap.keySet();
+        for (EOptionSourceType eOptionSourceType : optionTypes) {
+            Set<FieldNode> optionNodeSet = optionCacheNodeMap.get(eOptionSourceType);
+            Set<FieldNode> topicNodeSet = topicCacheNodeMap.get(eOptionSourceType);
+            if (topicNodeSet == null) {
+                topicNodeSet = new HashSet<>();
+            }
+            topicNodeSet.addAll(optionNodeSet);
+        }
+
+        return widget;
     }
 
     private static String fixJson2J(String valueString) {
@@ -431,4 +447,26 @@ public class DesignerUtil {
         return fieldList;
     }
 
+    public static Field getField(Class<?> clazz, String name){
+        if(null == clazz){
+            return null;
+        }
+        Field realfield = null;
+        Field[] fields = clazz.getDeclaredFields();
+        for(Field field : fields){
+            if (field.getName().toLowerCase().equalsIgnoreCase(name.toLowerCase())) {
+                realfield = field;
+            }
+        }
+        /** 处理父类字段**/
+        Class<?> superClass = clazz.getSuperclass();
+        if(superClass.equals(Object.class)){
+            return realfield;
+        }
+        Field field = getField(superClass, name);
+        if (field != null) {
+            realfield = field;
+        }
+        return realfield;
+    }
 }

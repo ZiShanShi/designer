@@ -40,7 +40,7 @@ public class DesignerDefaultLoader extends Preloader {
 
         loadDefaultOpiton();
 
-        loadDefaultTopic();
+        loadDefaultWidget();
 
         loadDefaultThemes();
     }
@@ -75,7 +75,7 @@ public class DesignerDefaultLoader extends Preloader {
         loadThemeFile(themeRootFile);
     }
 
-    private void loadDefaultTopic() {
+    private void loadDefaultWidget() {
         DesignerComponentFactory instance = DesignerComponentFactory.getInstance();
         String suffix = Configer.getParam(DesignerConstant.DEFAULT_CHART_SUFFIX);
         String topicPartPath = Configer.getParam(DesignerConstant.DEFAULT_Topic_PART_PATH);
@@ -86,6 +86,7 @@ public class DesignerDefaultLoader extends Preloader {
         File topicDefualtFile = DesignerUtil.checkFileLegality(topicDefaultFilePath);
 
         Widget defaultWidget = new Widget(DesignerConstant.DEFAULT, DesignerConstant.DEFAULT);
+        defaultWidget.setPath(topicDefaultFilePath);
         XmlReader topicDefaultReader = new XmlReader(EDesignerXmlType.defaultTopic);
         topicDefaultReader.read(topicDefualtFile, defaultWidget);
         instance.setBaseWidget(defaultWidget);

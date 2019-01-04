@@ -10,12 +10,12 @@
     <nowChartType>bar</nowChartType>
 
     <axis>
-        <xAxis type="dimension" position="bottom">
+        <one grid="x" type="dimension" position="bottom">
             <field></field>
-        </xAxis>
-        <yAxis type="measurment" position="left">
+        </one>
+        <one grid="y" type="measurment" position="left">
             <field type="bar"></field>
-        </yAxis>
+        </one>
     </axis>
 
     <datatype remark="目前仅支持sql db 不支持 后台拼接数据">db</datatype>
@@ -29,7 +29,7 @@
     </filters>
 
     <chartOption>
-        <theme default=""></theme>
+        <theme></theme>
         <path></path>
     </chartOption>
     

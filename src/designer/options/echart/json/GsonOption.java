@@ -41,6 +41,15 @@ public class GsonOption extends Option implements ICacheSourceType {
         }
         return this;
     }
+    public GsonOption putFieldNode(EOptionSourceType type ,FieldNode node) {
+        Set<FieldNode> fieldNodes = fieldNodeSourceMap.get(type);
+        if (fieldNodes == null) {
+            fieldNodes = new HashSet<>();
+        }
+        fieldNodes.add(node);
+        fieldNodeSourceMap.put(type, fieldNodes);
+        return this;
+    }
 
     public GsonOption setFieldNodeSourceMap(Map<EOptionSourceType, Set<FieldNode>> fieldNodeSourceMap) {
         this.fieldNodeSourceMap = fieldNodeSourceMap;

@@ -11,13 +11,14 @@ public class DesignerConstant {
 
 
     public static final String CHANGED = "changed";
+    public static final String One = "one";
     public static final String CHART_TYPE = "chartType";
     public static final String HAS_GRID = "hasGrid";
     public static final String DIMENSIONS = "dimensions";
     public static final String MEASURMENTS = "measurments";
     public static final String DATA_TYPE = "dataType";
     public static final String DATA_NAME = "dataName";
-    public static final String CATEGORY_AXIS = "categoryAxis";
+    public static final String Grid = "grid";
     public static final String AND = " and ";
 
     public static final String CHART_OPTION = "chartOption";
@@ -60,11 +61,20 @@ public class DesignerConstant {
 
     public static final String keyword_essential = "essential";
     public static final String keyword_remark = "remark";
+    public static final String keyword_link = "link";
+    public static final String keyword_segment = "segment";
     public static final String keyword_parent = "parent";
     public static final String keyword_name = "name";
     public static final String keyword_datalink = "datalink";
     public static final String keyword_pathDefault = "pathDefault";
     public static final String keyword_default = "default";
+    public static final String keyword_capiton = "caption";
+
+    public static final String keyelement_minDimension = "minDimension";
+    public static final String keyelement_minMensurment = "minMensurment";
+    public static final String keyelement_maxDimension = "maxDimension";
+    public static final String keyelement_maxMensurment = "maxMensurment";
+
 
     public static final String keyelement_url = "url";
     public static final String keyelement_IF = "if";
@@ -75,7 +85,7 @@ public class DesignerConstant {
     public static final String keyelement_field = "field";
 
 
-    public static final String fix_element_Axis = "Axis";
+    public static final String fix_element_Axis = "axis";
     public static final String fix_element_xAxis = "xAxis";
     public static final String fix_element_yAxis = "yAxis";
 
@@ -98,6 +108,7 @@ public class DesignerConstant {
 
     public static HashMap<String,String> fixj2Json = new HashMap<>();
     public static HashMap<String,String> fixJson2J = new HashMap<>();
+
 
     static  {
         //只有enmu需要用

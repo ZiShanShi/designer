@@ -17,5 +17,28 @@ public enum EFilterLink {
         }
     }
 
+    public String toString() {
+        String result = null;
+        switch (this) {
+            case equal:
+                result ="=";
+                break;
+            case likeright:
+                result = "*%";
+                break;
+            case likeleft:
+                result = "%*";
+                break;
+            case like:
+                result = "%%";
+                break;
+
+            default:
+                break;
+
+        }
+       return  result;
+    }
+
 
 }

@@ -389,23 +389,23 @@ public class Util {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static <T> T StringToOther(String dataValue, DataType type, DataType listType) {
+	public static <T> T StringToOther(Object dataValue, DataType type, DataType listType) {
 		
 		if (type.equals(DataType.String)) {
 			return (T) dataValue;
 		}
 		else if (type.equals(DataType.Integer)) {
-			return (T)(Object) stringToInt(dataValue, -1);
+			return (T)(Object) stringToInt(String.valueOf(dataValue), -1);
 		}
 		else if (type.equals(DataType.Double)) {
-			return (T)(Object) StringToDouble(dataValue);
+			return (T)(Object) StringToDouble(String.valueOf(dataValue));
 		}
 		else if (type.equals(DataType.Float)) {
-			return (T)(Object) StringToFloat(dataValue);
+			return (T)(Object) StringToFloat(String.valueOf(dataValue));
 		}
 		else if (type.equals(DataType.Date)) {
 			try {
-				return (T)(Object) StringToDate(dataValue);
+				return (T)(Object) StringToDate(String.valueOf(dataValue));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
@@ -415,7 +415,7 @@ public class Util {
 		}
 		else if (type.equals(DataType.List)) {
 			Class<?> listClaz = listType.getJavaClass();
-			return (T) StringToList(dataValue, listClaz);
+			return (T) StringToList(String.valueOf(dataValue), listClaz);
 		}
 
 		return null;

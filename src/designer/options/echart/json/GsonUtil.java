@@ -6,13 +6,11 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
-import designer.options.AxisTypeDeserializer;
 import designer.options.GridDataDeserializer;
 import designer.options.echart.Option;
 import designer.options.echart.axis.Axis;
 import designer.options.echart.code.TriggerOn;
 import designer.options.echart.series.Series;
-import designer.widget.EDesignerDataType;
 import foundation.data.Entity;
 
 /**
@@ -30,7 +28,6 @@ public class GsonUtil {
         Gson gson = new GsonBuilder().setPrettyPrinting()
                 .registerTypeAdapter(TriggerOn.class, new TypeAdapterFactory())
                 .registerTypeAdapter(Entity.class, new GridDataDeserializer())
-                .registerTypeAdapter(EDesignerDataType.class, new AxisTypeDeserializer())
                 .disableHtmlEscaping().create();
         JsonParser jp = new JsonParser();
         JsonElement je = jp.parse(gson.toJson(object));

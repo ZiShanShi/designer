@@ -3,17 +3,16 @@ package designer.widget;
 public enum EAxisPositon {
     left,right,bottom,top;
 
-    public  String getAxisName(){
-        String axis = null;
-
+    public  EDimensionAxis getAxisName(){
+        EDimensionAxis axis = null;
         switch (this) {
             case bottom:
             case top:
-                axis = "x";
+                axis = EDimensionAxis.x;
                 break;
             case left:
             case right:
-                axis = "y";
+                axis = EDimensionAxis.y;
                 break;
             default:
                 break;

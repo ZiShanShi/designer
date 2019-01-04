@@ -6,21 +6,21 @@
     </chartType>
 
     <Axis>
-        <xAxis type="dimension" position="bottom" >
+        <one grid="x" type="dimension" position="bottom" >
             <field>customercode</field>
             <field>customername</field>
-        </xAxis>
+        </one>
 
-        <yAxis type="measurment" position="left" name="左轴">
+        <one grid="x" type="measurment" position="left" name="左轴">
 
             <field>qty_original</field>
-        </yAxis>
-        <yAxis type="measurment" position="right">
-            <field type="line">qty</field>
-        </yAxis>
+        </one>
+        <one grid="y" type="measurment" position="right">
+            <field type="line" >qty</field>
+        </one>
     </Axis>
     <filters>
-        <segment name="typecode" link="=" type="value">佣金</segment>
+        <!--<segment name="typecode" link="=" type="value">佣金</segment>-->
 
     </filters>
     <chartOption>

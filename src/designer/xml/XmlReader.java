@@ -97,11 +97,9 @@ public class XmlReader {
                 break;
             case realTopic:
             case realChart:
-                type = EOptionSourceType.Real;
+                type = EOptionSourceType.Changed;
                 break;
-            case theme:
-                type = EOptionSourceType.Theme;
-                break;
+
 
             default:
                 break;
@@ -416,7 +414,7 @@ public class XmlReader {
 
     private void setSimpleChildValue(Object defaultOption, String childName, Object value) throws IllegalAccessException, NoSuchFieldException {
         Field declaredField = getReflectField(defaultOption, childName);
-        DesignerUtil.setSimpleValue(defaultOption, declaredField, value, null);
+        DesignerUtil.setSimpleValue(defaultOption, declaredField, value, null, false);
 
     }
 
@@ -609,28 +607,15 @@ public class XmlReader {
         if (isDefault) {
             DesignerComponentFactory.getInstance().setBaseWidget(widget);
         } else {
-            widget.putFieldNodeSourceSet(checkOptionSourceType(),getFieldNodeSet());
+            //widget.putFieldNodeSourceSet(checkOptionSourceType(),getFieldNodeSet());
             DesignerUtil.combine(widget);
-            widget = addAllCacheMap(widget, widget.getChartOption().getRealChartOption());
+            widget = DesignerUtil.addAllCacheMap(widget, widget.getChartOption().getRealChartOption());
             widget.invalidate();
         }
 
 
     }
 
-    private Widget addAllCacheMap(Widget widget, GsonOption realChartOption) {
-        Map<EOptionSourceType, Set<FieldNode>> topicCacheNodeMap = widget.getFieldNodeSourceMap();
-        Map<EOptionSourceType, Set<FieldNode>> optionCacheNodeMap = realChartOption.getFieldNodeSourceMap();
-
-        Set<EOptionSourceType> optionTypes = optionCacheNodeMap.keySet();
-        for (EOptionSourceType eOptionSourceType : optionTypes) {
-            Set<FieldNode> optionNodeSet = optionCacheNodeMap.get(eOptionSourceType);
-            Set<FieldNode> topicNodeSet = topicCacheNodeMap.get(eOptionSourceType);
-            topicNodeSet.addAll(optionNodeSet);
-        }
-
-        return widget;
-    }
 
     public void loadWidgetFile(File topicFile, Widget widget) {
         loadWidgetFile(topicFile, false, widget);
@@ -652,7 +637,7 @@ public class XmlReader {
         String elementStringValue = DesignerUtil.fixXmlStringValue(childElement.getStringValue());
         if (DesignerConstant.HAS_GRID.equalsIgnoreCase(name)) {
             String fieldName = widget.setHasGrid(Util.stringToBoolean(elementStringValue));
-            FieldNode rootNode = new FieldNode(String.class,fieldName);
+            FieldNode rootNode = new FieldNode(boolean.class,fieldName);
             putSourcrFieldClazName(rootNode);
 
         } else if (DesignerConstant.CHART_TYPE.equalsIgnoreCase(name)) {
@@ -664,14 +649,35 @@ public class XmlReader {
                 String oneChartTypeName = oneChartTypeEle.getName();
                 EChartType oneChartType = EChartType.valueOf(oneChartTypeName);
 
-                Attribute minDimensionAttr = oneChartTypeEle.attribute("minDimension");
-                int minDimension = Integer.parseInt(minDimensionAttr.getValue());
-
-                Attribute minMensurmentAttr = oneChartTypeEle.attribute("minMensurment");
-                int minMensurment = Integer.parseInt(minMensurmentAttr.getValue());
-
                 ChartType chartType = new ChartType(oneChartType);
-                chartType.setMinDimensionNum(minDimension).setMinMensurmentNum(minMensurment);
+                Attribute minDimensionAttr = oneChartTypeEle.attribute(DesignerConstant.keyelement_minDimension);
+                if (minDimensionAttr != null) {
+                    int minDimension = Integer.parseInt(minDimensionAttr.getValue());
+                    chartType.setMinDimensionNum(minDimension);
+                }
+
+                Attribute minMensurmentAttr = oneChartTypeEle.attribute(DesignerConstant.keyelement_minMensurment);
+                if (minMensurmentAttr != null) {
+                    int minMensurment = Integer.parseInt(minMensurmentAttr.getValue());
+                    chartType.setMinMensurmentNum(minMensurment);
+                }
+
+                Attribute maxDimensionAttr = oneChartTypeEle.attribute(DesignerConstant.keyelement_maxDimension);
+                if (maxDimensionAttr != null) {
+                    int maxDimension = Integer.parseInt(maxDimensionAttr.getValue());
+                    chartType.setMaxDimensionNum(maxDimension);
+                }
+
+                Attribute maxMensurmentAttr = oneChartTypeEle.attribute(DesignerConstant.keyelement_maxMensurment);
+                if (maxMensurmentAttr != null) {
+                    int maxMensurment = Integer.parseInt(maxMensurmentAttr.getValue());
+                    chartType.setMaxMensurmentNum(maxMensurment);
+                }
+
+                String stringValue = oneChartTypeEle.getStringValue();
+                Boolean isOpen = Util.stringToBoolean(stringValue);
+
+                chartType.setOpen(isOpen);
 
                 chartTypeList.add(chartType);
             }
@@ -680,18 +686,8 @@ public class XmlReader {
             putSourcrFieldClazName(rootNode);
 
         } else if (DesignerConstant.fix_element_Axis.equalsIgnoreCase(name)) {
-            List<Element> xAxisEleList = childElement.elements(DesignerConstant.fix_element_xAxis);
-            String fieldName = null;
-
-            for (Element axisEle : xAxisEleList) {
-                fieldName = loadAxises(widget, axisEle);
-            }
-
-            List<Element> yAxisEleList = childElement.elements(DesignerConstant.fix_element_yAxis);
-
-            for (Element axisEle : yAxisEleList) {
-                fieldName = loadAxises(widget, axisEle);
-            }
+            List<Element> axisEleList = childElement.elements(DesignerConstant.One);
+            String fieldName = loadAxises(widget, axisEleList);
 
             FieldNode rootNode = new FieldNode(List.class,fieldName);
             putSourcrFieldClazName(rootNode);
@@ -709,24 +705,24 @@ public class XmlReader {
             FieldNode rootNode = new FieldNode(String.class,fieldName);
             putSourcrFieldClazName(rootNode);
         }else if (DesignerConstant.FILTERS.equalsIgnoreCase(name)) {
-            //TODO 未定
-            List<Element> segmentList = childElement.elements("segment");
+
+            List<Element> segmentList = childElement.elements(DesignerConstant.keyword_segment);
             for (Element segment : segmentList) {
-                Attribute nameAttr = segment.attribute("name");
+                Attribute nameAttr = segment.attribute(DesignerConstant.keyword_name);
                 String fieldName;
                 if (nameAttr == null) {
                     throw new DesignerFileException("节点: " + name);
                 } else {
                     fieldName = nameAttr.getValue();
                 }
-                Attribute linkAttr = segment.attribute("link");
+                Attribute linkAttr = segment.attribute(DesignerConstant.keyword_link);
                 String link;
                 if (linkAttr == null) {
                     link = DesignerConstant.keyword_type_equal;
                 } else {
                     link = linkAttr.getValue();
                 }
-                Attribute typeAttr = segment.attribute("type");
+                Attribute typeAttr = segment.attribute(DesignerConstant.keyword_type);
                 ESqlValueType type;
                 if (typeAttr == null) {
                     type = ESqlValueType.value;
@@ -753,9 +749,13 @@ public class XmlReader {
                     GsonOption realOption = DesignerUtil.combineOption(filePath);
                     chartOption = new ChartOption(realOption);
                 }
+                chartOption.setLink(true);
+                chartOption.setPath(filePath);
 
             } else {
                 chartOption = new ChartOption();
+                chartOption.setLink(false);
+
                 Iterator<Element> iterator = childElement.elementIterator();
                 while (iterator.hasNext()) {
                     Element child = iterator.next();
@@ -868,13 +868,6 @@ public class XmlReader {
             FieldNode rootNode = new FieldNode(GridOption.class,"gridOption");
             putSourcrFieldClazName(rootNode);
         }
-       /* else if (DesignerConstant.CATEGORY_AXIS.equalsIgnoreCase(name)) {
-            EDimensonAxis dimensonAxis = EDimensonAxis.valueOf(elementStringValue);
-
-            String fieldName = widget.setDimensonAxis(dimensonAxis);
-            FieldNode rootNode = new FieldNode(EDimensonAxis.class,fieldName);
-            putSourcrFieldClazName(rootNode);
-        }*/
         else if (DesignerConstant.NOW_CHART_TYPE.equalsIgnoreCase(name)) {
             EChartType type = EChartType.valueOf(elementStringValue);
             String setDefaultType = widget.setDefaultType(type);
@@ -884,47 +877,59 @@ public class XmlReader {
         }
     }
 
-    private String loadAxises(Widget widget, Element axisEle) {
-        Attribute typettr = axisEle.attribute(DesignerConstant.keyword_type);
-
-        if (typettr == null) {
-            throw new DesignerOptionsFileException("widget axis type is null");
-        }
-
-        EDesignerDataType eDesignerDataType = EDesignerDataType.valueOf(typettr.getValue());
-
-        ChartAxis chartAxis = new ChartAxis(eDesignerDataType);
-
-        Attribute positioAttr = axisEle.attribute(DesignerConstant.keyelement_position);
-
-        if (positioAttr == null) {
-            throw new DesignerOptionsFileException("widget axis type is null");
-        }
-
-        EAxisPositon eAxisPositon = EAxisPositon.valueOf(positioAttr.getValue());
-        chartAxis.setPositon(eAxisPositon);
-        Attribute nameAttr = axisEle.attribute(DesignerConstant.keyword_name);
-
-        if (nameAttr != null) {
-            chartAxis.setName(nameAttr.getValue());
-        }
-
-        List<Element> fieldEleList = axisEle.elements(DesignerConstant.keyelement_field);
-
-        for (Element fieldEle : fieldEleList) {
-            String fieldName = fieldEle.getStringValue();
-            AxisField axisField = new AxisField(fieldName);
-            Attribute fieldTypeAttr = fieldEle.attribute(DesignerConstant.keyword_type);
-            if (fieldTypeAttr != null) {
-                EChartType type = EChartType.valueOf(fieldTypeAttr.getValue());
-                axisField.setType(type);
-            } else {
-                axisField.setType(EChartType.bar);
+    private String loadAxises(Widget widget, List<Element> axisEleList) {
+        String resultName = null;
+        for (Element axisEle : axisEleList) {
+            Attribute typettr = axisEle.attribute(DesignerConstant.keyword_type);
+            if (typettr == null) {
+                throw new DesignerOptionsFileException("widget axis type is null");
             }
-            chartAxis.putField(axisField);
-        }
+            EDesignerDataType eDesignerDataType = EDesignerDataType.valueOf(typettr.getValue());
 
-        return widget.putAxises(chartAxis);
+            Attribute gridAttr = axisEle.attribute(DesignerConstant.Grid);
+            if (gridAttr == null) {
+                throw new DesignerOptionsFileException("widget gridAttr type is null");
+            }
+
+            EDimensionAxis dimensonAxis = EDimensionAxis.valueOf(gridAttr.getValue());
+
+            ChartAxis chartAxis = new ChartAxis(eDesignerDataType, dimensonAxis);
+
+            Attribute positioAttr = axisEle.attribute(DesignerConstant.keyelement_position);
+
+            if (positioAttr == null) {
+                throw new DesignerOptionsFileException("widget axis type is null");
+            }
+
+            EAxisPositon eAxisPositon = EAxisPositon.valueOf(positioAttr.getValue());
+            chartAxis.setPositon(eAxisPositon);
+            Attribute nameAttr = axisEle.attribute(DesignerConstant.keyword_name);
+
+            if (nameAttr != null) {
+                chartAxis.setName(nameAttr.getValue());
+            }
+
+            List<Element> fieldEleList = axisEle.elements(DesignerConstant.keyelement_field);
+
+            for (Element fieldEle : fieldEleList) {
+                String fieldName = fieldEle.getStringValue();
+                AxisField axisField = new AxisField(fieldName);
+                Attribute fieldTypeAttr = fieldEle.attribute(DesignerConstant.keyword_type);
+                if (fieldTypeAttr != null) {
+                    EChartType type = EChartType.valueOf(fieldTypeAttr.getValue());
+                    axisField.setType(type);
+                } else {
+                    axisField.setType(EChartType.bar);
+                }
+                Attribute captionAttr = fieldEle.attribute(DesignerConstant.keyword_capiton);
+                if (captionAttr != null) {
+                    axisField.setCaption(captionAttr.getValue());
+                }
+                chartAxis.putField(axisField);
+            }
+            resultName = widget.putAxises(chartAxis);
+        }
+        return resultName;
 
     }
 
