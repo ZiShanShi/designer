@@ -15,15 +15,17 @@ import java.util.List;
 public class ChartAxis {
     private EAxisPositon positon;
     private EDesignerDataType type;
+    private Boolean inverse;
     private EDimensionAxis axis;
     private List<AxisField> fieldList;
     private String name;
     public ChartAxis(EDesignerDataType dataType) {
         this.type = dataType;
+        this.inverse = false;
     }
 
     public ChartAxis(EDesignerDataType eDesignerDataType, EDimensionAxis dimensonAxis) {
-        this.type = eDesignerDataType;
+        this(eDesignerDataType);
         this.axis = dimensonAxis;
     }
 
@@ -77,6 +79,21 @@ public class ChartAxis {
 
     public ChartAxis setName(String name) {
         this.name = name;
+        return this;
+    }
+
+    public void reSetFields(List<AxisField> fields) {
+        fieldList.clear();
+        fieldList.addAll(fields);
+
+    }
+
+    public Boolean getInverse() {
+        return inverse;
+    }
+
+    public ChartAxis setInverse(Boolean inverse) {
+        this.inverse = inverse;
         return this;
     }
 }

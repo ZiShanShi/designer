@@ -92,10 +92,10 @@ public class XmlReader {
         EOptionSourceType type = null;
         switch (readerType) {
             case defaultChart:
-            case defaultTopic:
+            case defaultWidget:
                 type = EOptionSourceType.Default;
                 break;
-            case realTopic:
+            case realWidget:
             case realChart:
                 type = EOptionSourceType.Changed;
                 break;
@@ -115,10 +115,10 @@ public class XmlReader {
                 loadDefaultFile(file, (GsonOption) obj);
                 ((GsonOption) obj).putFieldNodeSourceSet(checkOptionSourceType(),getFieldNodeSet());
                 break;
-            case realTopic:
+            case realWidget:
                 loadWidgetFile(file, false, (Widget) obj);
                 break;
-            case defaultTopic:
+            case defaultWidget:
                 loadWidgetFile(file, true, (Widget) obj);
                 ((Widget) obj).putFieldNodeSourceSet(checkOptionSourceType(),getFieldNodeSet());
                 break;
@@ -688,8 +688,10 @@ public class XmlReader {
         } else if (DesignerConstant.fix_element_Axis.equalsIgnoreCase(name)) {
             List<Element> axisEleList = childElement.elements(DesignerConstant.One);
             String fieldName = loadAxises(widget, axisEleList);
-
-            FieldNode rootNode = new FieldNode(List.class,fieldName);
+            if (Util.isEmptyStr(fieldName)) {
+                fieldName = "axis";
+            }
+            FieldNode rootNode = new FieldNode(Axis.class, fieldName);
             putSourcrFieldClazName(rootNode);
 
         }else if (DesignerConstant.DATA_TYPE.equalsIgnoreCase(name)) {
@@ -776,7 +778,6 @@ public class XmlReader {
 
             chartOption.getRealChartOption().setPreFieldNode(rootNode);
         }else if (DesignerConstant.GRID_OPTION.equalsIgnoreCase(name)) {
-            //TODO 暂无
             GridOption gridOption = new GridOption();
             //showpage
             Element shhowPageEle = childElement.element(DesignerConstant.Grid_element_showPage);
@@ -794,16 +795,16 @@ public class XmlReader {
                     gridOption.setHasTitle(Util.stringToBoolean(hasTitleValue));
                 }
             }
+
             //page
             Element pageSizeEle = childElement.element(DesignerConstant.Grid_element_pageSize);
             if (pageSizeEle != null) {
                 String pageSizeValue = pageSizeEle.getStringValue();
                 if (Util.isEmptyStr(pageSizeValue)) {
                     throw new DesignerOptionsFileException("gridoption-pagesize为空");
-
                 }
                 Page page = new Page();
-                page.setPageSize(Util.stringToInt(pageSizeValue, 20));
+                page.setPageSize(Util.stringToInt(pageSizeValue, DesignerConstant.PAGE_DEFAULT_SIZE));
                 gridOption.setPage(page);
             }
 
@@ -828,7 +829,7 @@ public class XmlReader {
             //field
             List<Element> fieldEleList = childElement.elements(DesignerConstant.Grid_element_field);
             if (!isDefault &&(fieldEleList == null || fieldEleList.size() == 0)) {
-               throw new DesignerOptionsFileException("gridoption 未配置field");
+               gridOption = DesignerUtil.fixGridField(widget, gridOption);
             }
 
             for (Element fieldEle : fieldEleList) {
@@ -877,6 +878,7 @@ public class XmlReader {
         }
     }
 
+
     private String loadAxises(Widget widget, List<Element> axisEleList) {
         String resultName = null;
         for (Element axisEle : axisEleList) {
@@ -885,6 +887,7 @@ public class XmlReader {
                 throw new DesignerOptionsFileException("widget axis type is null");
             }
             EDesignerDataType eDesignerDataType = EDesignerDataType.valueOf(typettr.getValue());
+
 
             Attribute gridAttr = axisEle.attribute(DesignerConstant.Grid);
             if (gridAttr == null) {
@@ -907,6 +910,12 @@ public class XmlReader {
 
             if (nameAttr != null) {
                 chartAxis.setName(nameAttr.getValue());
+            }
+
+            Attribute inverseAttr = axisEle.attribute(DesignerConstant.keyelement_inverse);
+
+            if (inverseAttr != null) {
+                chartAxis.setInverse(Util.stringToBoolean(inverseAttr.getValue(), false));
             }
 
             List<Element> fieldEleList = axisEle.elements(DesignerConstant.keyelement_field);

@@ -50,12 +50,16 @@ public class CacheManager {
         return lruCache.get(key);
     }
 
-    public <K,V> void remove(K key, V value) {
+    public  void remove(String key) {
         if (lruCache == null) {
             getInstance();
         }
 
-        WidgetManager.getInstance().remove((String) key, (Widget)value);
+        Widget widget = get(key);
+        if (widget != null) {
+            Widget remove = lruCache.remove(key);
+            WidgetManager.getInstance().remove(key, remove);
+        }
 
     }
 }

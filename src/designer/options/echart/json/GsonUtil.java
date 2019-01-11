@@ -111,6 +111,7 @@ public class GsonUtil {
         return gson.fromJson(json, type);
     }
 
+
     /**
      * 反序列化
      *

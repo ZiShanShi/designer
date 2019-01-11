@@ -1,33 +1,30 @@
 package designer.engine;
 
-import designer.DesignerComponentFactory;
-import designer.DesignerConstant;
-import designer.DesignerUtil;
-import designer.EChangeType;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import designer.*;
 import designer.cache.EOptionSourceType;
 import designer.cache.FieldNode;
 import designer.exception.DesignerOptionException;
+import designer.exception.DesignerOptionsFileException;
 import designer.options.EChartType;
+import designer.options.GridField;
+import designer.options.GridOption;
+import designer.options.echart.axis.Axis;
 import designer.options.echart.json.GsonOption;
-import designer.widget.ChartAxis;
-import designer.widget.Widget;
-import designer.widget.WidgetManager;
+import designer.options.echart.series.Series;
+import designer.widget.*;
 import designer.widget.theme.Theme;
-import designer.xml.EDesignerXmlType;
-import designer.xml.XmlReader;
-import foundation.config.Configer;
-import foundation.data.Entity;
-import foundation.persist.DataHandler;
 import foundation.util.Util;
-import foundation.variant.Segment;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.File;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author kimi
@@ -38,24 +35,29 @@ import java.util.*;
 
 public class DesignContext {
 
+    private HttpServletRequest request;
     private EChangeType changeType;
     private String widgetId;
-    private boolean changed; // 区别是全亮还是增量;
+    private boolean changed; // TODO 区别是全亮还是增量; 暂时都是全亮
     private boolean hasGrid;
     private EChartType chartType;
-    private List<String> dimensionList;
-    private List<String> measurmentList;
     private String theme;
     private List<ChartAxis> axisList;
-    private List<Segment> filterSegmentList;
+    private List<SegmentPart> filterSegmentList;
+    private List<GridField> gridFieldList;
 
     private Map<String, String> runtimeParams;
     private Widget widget;
+    private ChangeNodeSegment changeNodeSegment;
 
     private  DesignContext (){}
 
-    public  DesignContext (HttpServletRequest request)  {
+    public  DesignContext (HttpServletRequest request) {
+        this. request = request;
         runtimeParams = new HashMap<>();
+        axisList = new ArrayList<>();
+        gridFieldList = new ArrayList<>();
+
         Enumeration<String> parameterNames = request.getParameterNames();
         while (parameterNames.hasMoreElements()) {
             String name = parameterNames.nextElement();
@@ -63,11 +65,12 @@ public class DesignContext {
                 widgetId = request.getParameter(name);
                 widget = WidgetManager.getInstance().getWidget(getWidgetId());
                 if (widget == null) {
-                    widget = loadWidget(widget, widgetId);
+                    widget = WidgetManager.getInstance().loadWidget(widgetId);
                 }
             }
             else if (DesignerConstant.CHANGE_TYPE.equalsIgnoreCase(name)) {
                 changeType = EChangeType.parse(request.getParameter(name));
+                changeNodeSegment = new ChangeNodeSegment(changeType);
             }else if (DesignerConstant.CHANGED.equalsIgnoreCase(name)) {
                 changed = Util.stringToBoolean(request.getParameter(name));
             }
@@ -77,42 +80,36 @@ public class DesignContext {
             else if (DesignerConstant.CHART_TYPE.equalsIgnoreCase(name)) {
                 chartType = EChartType.parse(request.getParameter(name));
             }
-            else if (DesignerConstant.DIMENSIONS.equalsIgnoreCase(name)) {
-                dimensionList = Util.StringToList(request.getParameter(name));
-            }
-            else if (DesignerConstant.MEASURMENTS.equalsIgnoreCase(name)) {
-                measurmentList = Util.StringToList(request.getParameter(name));
-            }
-            else if (DesignerConstant.FILTERS.equalsIgnoreCase(name)) {
+            else if (DesignerConstant.fix_element_Axis.equalsIgnoreCase(name)) {
+                //多方向
+                String axisArray = request.getParameter(name);
+                axisList = parse2ChartAxis(axisArray);
+            } else if (DesignerConstant.FILTERS.equalsIgnoreCase(name)) {
                 filterSegmentList = parse2FilterSegments(request.getParameter(name));
             } else if (DesignerConstant.THEME.equalsIgnoreCase(name)) {
                 theme = request.getParameter(name);
-            } else if (DesignerConstant.fix_element_Axis.equalsIgnoreCase(name)) {
-                axisList = new ArrayList<>();
+            } else if (DesignerConstant.Grid_element_fields.equalsIgnoreCase(name)) {
+                gridFieldList = parse2FieldList(request.getParameter(name));
             }
 
-
         }
     }
 
-    private Widget loadWidget(Widget widget, String widgetId) {
-        Entity topicLine;
-        try {
-            topicLine = DataHandler.getLine(DesignerConstant.TABLE_designer_panelwidget, DesignerConstant.WIDGETID, widgetId);
-            String widgetName = topicLine.getString(DesignerConstant.FIELD_WIDGETNAME);
-            String path = topicLine.getString(DesignerConstant.FIELD_WIDGETPATH);
-            path = path.replace(DesignerConstant.ROOT, Configer.getPath_Application());
-            File topicFile = DesignerUtil.checkFileLegality(path);
-            widget = new Widget(widgetId, widgetName);
-            XmlReader topicReader = new XmlReader(EDesignerXmlType.realTopic);
-            widget.setPath(path);
-            topicReader.read(topicFile, widget);
-            WidgetManager.getInstance().addWidget(widget);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return widget;
+    private List<GridField> parse2FieldList(String fieldNames) {
+        Gson gson = new GsonBuilder().create();
+        List<GridField> gridFields = gson.fromJson(fieldNames, new TypeToken<List<GridField>>() {
+        }.getType());
+        return gridFields;
     }
+
+    private List<ChartAxis> parse2ChartAxis(String axisArray) {
+        Gson gson = new GsonBuilder().registerTypeAdapter(ChartAxis.class, new ChartAxisDeserializer()).create();
+        List<ChartAxis> axisList = gson.fromJson(axisArray, new TypeToken<List<ChartAxis>>() {
+        }.getType());
+        return axisList;
+
+    }
+
 
     public void putRuntimeParams(String key, String value) {
         runtimeParams.put(key, value);
@@ -122,9 +119,11 @@ public class DesignContext {
         return runtimeParams.get(key);
     }
 
-    private List<Segment> parse2FilterSegments(String parameter) {
-        //TODO 过滤条件
-        return  null;
+    private List<SegmentPart> parse2FilterSegments(String filter) {
+        Gson gson = new GsonBuilder().registerTypeAdapter(SegmentPart.class, new SegmentPartDeserializer()).create();
+            List<SegmentPart> fieldList = gson.fromJson(filter, new TypeToken<List<SegmentPart>>() {
+            }.getType());
+            return fieldList;
     }
 
 
@@ -132,72 +131,185 @@ public class DesignContext {
         return widgetId;
     }
 
-    public boolean isChanged() {
-        return changed;
-    }
 
-    public boolean isHasGrid() {
-        return hasGrid;
-    }
-
-    public EChartType getChartType() {
-        return chartType;
-    }
-
-    public List<String> getDimensionList() {
-        return dimensionList;
-    }
-
-    public List<String> getMeasurmentList() {
-        return measurmentList;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
-    public List<Segment> getFilterSegmentList() {
-        return filterSegmentList;
-    }
-
-    public Map<String, String> getRuntimeParams() {
-        return runtimeParams;
-    }
-
-    public EChangeType getChangeType() {
-        return changeType;
-    }
-
-    public void exec() {
+    public Widget exec() {
+        GsonOption realChartOption = widget.getChartOption().getRealChartOption();
+        List<ChartAxis> axisList = widget.getAxisList();
         switch (changeType) {
-            case theme:
-                String nowTheme = getTheme();
-                Theme theme = DesignerComponentFactory.getInstance().getThemeByName(nowTheme);
-                widget.getChartOption().setTheme(theme);
-                widget.putFieldNode(EOptionSourceType.Changed, new FieldNode(Theme.class, DesignerConstant.THEME));
+            case all:
+                widget = WidgetManager.getInstance().loadWidget(widgetId);
                 break;
-            case unknown:
-                String type = "title-show";
-                String value = "true";
-                Widget widget = WidgetManager.getInstance().getWidget(getWidgetId());
-                if (widget != null) {
-                    GsonOption realChartOption = widget.getChartOption().getRealChartOption();
+            case hasgrid:
+                GridOption gridOption = widget.getGridOption();
+                if (gridOption != null) {
+                    gridOption.setShow(hasGrid);
+                } else {
+                    throw new DesignerOptionsFileException("fridoption 无默认设置");
+                }
+                widget.setHasGrid(hasGrid);
+                break;
+            case filters:
+                widget.setSegmentList(filterSegmentList);
+                try {
+                    widget.invalidateData();
+                } catch (Exception e) {
+                    e.printStackTrace();
 
-                    try {
-                        loadData(type, value,realChartOption);
-                    } catch (Exception e) {
-                        e.printStackTrace();
+                }
+                break;
+            case axis:
+                try {
+                    widget.setAxisList(this.axisList);
+                    widget.invalidateData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                break;
+            case inverseX:
+                ArrayList<Axis> axes = realChartOption.xAxis();
+                for (Axis axis : axes) {
+                    axis.inverse(true);
+                }
+
+                widget.getAxisList().stream().filter(chartAxis -> chartAxis.getAxis().equals(EDimensionAxis.x))
+                        .map(chartAxis -> chartAxis.setInverse(true)).collect(Collectors.toList());
+
+                break;
+            case inverseY:
+                ArrayList<Axis> yaxes = realChartOption.yAxis();
+                for (Axis axis : yaxes) {
+                    axis.inverse(true);
+                }
+                widget.getAxisList().stream().filter(chartAxis -> chartAxis.getAxis().equals(EDimensionAxis.y))
+                        .map(chartAxis -> chartAxis.setInverse(true)).collect(Collectors.toList());
+
+                break;
+
+            case inversePositon:
+                String positionStr = request.getParameter(DesignerConstant.keyelement_position);
+                EAxisPositon eAxisPositon = EAxisPositon.valueOf(positionStr);
+                EDimensionAxis axisName = eAxisPositon.getAxisName();
+                //opsition
+                ArrayList<Axis> axislist = null;
+                if (axisName.equals(EDimensionAxis.y)) {
+                    //说明修改的是y轴
+                    axislist = realChartOption.getyAxis();
+                } else if (axisName.equals(EDimensionAxis.x)) {
+                    axislist = realChartOption.getxAxis();
+                }
+                //axislist
+                widget.getAxisList().stream().filter(chartAxis -> chartAxis.getAxis().equals(axisName))
+                        .map(chartAxis -> chartAxis.setInverse(true)).collect(Collectors.toList());
+
+                for (Axis axis : axislist) {
+                    eAxisPositon = changeAxisPosition(eAxisPositon);
+                    axis.position(eAxisPositon.name());
+                }
+
+                break;
+            case inverse://    x,y 反转
+                //option 互换
+                ArrayList<Axis> xAxis = realChartOption.xAxis();
+                ArrayList<Axis> yAxis = realChartOption.yAxis();
+
+                realChartOption.xAxis(yAxis);
+                realChartOption.yAxis(xAxis);
+
+                //series index
+                ArrayList<Series> seriesList = realChartOption.series();
+                for (Series series : seriesList) {
+                    Integer xAxisIndex = series.xAxisIndex();
+                    Integer yAxisIndex = series.yAxisIndex();
+                    if (xAxisIndex != null || xAxisIndex == 0) {
+                        series.xAxisIndex(null);
+                        series.yAxisIndex(xAxisIndex);
+                    }
+                    if (yAxisIndex != null || yAxisIndex == 0) {
+                        series.yAxisIndex(null);
+                        series.xAxisIndex(yAxisIndex);
+                    }
+                }
+
+                // axislist
+                for (ChartAxis chartAxis : axisList) {
+
+                    EDimensionAxis axis = chartAxis.getAxis();
+                    if (axis.equals(EDimensionAxis.x)) {
+                        chartAxis.setAxis(EDimensionAxis.y);
+                    } else if (axis.equals(EDimensionAxis.y)) {
+                        chartAxis.setAxis(EDimensionAxis.x);
+                    }
+
+                    EAxisPositon positon = chartAxis.getPositon();
+                    if (positon.equals(EAxisPositon.bottom)) {
+                        chartAxis.setPositon(EAxisPositon.left);
+                    } else if (positon.equals(EAxisPositon.left)) {
+                        chartAxis.setPositon(EAxisPositon.bottom);
+                    } else if (positon.equals(EAxisPositon.top)) {
+                        chartAxis.setPositon(EAxisPositon.right);
+                    } else if (positon.equals(EAxisPositon.right)) {
+                        chartAxis.setPositon(EAxisPositon.top);
                     }
                 }
                 break;
+            case theme:
+                String nowTheme = theme;
+                Theme theme = DesignerComponentFactory.getInstance().getThemeByName(nowTheme);
+                widget.getChartOption().setTheme(theme);
+                                break;
+            case chartOption:
+                String value = "true";
+                String type = "title-show";
+                changeNodeSegment.setValue(value);
+                changeNodeSegment.setFieldNode(new FieldNode(type));
 
+                try {
+                    loadData(changeNodeSegment, realChartOption);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
+            case gridField:
+                gridFieldList.stream().map(field -> field.setDefault()).collect(Collectors.toList());
+                widget.combineGridField(gridFieldList);
+                try {
+                    widget.invalidateData();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                break;
             default:
                 break;
-
         }
+
+        widget.putFieldNode(EOptionSourceType.Changed,changeNodeSegment.getFieldNode());
+        return widget;
     }
 
-    private void loadData(String type, String value, GsonOption realChartOption) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+    private EAxisPositon changeAxisPosition(EAxisPositon eAxisPositon) {
+        EAxisPositon positon = null;
+        switch (eAxisPositon) {
+            case left:
+                positon = EAxisPositon.right;
+                break;
+            case right:
+                positon = EAxisPositon.left;
+                break;
+            case top:
+                positon = EAxisPositon.bottom;
+                break;
+            case bottom:
+                positon = EAxisPositon.top;
+            default:
+                break;
+        }
+        return positon;
+    }
+
+    private void loadData(ChangeNodeSegment changeNodeSegment, GsonOption realChartOption) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+        String type = changeNodeSegment.getFieldNode().toString();
+        String value = changeNodeSegment.getValue();
         List<String> strings = Util.StringToList(type, Util.Separator);
         int i = 0;
         Object invoke = null;
@@ -215,7 +327,7 @@ public class DesignContext {
         if (typeFromNode == null) {
             throw new DesignerOptionException(MessageFormat.format("load未将此节点加入node{1}", node.toString()));
         }
-        realChartOption.putFieldNode(EOptionSourceType.Changed, node);
+        realChartOption.putFieldNode(EOptionSourceType.Changed, changeNodeSegment.getFieldNode());
 
         Method method = invoke.getClass().getMethod(s, declaredField.getType());
         Object o = Util.StringToOther(value, declaredField.getType());

@@ -10,12 +10,12 @@
     <nowChartType>bar</nowChartType>
 
     <axis>
-        <one grid="x" type="dimension" position="bottom">
+       <!-- <one grid="x" type="dimension" position="bottom">
             <field></field>
         </one>
         <one grid="y" type="measurment" position="left">
             <field type="bar"></field>
-        </one>
+        </one>-->
     </axis>
 
     <datatype remark="目前仅支持sql db 不支持 后台拼接数据">db</datatype>

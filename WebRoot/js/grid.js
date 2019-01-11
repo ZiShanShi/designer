@@ -96,7 +96,7 @@
 			this.rows = [];
 			this.headerFixed = true;  //表头是否固定
 			this.isDragWidth = true;  //宽度是否可拖动
-			
+
     		Control.call(this, options);
     		
     		this.createElements();

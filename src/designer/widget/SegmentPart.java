@@ -15,6 +15,11 @@ public class SegmentPart {
     private EFilterLink link;
     private ESqlValueType valueType;
 
+    public SegmentPart () {
+        this.link = EFilterLink.equal;
+        this.valueType = ESqlValueType.value;
+    }
+
     public String getName() {
         return name;
     }
@@ -39,6 +44,10 @@ public class SegmentPart {
 
     public SegmentPart setLink(String link) {
         this.link = EFilterLink.parse(link);
+        return this;
+    }
+    public SegmentPart setLink(EFilterLink link) {
+        this.link = link;
         return this;
     }
 

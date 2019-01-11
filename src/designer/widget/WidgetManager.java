@@ -1,11 +1,17 @@
 package designer.widget;
 
+import designer.DesignerConstant;
 import designer.DesignerUtil;
 import designer.cache.CacheManager;
 import designer.cache.EOptionSourceType;
 import designer.cache.FieldNode;
+import designer.xml.EDesignerXmlType;
 import designer.xml.LayerElemetRoot;
+import designer.xml.XmlReader;
 import designer.xml.XmlWriter;
+import foundation.config.Configer;
+import foundation.data.Entity;
+import foundation.persist.DataHandler;
 import org.dom4j.Document;
 import org.dom4j.io.OutputFormat;
 import org.dom4j.io.XMLWriter;
@@ -52,21 +58,43 @@ public class WidgetManager {
 
 
     public Widget getWidget(String widgetId) {
-            if (widegtList == null || !widegtList.contains(widgetId)) {
+        if (widegtList == null || !widegtList.contains(widgetId)) {
             return null;
         }
         return CacheManager.getInstance().get(widgetId);
     }
 
-    public void remove(String key, Widget removedWidget) {
-        widegtList.remove(key);
+    public void remove(String key, Widget remove) {
+        if (widegtList.contains(key)) {
+            widegtList.remove(key);
+            CacheManager.getInstance().remove(key);
+            save2File(remove);
+        }
+    }
 
-        save2File(removedWidget);
+
+    public Widget loadWidget(String widgetId) {
+        Entity topicLine;
+        Widget widget = null;
+        try {
+            topicLine = DataHandler.getLine(DesignerConstant.TABLE_designer_panelwidget, DesignerConstant.WIDGETID, widgetId);
+            String widgetName = topicLine.getString(DesignerConstant.FIELD_WIDGETNAME);
+            String path = topicLine.getString(DesignerConstant.FIELD_WIDGETPATH);
+            path = path.replace(DesignerConstant.ROOT, Configer.getPath_Application());
+            File topicFile = DesignerUtil.checkFileLegality(path);
+            widget = new Widget(widgetId, widgetName);
+            XmlReader topicReader = new XmlReader(EDesignerXmlType.realWidget);
+            widget.setPath(path);
+            topicReader.read(topicFile, widget);
+            WidgetManager.getInstance().addWidget(widget);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return widget;
     }
 
     private void save2File(Widget removedWidget) {
         // widget 一层  option 多层
-
         removedWidget = DesignerUtil.addAllCacheMap(removedWidget, removedWidget.getChartOption().getRealChartOption());
         Map<EOptionSourceType, Set<FieldNode>> fieldNodeSourceMap = removedWidget.getFieldNodeSourceMap();
         Set<FieldNode> fieldNodes = fieldNodeSourceMap.get(EOptionSourceType.Changed);
@@ -142,6 +170,22 @@ public class WidgetManager {
             e.printStackTrace();
         }
         return null;
+    }
+
+
+    public void refresh(String widgetId) {
+        if (!widegtList.contains(widgetId)) {
+            return;
+        }
+        remove(widgetId, getWidget(widgetId));
+
+        Widget widget = new Widget(widgetId);
+        File widgetFile = DesignerUtil.getWidgetFile(widgetId);
+
+        XmlReader reader = new XmlReader(EDesignerXmlType.realWidget);
+        reader.read(widgetFile, widget);
+
+        addWidget(widget);
     }
 
 

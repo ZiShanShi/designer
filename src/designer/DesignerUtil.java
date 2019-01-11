@@ -6,8 +6,12 @@ import designer.cache.FieldNode;
 import designer.cache.ICacheSourceType;
 import designer.exception.DesignerBaseException;
 import designer.exception.DesignerFileException;
+import designer.options.AxisField;
+import designer.options.GridField;
+import designer.options.GridOption;
 import designer.options.echart.Option;
 import designer.options.echart.json.GsonOption;
+import designer.widget.ChartAxis;
 import designer.widget.Widget;
 import designer.widget.theme.Theme;
 import designer.xml.EDesignerXmlType;
@@ -19,8 +23,10 @@ import foundation.persist.DataHandler;
 import foundation.util.Util;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.lang.reflect.*;
 import java.text.MessageFormat;
 import java.util.*;
@@ -170,7 +176,7 @@ public class DesignerUtil {
     }
 
     private static JSONObject loadJSONObject(JSONObject themeObject, JSONObject optionObject) {
-        //Theme
+        //Theme..
         Set ontKeySet = themeObject.keySet();
 
         for (Object key : ontKeySet) {
@@ -415,6 +421,20 @@ public class DesignerUtil {
         return widget;
     }
 
+    public static GridOption fixGridField(Widget widget, GridOption gridOption) {
+        List<ChartAxis> axisList = widget.getAxisList();
+        for (ChartAxis chartAxis : axisList) {
+            List<AxisField> fieldList = chartAxis.getFieldList();
+            for (AxisField axisField : fieldList) {
+                String caption = axisField.getCaption();
+                String name = axisField.getName();
+                GridField gridField = new GridField(name);
+                gridField.setCaption(caption);
+                gridOption.putOneField(gridField);
+            }
+        }
+        return gridOption;
+    }
     private static String fixJson2J(String valueString) {
         Set<String> keys = DesignerConstant.fixJson2J.keySet();
         for (String key : keys) {
@@ -468,5 +488,20 @@ public class DesignerUtil {
             realfield = field;
         }
         return realfield;
+    }
+
+    public static void loadOneTheme(File themeFile) {
+        Theme theme = new Theme();
+        String fileName = themeFile.getName();
+        theme.setName(fileName.substring(0, fileName.lastIndexOf(Util.Dot)));
+        String themeJson;
+        try {
+            themeJson = FileUtils.readFileToString(themeFile, "UTF-8");
+        } catch (IOException e) {
+            throw  new DesignerFileException(themeFile.getPath());
+        }
+        JSONObject themeObject = JSONObject.fromObject(themeJson);
+        theme.setThemeJson(themeObject);
+        DesignerComponentFactory.getInstance().putTheme(theme);
     }
 }

@@ -1,5 +1,6 @@
 package designer.cache;
 
+import designer.widget.EWidgetField;
 import foundation.util.Util;
 
 import java.util.ArrayList;
@@ -22,6 +23,9 @@ public class FieldNode {
 
     public FieldNode(String fieldName) {
         this.fieldName = fieldName;
+    }
+    public FieldNode(EWidgetField widgetField) {
+        this.fieldName = widgetField.name();
     }
 
     public FieldNode(Class fieldClaz, String fieldName) {

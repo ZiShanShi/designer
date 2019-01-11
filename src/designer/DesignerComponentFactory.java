@@ -5,6 +5,7 @@ import designer.options.echart.json.GsonOption;
 import designer.widget.Widget;
 import designer.widget.theme.Theme;
 
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,5 +77,10 @@ public class DesignerComponentFactory {
     public DesignerComponentFactory setBaseWidget(Widget baseWidget) {
         this.baseWidget = baseWidget;
         return this;
+    }
+
+    public void refreshTheme(File file) {
+        themeMap.remove(file.getName());
+        DesignerUtil.loadOneTheme(file);
     }
 }

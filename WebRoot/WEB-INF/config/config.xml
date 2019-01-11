@@ -22,13 +22,15 @@
 	<param name="chartRootPath" value="root/chartTemplate"/>
 	<param name="defaultChartEngine" value="echart"/>
 	<param name="defaultChartPartPath" value="chart"/>
-	<param name="defaultTopicPartPath" value="widget"/>
+	<param name="defaultWidgetPartPath" value="widget"/>
 	<param name="defaultThemePartPath" value="theme"/>
 
 	<param name="defaultChartPath" value="default"/>
 	<param name="defaultChartSuffix" value="xml"/>
 	<!--缓存-->
 	<param name="cacheSize" value="10" remark="默认缓存10M"/>
+
+	<param name="fileListenerTime" value="2" remark="默认轮训每5s一次"/>
 
 	<!-- 2.不受权限控制的资源 -->
 	<freeVisit>

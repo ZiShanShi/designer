@@ -14,6 +14,7 @@ import java.util.List;
 
 
 public class GridOption {
+    private Boolean isShow;
     private Boolean showPage;
     private Boolean hasTitle;
     private Boolean multiSelect;
@@ -30,6 +31,16 @@ public class GridOption {
         hasTitle = true;
         multiSelect = false;
         enableAllSelect = false;
+        isShow = true;
+    }
+
+    public Boolean getShow() {
+        return isShow;
+    }
+
+    public GridOption setShow(Boolean show) {
+        isShow = show;
+        return this;
     }
 
     public GridOption putOneField(GridField field) {

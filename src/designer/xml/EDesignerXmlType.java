@@ -1,5 +1,5 @@
 package designer.xml;
 
 public enum EDesignerXmlType {
-    defaultChart,defaultTopic,theme,realChart,realTopic;
+    defaultChart, defaultWidget,theme,realChart, realWidget;
 }

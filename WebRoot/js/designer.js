@@ -408,13 +408,14 @@
 
 		createOneButton: function(btnCode, option) {
             var btn = this.buttons[btnCode] = $("#" + btnCode, this.element);
+            var me = this;
             btn.click(function() {
 				if ("expand" == option.operation) {
                     $("#" + option.segments[0]).width("50%");
                     $("#" + option.segments[1]).show();
 				}
 				else if ("collapse" == option.operation) {
-                    this.transferFields("moveTo", option.axises[1], option.axises[0]);
+                    me.transferFields("moveTo", option.axises[1], option.axises[0]);
 
                     $("#" + option.segments[0]).width("100%");
                     $("#" + option.segments[1]).hide();

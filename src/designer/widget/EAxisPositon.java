@@ -20,4 +20,22 @@ public enum EAxisPositon {
         }
         return axis;
     }
+
+    public  EDesignerDataType getDataType(){
+        EDesignerDataType dataType = null;
+        switch (this) {
+            case bottom:
+            case top:
+                dataType = EDesignerDataType.dimension;
+                break;
+            case left:
+            case right:
+                dataType = EDesignerDataType.measurment;
+                break;
+            default:
+                break;
+
+        }
+        return dataType;
+    }
 }

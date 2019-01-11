@@ -166,7 +166,7 @@ public class LruCache<K, V> implements Cache<K, V> {
             V value = toRemove.getValue();
             map.remove(key);
 
-            manager.remove(key, value);
+            manager.remove((String) key);
             memorySize -= safeSizeOf(key, value);
         }
     }

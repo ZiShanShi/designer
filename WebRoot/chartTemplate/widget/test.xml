@@ -5,30 +5,28 @@
     <chartType>
     </chartType>
 
-    <Axis>
+    <axis>
         <one grid="x" type="dimension" position="bottom" >
             <field>customercode</field>
             <field>customername</field>
         </one>
 
-        <one grid="x" type="measurment" position="left" name="左轴">
-
+        <one grid="y" type="measurment" position="left" name="左轴">
             <field>qty_original</field>
         </one>
         <one grid="y" type="measurment" position="right">
             <field type="line" >qty</field>
         </one>
-    </Axis>
+    </axis>
     <filters>
         <!--<segment name="typecode" link="=" type="value">佣金</segment>-->
 
     </filters>
     <chartOption>
-        <theme>macarons</theme>
+        <theme>roma</theme>
         <path>root/chartTemplate/chart/textChart</path>
     </chartOption>
     <gridOption>
-
         <field caption="客户编码" width="120" align="left" groupby="true">customercode</field>
         <field caption="总价" width="120" align="right">qty</field>
         <field caption="原始总价" width="120" align="right">qty_original</field>

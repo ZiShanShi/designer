@@ -6,6 +6,7 @@ public class DesignerConstant {
     public static final String CACHE_DEFAULT_SIZE = "cacheSize";
     public static final String CALLABLE_METHORD_SYNCHRONIZE = "synchronize";
     public static final String CALLABLE_METHORD_GETWIDGET = "getWidget";
+    public static final String fileListenerTime = "fileListenerTime";
 
     public static final String ID = "id";
 
@@ -41,7 +42,7 @@ public class DesignerConstant {
     public static final String DEFAULT_CHART_ROOT_PATH = "chartRootPath";
     public static final String ROOT= "root";
     public static final String DEFAULT_CHART_PART_PATH = "defaultChartPartPath";
-    public static final String DEFAULT_Topic_PART_PATH = "defaultTopicPartPath";
+    public static final String DEFAULT_WIDGET_PART_PATH = "defaultWidgetPartPath";
     public static final String DEFAULT_Theme_PART_PATH = "defaultThemePartPath";
 
     public static final String DEFAULT_CHART_ENGINE = "defaultChartEngine";
@@ -82,6 +83,7 @@ public class DesignerConstant {
     public static final String keyelement_object = "object";
 
     public static final String keyelement_position = "position";
+    public static final String keyelement_inverse = "inverse";
     public static final String keyelement_field = "field";
 
 
@@ -96,6 +98,7 @@ public class DesignerConstant {
     public static final String Grid_element_multiSelect = "multiSelect";
     public static final String Grid_element_enableAllSelect = "enableAllSelect";
     public static final String Grid_element_field = "field";
+    public static final String Grid_element_fields = "fields";
 
     public static final String Grid_field_caption = "caption";
     public static final String Grid_field_width = "width";
@@ -104,6 +107,11 @@ public class DesignerConstant {
 
     public static final String GET = "get";
     public static final String IS = "is";
+    public static final int PAGE_DEFAULT_SIZE = 20;
+    public static final String GRID_DEFAULT_WIDTH = "120";
+    public static final String GRID_DEFAULT_ALIGN = "left";
+    public static final String GRID_DEFAULT_GROUPBY = "true";
+    public static final String GRID_DEFAULT_ISTITLE = "true";
 
 
     public static HashMap<String,String> fixj2Json = new HashMap<>();

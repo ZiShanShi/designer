@@ -339,6 +339,7 @@ public class XmlWriter {
                 for (Element fieldElement : fieldElements) {
                     oneLayerElement.remove(fieldElement);
                 }
+                List elements1 = oneLayerElement.elements(DesignerConstant.keyelement_field);
 
                 List<GridField> gridFieldList = gridOption.getFieldList();
                 for (GridField gridField : gridFieldList) {
@@ -365,6 +366,7 @@ public class XmlWriter {
                     setAttrIFNotNull(axisOneElement, DesignerConstant.keyword_name, chartAxis.getName());
                     setAttrIFNotNull(axisOneElement, DesignerConstant.Grid, chartAxis.getPositon().getAxisName().name());
                     setAttrIFNotNull(axisOneElement, DesignerConstant.keyelement_position, chartAxis.getPositon().name());
+                    setAttrIFNotNull(axisOneElement, DesignerConstant.keyelement_inverse, chartAxis.getInverse());
 
                     List<AxisField> fieldList = chartAxis.getFieldList();
                     if (fieldList.size() == 0) {
@@ -376,6 +378,7 @@ public class XmlWriter {
                         if (!Util.isEmptyStr(axisField.getCaption())) {
                             setAttrIFNotNull(axisOneFieldElement, DesignerConstant.keyword_capiton, axisField.getCaption());
                         }
+                        axisOneFieldElement.setText(axisField.getName());
                     }
 
                 }

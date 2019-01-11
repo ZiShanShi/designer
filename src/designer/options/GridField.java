@@ -1,5 +1,6 @@
 package designer.options;
 
+import designer.DesignerConstant;
 import designer.options.echart.code.Align;
 
 /**
@@ -19,6 +20,10 @@ public class GridField {
 
     public GridField(String field) {
         this.field = field;
+        width = DesignerConstant.GRID_DEFAULT_WIDTH;
+        align = Align.valueOf(DesignerConstant.GRID_DEFAULT_ALIGN);
+        groupBy = Boolean.valueOf(DesignerConstant.GRID_DEFAULT_GROUPBY);
+        istitle = Boolean.valueOf(DesignerConstant.GRID_DEFAULT_ISTITLE);
     }
 
     public String getField() {
@@ -73,5 +78,38 @@ public class GridField {
     public GridField setGroupBy(Boolean groupBy) {
         this.groupBy = groupBy;
         return this;
+    }
+
+    public GridField setDefault() {
+        if (width == null) {
+            width = DesignerConstant.GRID_DEFAULT_WIDTH;
+        }
+        if (align == null) {
+            align = Align.valueOf(DesignerConstant.GRID_DEFAULT_ALIGN);
+        }
+        if (groupBy == null) {
+            groupBy = Boolean.valueOf(DesignerConstant.GRID_DEFAULT_GROUPBY);
+        }
+        if (istitle == null) {
+            istitle = Boolean.valueOf(DesignerConstant.GRID_DEFAULT_ISTITLE);
+        }
+        return this;
+    }
+    @Override
+    public int hashCode() {
+        /*if (Util.isEmptyStr(caption)) {
+            return  field.hashCode() + width.hashCode() + align.hashCode() + groupBy.hashCode() + istitle.hashCode();
+        } else {
+            return  field.hashCode() + caption.hashCode() + width.hashCode() + align.hashCode() + groupBy.hashCode() + istitle.hashCode();
+        }*/
+        return field.hashCode();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj instanceof GridField) {
+            return this.hashCode() == obj.hashCode();
+        }
+        return super.equals(obj);
     }
 }

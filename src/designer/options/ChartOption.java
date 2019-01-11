@@ -2,7 +2,6 @@ package designer.options;
 
 import designer.DesignerComponentFactory;
 import designer.DesignerUtil;
-import designer.EChangeType;
 import designer.engine.DesignContext;
 import designer.options.echart.json.GsonOption;
 import designer.options.echart.json.GsonUtil;
@@ -53,35 +52,6 @@ public class ChartOption implements IOption{
         return jsonObject;
     }
 
-    public void operator(EChangeType type, DesignContext context) {
-
-        if (EChangeType.all.equals(type)) {
-            reCreateOption(context);
-        } else if (EChangeType.hasgrid.equals(type)) {
-            boolean hasGrid = context.isHasGrid();
-            toggleGridOption(hasGrid);
-        } else if (EChangeType.charttype.equals(type)) {
-            EChartType chartType = context.getChartType();
-            changeChartType(chartType);
-        } else if (EChangeType.dimension.equals(type)) {
-            List<String> dimensionList = context.getDimensionList();
-            changeDimension(dimensionList);
-        }else if (EChangeType.measurment.equals(type)) {
-            List<String> measurmentList = context.getMeasurmentList();
-            changeMeasurment(measurmentList);
-        }else if (EChangeType.dimension.equals(type)) {
-            List<String> measurmentList = context.getMeasurmentList();
-            List<String> dimensionList = context.getDimensionList();
-            changeAxis(dimensionList,measurmentList);
-        }else if (EChangeType.filter.equals(type)) {
-            List<Segment> filterSegmentList = context.getFilterSegmentList();
-            reloadChartFilter(filterSegmentList);
-        } else if (EChangeType.theme.equals(type)) {
-            String theme = context.getTheme();
-            changeOptionTheme(theme);
-        }
-
-    }
 
     private void changeOptionTheme(String theme) {
         Theme changedTheme = DesignerComponentFactory.getInstance().getThemeByName(theme);
@@ -114,10 +84,6 @@ public class ChartOption implements IOption{
 
     }
 
-    public void operator(DesignContext context) {
-        EChangeType type = EChangeType.all;
-        operator(type, context);
-    }
 
     public GsonOption getRealChartOption() {
         return realChartOption;

@@ -49,6 +49,7 @@ public class Util {
 	public static final String String_Space = " ";
 	public static final String windows_slash = "/";
 	public static final String java_slash = "\\";
+	public static final String sql_slash = "\\\\";
 
 	public static int field;
 	private static ArrayList<String> tmpArr = new ArrayList<String>();
@@ -814,20 +815,7 @@ public class Util {
 	}
 	
 	public static List<String> matcher(String testStr) {
-//		String test = "@{databaseIp}:{databasePort}{instanceName};database";
-//		String initCompile = "(?<=@\\{)(.+?)(?=\\})";
-		
-		List<String> ls=new ArrayList<String>();
-		
-		Pattern pattern = Pattern.compile(Default_Patter);
-		Matcher matcher = pattern.matcher(testStr);
-		
-		while(matcher.find()){
-			
-			ls.add(matcher.group());
-			
-		}
-		return ls;
+		return matcher(Default_Patter, testStr);
 	}
 	
 	public static List<String> matcher(String patter, String testStr) {
@@ -961,4 +949,18 @@ public class Util {
         //TODO 未完成
 	    return  object;
     }
+
+	public static String pathNormalize(String path) {
+		if (Util.isEmptyStr(path)) {
+			return path;
+		}
+		return  path.replace(windows_slash, java_slash);
+	}
+
+	public static String path2Window(String path) {
+		if (Util.isEmptyStr(path)) {
+			return path;
+		}
+		return  path.replace(java_slash, sql_slash);
+	}
 }

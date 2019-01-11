@@ -12,6 +12,7 @@ public class AxisField {
     private EChartType type;
     private String caption;
 
+
     public AxisField(EChartType type) {
         this.type = type;
     }
@@ -23,6 +24,10 @@ public class AxisField {
     public AxisField(String name, EChartType type) {
         this(type);
         this.name = name;
+    }
+
+    public AxisField() {
+        this.type = EChartType.bar;
     }
 
     public String getName() {

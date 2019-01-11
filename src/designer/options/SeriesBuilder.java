@@ -101,7 +101,7 @@ public class SeriesBuilder {
                 defaultTemplate = new Bar(measurmentName);
                 break;
         }
-
+        defaultTemplate.data().clear();
         defaultTemplate.data(measurmentData);
         return  defaultTemplate;
     }

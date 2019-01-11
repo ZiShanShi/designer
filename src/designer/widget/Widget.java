@@ -6,6 +6,7 @@ import designer.cache.FieldNode;
 import designer.cache.ICacheSourceType;
 import designer.exception.DesignerOptionException;
 import designer.options.*;
+import designer.options.echart.Legend;
 import designer.options.echart.Option;
 import designer.options.echart.axis.Axis;
 import designer.options.echart.axis.CategoryAxis;
@@ -42,7 +43,7 @@ public class Widget implements ICacheSourceType {
     private List<ChartType> chartTypeList;
     private EChartType defaultType;
     private List<ChartAxis> axisList;
-
+    private transient Map<EAxisPositon, ChartAxis> positionAxisMap;
     private EDataType dataType;
     private String dataName;
     private List<SegmentPart> segmentList;
@@ -57,17 +58,18 @@ public class Widget implements ICacheSourceType {
 
     public Widget(String id) {
         this.id = id;
+
         chartTypeList = new ArrayList<>();
         axisList = new ArrayList<>();
         segmentList = new ArrayList<>();
         fieldNodeSourceMap = new HashMap<>();
         nodeSourceTypeMap = new HashMap<>();
+        positionAxisMap = new HashMap<>();
         xmlBeanMap = new HashMap<>();
 
         xmlBeanMap.put("segmentList", "filters-segment");
         xmlBeanMap.put("chartTypeList", "chartType");
         xmlBeanMap.put("axisList", "axis-one");
-
     }
 
     public Widget(String id, String name) {
@@ -130,6 +132,16 @@ public class Widget implements ICacheSourceType {
         return "id";
     }
 
+    public Map<EAxisPositon, ChartAxis> getPositionAxisMap() {
+        return positionAxisMap;
+    }
+
+    public ChartAxis getAxisFromPosition(EAxisPositon positon) {
+        if (positon == null || positionAxisMap == null) {
+            return null;
+        }
+       return positionAxisMap.get(positon);
+    }
     public String getName() {
         return name;
     }
@@ -162,9 +174,9 @@ public class Widget implements ICacheSourceType {
         if (axisList == null) {
             axisList = new ArrayList<>();
         }
-
+        positionAxisMap.put(chartAxis.getPositon(), chartAxis);
         axisList.add(chartAxis);
-        return "axisList";
+        return "axis";
     }
 
     public List<ChartAxis> getAxisList() {
@@ -195,7 +207,12 @@ public class Widget implements ICacheSourceType {
 
     public String setSegmentList(List<SegmentPart> segmentList) {
         this.segmentList = segmentList;
-        return "segmentList";
+        return "filters";
+    }
+    public String putSegmentList(List<SegmentPart> segments) {
+        this.segmentList.clear();
+        segmentList.addAll(segments);
+        return "filters";
     }
 
     public ChartOption getChartOption() {
@@ -251,30 +268,64 @@ public class Widget implements ICacheSourceType {
 
     }
 
-    private void invalidateData()throws Exception {
+    public Widget setAxisList(List<ChartAxis> axisList) {
+        this.axisList.clear();
+        this.axisList.addAll(axisList);
+        return this;
+    }
+
+    public void invalidateData() throws Exception {
         String filters = combineFilter();
         //TODO 先不考虑数据权限问题
         EntitySet dataSet = null;
-        String groupBy = null;
+        String orderBy = null;
         if (gridOption != null) {
             List<String> groupList = gridOption.getGroupList();
-            groupBy = StringUtils.join(groupList.toArray(), Util.comma);
+            orderBy = StringUtils.join(groupList.toArray(), Util.comma);
         }
         //TODO 查数据前 需要把当前维度 关联的主数据字段一起查出来
         if (EDataType.db.equals(dataType)) {
-            String segment = "customercode";//StringUtils.join(dimensionList.toArray(), Util.comma)
+            String groupBy = getGroupBy();
 
-            String fields = combineField(axisList);
-            dataSet = DataHandler.getDataSet(dataName, fields, filters, segment, groupBy);
+            String fields = combineField();
+            dataSet = DataHandler.getDataSet(dataName, fields, filters, groupBy, orderBy);
         } else if (EDataType.sql.equals(dataType)) {
             NamedSQL instance = NamedSQL.getInstance(dataName);
             instance.setParam(DesignerConstant.FILTERS, filters);
             dataSet = SQLRunner.getEntitySet(instance);
         }
 
+        clearOldData();
+
         loadSeries(dataSet);
 
         loadGrid(dataSet);
+    }
+
+    private String getGroupBy() {
+        ContentBuilder builder = new ContentBuilder(Util.comma);
+        List<GridField> fieldList = gridOption.getFieldList();
+        fieldList.stream().filter(field -> !checkInMeasurmentAxis(field.getField()))
+                .map(field -> builder.append(field.getField())).collect(Collectors.toList());
+
+
+        return builder.toString();
+    }
+
+    private <R> R appendGroupBy(ChartAxis chartAxis, ContentBuilder builder) {
+        chartAxis.getFieldList().stream().map(field -> builder.append(field.getName())).collect(Collectors.toList());
+        return null;
+    }
+
+    private void clearOldData() {
+        GsonOption chartOption = this.chartOption.getRealChartOption();
+        if (chartOption == null) {
+            return;
+        }
+        chartOption.series().clear();
+        chartOption.legend().data().clear();
+        chartOption.xAxis().clear();
+        chartOption.yAxis().clear();
     }
 
 
@@ -289,6 +340,7 @@ public class Widget implements ICacheSourceType {
         //dataset 分页
 
         List<Entity> subData = dataSet.getSubData(page.getBeginRecordNo_1(), page.getEndRecordNo());
+        //TODO 返回前面后 这个data需要删除 暂未删除
         gridOption.setData(subData);
     }
 
@@ -323,12 +375,16 @@ public class Widget implements ICacheSourceType {
                 }
 
                 CategoryAxis categoryAxis = new CategoryAxis();
-                categoryAxis.data(categoryDataList.toArray()    ).position(positon.name());
+                categoryAxis.data(categoryDataList.toArray()).position(positon.name());
                 axis = categoryAxis;
                 break;
             default:
                 break;
 
+        }
+
+        if (chartAxis.getInverse()) {
+            axis.inverse(true);
         }
 
         switch (axisName) {
@@ -358,50 +414,72 @@ public class Widget implements ICacheSourceType {
                 break;
 
         }
+        Legend legend = chartOption.getRealChartOption().legend();
+        legend.data(fieldName);
 
-        chartOption.getRealChartOption().legend().data(fieldName);
         chartOption.getRealChartOption().series(dataSeries);
         return  fieldName;
     }
 
     private void loadSeries(EntitySet dataSet) {
-        Option realChartOption = chartOption.getRealChartOption();
-
-        realChartOption.xAxis().clear();
-        realChartOption.yAxis().clear();
         axisList.stream()
                 .map(chartAxis ->
                         reSetAxis(chartAxis, dataSet)
                 ).collect(Collectors.toList());
 
-
     }
 
-    private String combineField(List<ChartAxis> chartAxisList) {
+    private String combineField() {
         ContentBuilder builder = new ContentBuilder(Util.comma);
-        for (ChartAxis chartAxis : chartAxisList) {
-            EDesignerDataType dataType = chartAxis.getType();
-            List<AxisField> fieldList = chartAxis.getFieldList();
-            switch (dataType) {
-                case dimension:
-                    for (AxisField axisField : fieldList) {
-                        builder.append(axisField.getName());
-                    }
-                    break;
-                case measurment:
-                    for (AxisField axisField : fieldList) {
-                        builder.append(MessageFormat.format("SUM({0}) as {0} ", axisField.getName()));
-                    }
-                    break;
+        List<GridField> gridFieldList = gridOption.getFieldList();
+        gridFieldList.stream()
+                .filter(field -> !checkInMeasurmentAxis(field.getField()))
+                .map(field -> builder.append(field.getField())).collect(Collectors.toList());
 
-                default:
-                    break;
+        gridFieldList.stream()
+                .filter(field -> checkInMeasurmentAxis(field.getField()))
+                .map(field -> builder.append(MessageFormat.format("SUM({0}) as {0} ", field.getField()))).collect(Collectors.toList());
 
-            }
-        }
         return  builder.toString();
     }
 
+    private boolean checkInAxis(String field) {
+        List<ChartAxis> containAxis = axisList.stream()
+                .filter(chartAxis -> checkInAxisFieldList(chartAxis, field)).collect(Collectors.toList());
+        if (containAxis != null && containAxis.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkInMeasurmentAxis(String field) {
+        List<ChartAxis> containAxis = axisList.stream()
+                .filter(chartAxis -> chartAxis.getType().equals(EDesignerDataType.measurment))
+                .filter(chartAxis -> checkInAxisFieldList(chartAxis, field)).collect(Collectors.toList());
+        if (containAxis != null && containAxis.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    private boolean checkInDimensionAxis(String field) {
+        List<ChartAxis> containAxis = axisList.stream()
+                .filter(chartAxis -> chartAxis.getType().equals(EDesignerDataType.dimension))
+                .filter(chartAxis -> checkInAxisFieldList(chartAxis, field)).collect(Collectors.toList());
+        if (containAxis != null && containAxis.size() > 0) {
+            return true;
+        }
+        return false;
+    }
+    private boolean checkInAxisFieldList(ChartAxis axis, String fieldName) {
+        List<AxisField> fieldList = axis.getFieldList();
+        List<AxisField> containFields = fieldList.stream().filter(field -> field.getName().equalsIgnoreCase(fieldName))
+                .collect(Collectors.toList());
+        if (containFields != null && containFields.size() > 0) {
+            return true;
+        }
+        return false;
+    }
 
     private String combineFilter() {
         ContentBuilder builder = new ContentBuilder(DesignerConstant.AND);
@@ -426,5 +504,40 @@ public class Widget implements ICacheSourceType {
         fieldNodes.add(node);
         fieldNodeSourceMap.put(type, fieldNodes);
         return this;
+    }
+
+    public void combineGridField(List<GridField> gridFieldList) {
+        initGridField();
+        List<GridField> fieldList = gridOption.getFieldList();
+        gridFieldList.stream().filter(field -> fieldList.contains(field))
+                .map(field -> updateField(fieldList,field)).collect(Collectors.toList());
+
+        gridFieldList.stream().filter(field -> !fieldList.contains(field))
+                .map(field -> fieldList.add(field)).collect(Collectors.toList());
+    }
+
+    private <R> R updateField(List<GridField> fieldList, GridField field) {
+        int i = fieldList.indexOf(field);
+        fieldList.set(i, field);
+        return null;
+    }
+
+    private void initGridField() {
+        axisList.stream().map(chartAxis -> checkField(chartAxis.getFieldList())).collect(Collectors.toList());
+    }
+
+    private <R> R checkField(List<AxisField> axisFieldList) {
+        List<GridField> fieldList = gridOption.getFieldList();
+        for (AxisField axisField : axisFieldList) {
+            String name = axisField.getName();
+            List<GridField> containList = fieldList.stream().filter(field -> field.getField().equalsIgnoreCase(name)).collect(Collectors.toList());
+            if (containList != null && containList.size() > 0) {
+                continue;
+            }
+            GridField gridField = new GridField(name);
+            gridField.setCaption(axisField.getCaption());
+            fieldList.add(gridField);
+        }
+        return null;
     }
 }
