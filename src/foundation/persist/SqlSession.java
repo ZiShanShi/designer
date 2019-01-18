@@ -1,14 +1,12 @@
 package foundation.persist;
 
+import com.alibaba.druid.pool.DruidPooledConnection;
+import foundation.data.MapList;
+import org.apache.log4j.Logger;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
-
-import org.apache.log4j.Logger;
-
-import com.alibaba.druid.pool.DruidPooledConnection;
-
-import foundation.data.MapList;
 
 
 public class SqlSession {
@@ -17,7 +15,6 @@ public class SqlSession {
 	private static MapList<NamedDataSource> dataSourceList;
 	private static NamedDataSource defaultDataSource;
 	private static NamedDataSource activeDataSource;
-	
 	static {
 		logger = Logger.getLogger(SqlSession.class);
 		dataSourceList = new MapList<NamedDataSource>();
@@ -69,4 +66,7 @@ public class SqlSession {
 		activeDataSource = dataSource;
 	}
 
+	public static NamedDataSource getDefaultDataSource() {
+		return defaultDataSource;
+	}
 }

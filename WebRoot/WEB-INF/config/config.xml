@@ -6,7 +6,7 @@
 	<param name="EnvironmentName" value="图表生成引擎" client="T" remark="测试环境、生产环境" />
 	<param name="AuthorizeActive" value="F" remark="权限验证是否启用" />
 	<param name="AppName" value="图表生成引擎" client="T" remark="应用名称" />
-	<param name="DataBaseType" value="MySql" remark="Oracle,SqlServer,MySql" />
+	<param name="DataBaseType" value="SqlServer" remark="Oracle,SqlServer,MySql" />
 	<param name="TimeOutPage" client="T" value="page/system/login.html" remark="超时页面" />
 	<param name="SuperVCode" value="0023" remark="超级验证码" />
 	<!--webservice-->
@@ -81,6 +81,7 @@
 		<loader name="task" classname="foundation.schedule.ScheduleJobLoader" active="T"/>
 		<loader name="namedSQL" classname="foundation.persist.sql.NamedSQLLoader" active="T"/>
 		<loader name="designer" classname="designer.DesignerDefaultLoader" active="T"/>
+		<loader name="aggtable" classname="bi.define.AggTableContainer" active="T"/>
 
 	</configLoader>
 	

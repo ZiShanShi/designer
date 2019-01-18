@@ -21,7 +21,7 @@ public class DataHandler {
 	public static EntitySet getDataSet(String tableName) throws Exception {
 		return getDataSet(tableName, null, null);
 	}
-	
+
 	public static EntitySet getDataSet(String tableName, String filter, String orderby) throws Exception {
 		NamedSQL namedSQL = NamedSQL.getInstance("getDataSet");
 
@@ -53,7 +53,14 @@ public class DataHandler {
 
 		return loader.getDataSet();
 	}
-	
+
+	public static EntitySet getDataSetById(String tableName, String id) throws Exception {
+		if (Util.isEmptyStr(id)) {
+			return null;
+		}
+		return getDataSet(tableName, "id = " + Util.quotedStr(id), null);
+	}
+
 	public static EntitySet getDataSetByPage(TableMeta tableMeta, String fields, String filter, Page page, String orderby) throws Exception {
 		NamedSQL namedSQL = NamedSQL.getInstance("getFieldsDataSet");
 		String tableName = tableMeta.getName();

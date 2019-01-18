@@ -1,10 +1,9 @@
 package designer;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
+import bi.ThemeContext;
+import bi.WorkEngine;
+import bi.agg.Operator;
 import designer.engine.DesignContext;
-import designer.widget.SegmentPart;
 import designer.widget.Widget;
 import designer.widget.WidgetManager;
 import designer.xml.EDesignerXmlType;
@@ -13,10 +12,10 @@ import foundation.callable.Callable;
 import foundation.config.Configer;
 import foundation.data.Entity;
 import foundation.persist.DataHandler;
+import foundation.util.Util;
 import net.sf.json.JSONObject;
 
 import java.io.File;
-import java.util.List;
 
 /**
  * @author kimi
@@ -39,16 +38,18 @@ public class DesignerConsole extends Callable {
         } else if ("default".equalsIgnoreCase(operator)) {
             System.out.println(DesignerComponentFactory.getInstance().getDefautOption().toString());
         } else if ("text".equalsIgnoreCase(operator)) {
-            String text1 = request.getParameter("filters");
-            Gson gson = new GsonBuilder().
-                    registerTypeAdapter(SegmentPart.class, new SegmentPartDeserializer()).create();
-            List<SegmentPart> fieldList = gson.fromJson(text1, new TypeToken<List<SegmentPart>>() {
-            }.getType());
+            Util.changeData();
+        } else if ("agg".equalsIgnoreCase(operator)) {
+            ThemeContext context = new ThemeContext(request, onlineUser);
+            Operator operators = new Operator(context);
+            try {
+                WorkEngine.getInstance().exec(operators, "createbaseaggregation");
 
-
-            System.out.println(text1);
-            System.out.println("11");
-
+                resultPool.setMessage("200", "聚合任务提交成功");
+            } catch (Exception e) {
+                e.printStackTrace();
+                resultPool.error("-1", "聚合失败");
+            }
         }
 
     }

@@ -35,11 +35,26 @@ public class EntitySet implements Iterable<Entity> {
 		return new EntitySet(tableMeta);
 	}
 
+	public void append(EntitySet set) {
+		if (set != null) {
+			entityList.addAll(set.getEntityList());
+		}
+	}
+
+	public void append(Entity entity) {
+		entityList.add(entity);
+
+	}
+
 	public Entity append() {
 		Entity entity = new Entity(tableMeta);
 		entityList.add(entity);
 
 		return entity;
+	}
+
+	public List<Entity> getEntityList() {
+		return entityList;
 	}
 
 	public List<Entity> getSubData(int fromIndex, int size) {

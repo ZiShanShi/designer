@@ -1,23 +1,25 @@
 package foundation.callable;
 
+import foundation.data.Variant;
+
+import javax.servlet.http.HttpServletRequest;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-
-import foundation.data.Variant;
 
 public class Context {
 
 	private static Map<String, Variant> params;
 
-	public Context(HttpServletRequest request) throws Exception {
+	public Context(HttpServletRequest request) {
 		params = new HashMap<String, Variant>();
-		load(request);
+		if (request != null) {
+			load(request);
+		}
+
 	}
 
-	private void load(HttpServletRequest request) throws Exception {
+	private void load(HttpServletRequest request) {
 		Enumeration<String> paramNames = request.getParameterNames();
 		
 		while (paramNames.hasMoreElements()) {

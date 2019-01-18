@@ -1,29 +1,18 @@
 package foundation.persist.sql;
 
-import java.math.BigDecimal;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.apache.log4j.Logger;
-
 import foundation.data.Entity;
 import foundation.data.EntitySet;
 import foundation.persist.IMetaDataLoader;
 import foundation.persist.SqlSession;
-import foundation.persist.loader.EntityLoader;
-import foundation.persist.loader.EntitySetLoader;
-import foundation.persist.loader.ListLoader;
-import foundation.persist.loader.ObjectLoader;
-import foundation.persist.loader.PrimaryKeyLoader;
-import foundation.persist.loader.ValueLoader;
+import foundation.persist.loader.*;
 import foundation.util.Util;
+import org.apache.log4j.Logger;
+
+import java.math.BigDecimal;
+import java.sql.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 
 public class SQLRunner {
@@ -200,6 +189,7 @@ public class SQLRunner {
 					}
 
 					if (conn != null) {
+
 						logger.debug(sql);
 						stmt = conn.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);
 						rslt = stmt.executeQuery(sql);

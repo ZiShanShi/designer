@@ -39,18 +39,18 @@
 	
 	<dataSpace name="treeitory">
 		<sql name="getemployeeid" > 
-			select id , parentid
-			from employee 
+			select id , ParentID
+			from Hierarchy_organization
 		</sql>	
 		
 		<sql name="getparentidfromemployee" > 
-			select parentid
-			from employee  where id = '@{id}'
+			select ParentID
+			from Hierarchy_organization  where id = '@{id}'
 		</sql>
 			
 		<sql name="getgrandparentidfromemployee" > 
 			select grandpaid
-			from employee  where id = '@{id}'
+			from Hierarchy_organization  where id = '@{id}'
 		</sql>	
 		
 	</dataSpace>

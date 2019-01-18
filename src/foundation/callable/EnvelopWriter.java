@@ -309,7 +309,6 @@ public class EnvelopWriter {
 		setNotEmpty();
 	}
 
-	@SuppressWarnings("rawtypes")
 	private void writeCollection(String name, Collection collection) throws Exception {
 		writeComma();
 		writeName(name);
@@ -323,6 +322,24 @@ public class EnvelopWriter {
 
 		for (Object obj : collection) {
 			writeOneItem(NAME_EMPTY, obj);
+		}
+
+		endArray();
+	}
+
+	public void writeCollection(String name, Collection collection, IBeanWriter beanWriter) throws Exception {
+		writeComma();
+		writeName(name);
+
+		beginArray();
+
+		if (collection.isEmpty()) {
+			endArray();
+			return;
+		}
+
+		for (Object obj : collection) {
+			writeOneItem(NAME_EMPTY, beanWriter);
 		}
 
 		endArray();
@@ -519,7 +536,7 @@ public class EnvelopWriter {
 		notEmpty.push(true);
 	}
 	
-	private void writeName(String name) {
+	public void writeName(String name) {
 		if (name == null) {
 			writer.write("\"empty\": ");
 			return;

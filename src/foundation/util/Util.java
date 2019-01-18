@@ -36,13 +36,20 @@ public class Util {
 	public static final String Integer_Patter = "^-?[1-9]\\d*$";
 	public static final String Double_Patter = "^-?([1-9]\\d*\\.\\d*|0\\.\\d*[1-9]\\d*|0?\\.0+|0)$";
 	public static final String Separator = "-";
-	public static final String comma = ",";
+	public static final String SubSeparator = "_";
+	public static final String comma = " , ";
 	public static final String with = "&";
 	public static final String dollar = "$";
+	public static final String Star = "*";
 	public static final String RMB = "￥";
 	public static final String ait = "@";
 	public static final String semicolon = ";";
 	public static final String Dot = ".";
+	public static final String Spilt_Dot = "[.]";
+	public static final String Spilt_Line = "\\|";
+	public static final String Spilt_Star = "\\*";
+	public static final String Spilt_Slash = "\\\\";
+	public static final String Spilt_Brackets = "\\[\\]";
 	public static final String Equal = "=";
 	public static final String Percentage = "%";
 	public static final String SqlLike = "LIKE";
@@ -52,7 +59,8 @@ public class Util {
 	public static final String sql_slash = "\\\\";
 
 	public static int field;
-	private static ArrayList<String> tmpArr = new ArrayList<String>();
+    private static  ArrayList<String> tmpArr = new ArrayList<String>();
+
 	public static String newShortGUID() {
 		UUID uuid = UUID.randomUUID();
 		String strGUID;
@@ -434,21 +442,24 @@ public class Util {
 		return StringToList(dataValue, semicolon, String.class);
 	}
 	
-	public static <T> List<T> StringToList(String dataValue, String split, Class<T> claz){
+	public static <T> ArrayList<T> StringToList(String dataValue, String split, Class<T> claz){
 		// 只支持一层list  
 		if (Util.isEmptyStr(dataValue)) {
 			return new ArrayList<>();
 		}
-		List<T> resultList = new ArrayList<>();
+		ArrayList<T> resultList = new ArrayList<>();
 		String[] splitedData = dataValue.split(split);
-		for (String oneValue : splitedData) {
+		for (String oneValue : splitedData){
+            if (Util.isEmptyStr(oneValue)) {
+		        continue;
+            }
 			T stringToOther = StringToOther(oneValue, claz);
 			resultList.add(stringToOther);
 		}
 		return resultList;
 	}
 	
-	public static List<String> StringToList(String dataValue, String split)  {
+	public static ArrayList<String> StringToList(String dataValue, String split)  {
 		return StringToList(dataValue, split, String.class);
 	}
 	
@@ -691,9 +702,13 @@ public class Util {
 		  return str.toString();   
 		 } 
 	
-	public static void main(String[] args) throws Exception {
-		
-	}
+	public static void main(String[] args) {
+		String [] com = {"1","2","3","4"};
+        ArrayList<ArrayList<String>> result = new ArrayList<>();
+        combine(3, 3, com, result);
+        System.out.println(result.toArray().toString());
+
+    }
 	public static String setDefaultStringValue(String value) throws Exception {
 		if (isEmptyStr(value)) {
 			return "";
@@ -763,13 +778,16 @@ public class Util {
 			
 			//String childid = addparentid(entity, id, "getgrandparentidfromemployee");
 			//return childid;
-	
-			
+
 		}
-	
-		String parentId = parentidEntity.getString(parents);
-		entity.set("parentid" + field, parentId);
-		return parentId;
+		if (parentidEntity != null) {
+			String parentId = parentidEntity.getString(parents);
+			entity.set("parentid" + field, parentId);
+			return parentId;
+		} else {
+			return null;
+		}
+
 	}
 	
 	
@@ -836,8 +854,7 @@ public class Util {
 	}
 	
 	@SuppressWarnings({ "rawtypes", "unchecked" })  
-    public static ArrayList Dikaerji0(ArrayList al0) {  
-  
+    public static ArrayList Dikaerji0(ArrayList al0) {
         ArrayList a0 = (ArrayList) al0.get(0);// l1  
         ArrayList result = new ArrayList();// 组合的结果  
         for (int i = 1; i < al0.size(); i++) {  
@@ -867,23 +884,51 @@ public class Util {
             }  
         }  
         return result;  
-    } 
-	
-	public static void combine(int index,int k,String []arr) {
+    }
+
+    public static ArrayList<ArrayList<String>> combine(String []arr, ArrayList<ArrayList<String>> result) {
+        int index = 0;
+	    combine(index, arr, result);
+        return result;
+    }
+
+    public static ArrayList<ArrayList<String>> combine(int index, String []arr, ArrayList<ArrayList<String>> result) {
+        int count = 0;
+	    while (count < arr.length) {
+            int k = arr.length - count;
+            if (k <= 0) {
+                return result;
+            }
+            combine(index, k, arr, result);
+            count++;
+        }
+
+        return result;
+    }
+	/**
+	 * 组合
+	 * 按一定的顺序取出元素，就是组合,元素个数[C arr.len 3]
+	 * @param index 元素位置
+	 * @param k 选取的元素个数
+	 * @param arr 数组
+	 */
+	public static void combine(int index, int k, String []arr, ArrayList<ArrayList<String>> result) {
 		 if(k == 1){
 	            for (int i = index; i < arr.length; i++) {
 	                tmpArr.add(arr[i]);
-	                System.out.print(tmpArr.toString() + ",");
-	                tmpArr.remove((Object)arr[i]);
+                    ArrayList<String> strings = new ArrayList<>();
+                    strings.addAll(tmpArr);
+                    result.add(strings);
+	                tmpArr.remove(arr[i]);
 	            }
 	        }else if(k > 1){
 	            for (int i = index; i <= arr.length - k; i++) {
 	                tmpArr.add(arr[i]); //tmpArr都是临时性存储一下
-	                combine(i + 1,k - 1, arr); //索引右移，内部循环，自然排除已经选择的元素
-	                tmpArr.remove((Object)arr[i]); //tmpArr因为是临时存储的，上一个组合找出后就该释放空间，存储下一个元素继续拼接组合了
+	                combine(i + 1,k - 1, arr, result); //索引右移，内部循环，自然排除已经选择的元素
+	                tmpArr.remove(arr[i]); //tmpArr因为是临时存储的，上一个组合找出后就该释放空间，存储下一个元素继续拼接组合了
 	            }
 	        }else{
-	            return ;
+			 return ;
 	        }
     }
 	
@@ -963,4 +1008,16 @@ public class Util {
 		}
 		return  path.replace(java_slash, sql_slash);
 	}
+
+	public static int getQuarter(String dateString) throws ParseException {
+        Date date = StringToDate(dateString);
+        return getQuarter(date);
+    }
+    public static int getQuarter(Date date)  {
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        int month = calendar.get(Calendar.MONTH);
+        int quarter = (month / 3) + 1;
+        return quarter;
+    }
 }
